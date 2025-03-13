@@ -11,6 +11,20 @@ local ObjectTree = {
         },
         {
             {
+                18,
+                "ModuleScript",
+                {
+                    "Creator"
+                }
+            },
+            {
+                28,
+                "ModuleScript",
+                {
+                    "Icons"
+                }
+            },
+            {
                 19,
                 "ModuleScript",
                 {
@@ -18,31 +32,10 @@ local ObjectTree = {
                 },
                 {
                     {
-                        21,
-                        "ModuleScript",
-                        {
-                            "Colorpicker"
-                        }
-                    },
-                    {
-                        20,
-                        "ModuleScript",
-                        {
-                            "Button"
-                        }
-                    },
-                    {
                         22,
                         "ModuleScript",
                         {
                             "Dropdown"
-                        }
-                    },
-                    {
-                        24,
-                        "ModuleScript",
-                        {
-                            "Keybind"
                         }
                     },
                     {
@@ -60,10 +53,17 @@ local ObjectTree = {
                         }
                     },
                     {
-                        23,
+                        21,
                         "ModuleScript",
                         {
-                            "Input"
+                            "Colorpicker"
+                        }
+                    },
+                    {
+                        20,
+                        "ModuleScript",
+                        {
+                            "Button"
                         }
                     },
                     {
@@ -72,51 +72,21 @@ local ObjectTree = {
                         {
                             "Slider"
                         }
-                    }
-                }
-            },
-            {
-                2,
-                "ModuleScript",
-                {
-                    "Acrylic"
-                },
-                {
+                    },
                     {
-                        4,
+                        23,
                         "ModuleScript",
                         {
-                            "AcrylicPaint"
+                            "Input"
                         }
                     },
                     {
-                        5,
+                        24,
                         "ModuleScript",
                         {
-                            "CreateAcrylic"
-                        }
-                    },
-                    {
-                        6,
-                        "ModuleScript",
-                        {
-                            "Utils"
-                        }
-                    },
-                    {
-                        3,
-                        "ModuleScript",
-                        {
-                            "AcrylicBlur"
+                            "Keybind"
                         }
                     }
-                }
-            },
-            {
-                18,
-                "ModuleScript",
-                {
-                    "Creator"
                 }
             },
             {
@@ -134,10 +104,10 @@ local ObjectTree = {
                         },
                         {
                             {
-                                42,
+                                31,
                                 "ModuleScript",
                                 {
-                                    "SingleMotor.spec"
+                                    "BaseMotor"
                                 }
                             },
                             {
@@ -148,66 +118,10 @@ local ObjectTree = {
                                 }
                             },
                             {
-                                35,
-                                "ModuleScript",
-                                {
-                                    "Instant"
-                                }
-                            },
-                            {
-                                34,
-                                "ModuleScript",
-                                {
-                                    "GroupMotor.spec"
-                                }
-                            },
-                            {
                                 44,
                                 "ModuleScript",
                                 {
                                     "Spring.spec"
-                                }
-                            },
-                            {
-                                38,
-                                "ModuleScript",
-                                {
-                                    "Linear.spec"
-                                }
-                            },
-                            {
-                                33,
-                                "ModuleScript",
-                                {
-                                    "GroupMotor"
-                                }
-                            },
-                            {
-                                31,
-                                "ModuleScript",
-                                {
-                                    "BaseMotor"
-                                }
-                            },
-                            {
-                                32,
-                                "ModuleScript",
-                                {
-                                    "BaseMotor.spec"
-                                }
-                            },
-                            {
-                                40,
-                                "ModuleScript",
-                                {
-                                    "Signal.spec"
-                                }
-                            },
-                            {
-                                41,
-                                "ModuleScript",
-                                {
-                                    "SingleMotor"
                                 }
                             },
                             {
@@ -218,10 +132,10 @@ local ObjectTree = {
                                 }
                             },
                             {
-                                36,
+                                32,
                                 "ModuleScript",
                                 {
-                                    "Instant.spec"
+                                    "BaseMotor.spec"
                                 }
                             },
                             {
@@ -232,6 +146,20 @@ local ObjectTree = {
                                 }
                             },
                             {
+                                37,
+                                "ModuleScript",
+                                {
+                                    "Linear"
+                                }
+                            },
+                            {
+                                35,
+                                "ModuleScript",
+                                {
+                                    "Instant"
+                                }
+                            },
+                            {
                                 39,
                                 "ModuleScript",
                                 {
@@ -239,21 +167,56 @@ local ObjectTree = {
                                 }
                             },
                             {
-                                37,
+                                42,
                                 "ModuleScript",
                                 {
-                                    "Linear"
+                                    "SingleMotor.spec"
+                                }
+                            },
+                            {
+                                41,
+                                "ModuleScript",
+                                {
+                                    "SingleMotor"
+                                }
+                            },
+                            {
+                                33,
+                                "ModuleScript",
+                                {
+                                    "GroupMotor"
+                                }
+                            },
+                            {
+                                38,
+                                "ModuleScript",
+                                {
+                                    "Linear.spec"
+                                }
+                            },
+                            {
+                                34,
+                                "ModuleScript",
+                                {
+                                    "GroupMotor.spec"
+                                }
+                            },
+                            {
+                                40,
+                                "ModuleScript",
+                                {
+                                    "Signal.spec"
+                                }
+                            },
+                            {
+                                36,
+                                "ModuleScript",
+                                {
+                                    "Instant.spec"
                                 }
                             }
                         }
                     }
-                }
-            },
-            {
-                28,
-                "ModuleScript",
-                {
-                    "Icons"
                 }
             },
             {
@@ -264,10 +227,38 @@ local ObjectTree = {
                 },
                 {
                     {
+                        49,
+                        "ModuleScript",
+                        {
+                            "Light"
+                        }
+                    },
+                    {
                         51,
                         "ModuleScript",
                         {
                             "Dark"
+                        }
+                    },
+                    {
+                        54,
+                        "ModuleScript",
+                        {
+                            "Rose"
+                        }
+                    },
+                    {
+                        48,
+                        "ModuleScript",
+                        {
+                            "Ayaya"
+                        }
+                    },
+                    {
+                        52,
+                        "ModuleScript",
+                        {
+                            "Aqua"
                         }
                     },
                     {
@@ -282,34 +273,6 @@ local ObjectTree = {
                         "ModuleScript",
                         {
                             "Amethyst"
-                        }
-                    },
-                    {
-                        48,
-                        "ModuleScript",
-                        {
-                            "Ayaya"
-                        }
-                    },
-                    {
-                        54,
-                        "ModuleScript",
-                        {
-                            "Rose"
-                        }
-                    },
-                    {
-                        52,
-                        "ModuleScript",
-                        {
-                            "Aqua"
-                        }
-                    },
-                    {
-                        49,
-                        "ModuleScript",
-                        {
-                            "Light"
                         }
                     }
                 }
@@ -329,6 +292,13 @@ local ObjectTree = {
                         }
                     },
                     {
+                        12,
+                        "ModuleScript",
+                        {
+                            "Notification"
+                        }
+                    },
+                    {
                         13,
                         "ModuleScript",
                         {
@@ -336,17 +306,10 @@ local ObjectTree = {
                         }
                     },
                     {
-                        17,
+                        16,
                         "ModuleScript",
                         {
-                            "Window"
-                        }
-                    },
-                    {
-                        14,
-                        "ModuleScript",
-                        {
-                            "Tab"
+                            "TitleBar"
                         }
                     },
                     {
@@ -354,6 +317,13 @@ local ObjectTree = {
                         "ModuleScript",
                         {
                             "Dialog"
+                        }
+                    },
+                    {
+                        17,
+                        "ModuleScript",
+                        {
+                            "Window"
                         }
                     },
                     {
@@ -371,24 +341,54 @@ local ObjectTree = {
                         }
                     },
                     {
-                        12,
-                        "ModuleScript",
-                        {
-                            "Notification"
-                        }
-                    },
-                    {
-                        16,
-                        "ModuleScript",
-                        {
-                            "TitleBar"
-                        }
-                    },
-                    {
                         8,
                         "ModuleScript",
                         {
                             "Assets"
+                        }
+                    },
+                    {
+                        14,
+                        "ModuleScript",
+                        {
+                            "Tab"
+                        }
+                    }
+                }
+            },
+            {
+                2,
+                "ModuleScript",
+                {
+                    "Acrylic"
+                },
+                {
+                    {
+                        5,
+                        "ModuleScript",
+                        {
+                            "CreateAcrylic"
+                        }
+                    },
+                    {
+                        6,
+                        "ModuleScript",
+                        {
+                            "Utils"
+                        }
+                    },
+                    {
+                        4,
+                        "ModuleScript",
+                        {
+                            "AcrylicPaint"
+                        }
+                    },
+                    {
+                        3,
+                        "ModuleScript",
+                        {
+                            "AcrylicBlur"
                         }
                     }
                 }
@@ -5915,39 +5915,39 @@ return Themes
  end,
     [48] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(48)return {
 	Name = "Ayaya",
-	Accent = Color3.fromRGB(255, 50, 50),  -- สีแดงสดสำหรับจุดเน้น
+	Accent = Color3.fromRGB(85, 78, 85),  -- เปลี่ยนจากสีแดงสดเป็นสีน้ำตาล
 	AcrylicMain = Color3.fromRGB(20, 20, 20),  -- พื้นหลังสีดำเข้ม
-	AcrylicBorder = Color3.fromRGB(255, 50, 50),  -- กรอบสีแดงสด
-	AcrylicGradient = ColorSequence.new(Color3.fromRGB(50, 0, 0), Color3.fromRGB(30, 0, 0)),  -- ไล่เฉดดำแดง
+	AcrylicBorder = Color3.fromRGB(85, 78, 85),  -- กรอบน้ำตาล
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(50, 45, 50), Color3.fromRGB(30, 28, 30)),  -- ไล่เฉดน้ำตาลดำ
 	AcrylicNoise = 0.8,
-	TitleBarLine = Color3.fromRGB(120, 20, 20),  -- เส้นแถบสีแดงเข้ม
-	Tab = Color3.fromRGB(255, 60, 60),  -- สีแดงสดสำหรับแท็บ
+	TitleBarLine = Color3.fromRGB(70, 65, 70),  -- เส้นแถบสีน้ำตาลเข้ม
+	Tab = Color3.fromRGB(90, 82, 90),  -- สีน้ำตาลอ่อนสำหรับแท็บ
 	Element = Color3.fromRGB(40, 40, 40),  -- พื้นหลังองค์ประกอบสีดำ
-	ElementBorder = Color3.fromRGB(255, 50, 50),  -- กรอบแดง
-	InElementBorder = Color3.fromRGB(120, 20, 20),  
+	ElementBorder = Color3.fromRGB(85, 78, 85),  -- กรอบน้ำตาล
+	InElementBorder = Color3.fromRGB(70, 65, 70),  
 	ElementTransparency = 0.85,
-	ToggleSlider = Color3.fromRGB(255, 50, 50),  -- แถบสไลด์แดงสด
-	ToggleToggled = Color3.fromRGB(40, 0, 0),  
-	SliderRail = Color3.fromRGB(120, 20, 20),  
+	ToggleSlider = Color3.fromRGB(85, 78, 85),  -- แถบสไลด์น้ำตาล
+	ToggleToggled = Color3.fromRGB(40, 35, 40),  
+	SliderRail = Color3.fromRGB(70, 65, 70),  
 	DropdownFrame = Color3.fromRGB(40, 40, 40),  
 	DropdownHolder = Color3.fromRGB(30, 30, 30),  
-	DropdownBorder = Color3.fromRGB(255, 50, 50),  
+	DropdownBorder = Color3.fromRGB(85, 78, 85),  
 	DropdownOption = Color3.fromRGB(40, 40, 40),  
-	Keybind = Color3.fromRGB(255, 50, 50),  
+	Keybind = Color3.fromRGB(85, 78, 85),  
 	Input = Color3.fromRGB(40, 40, 40),  
-	InputFocused = Color3.fromRGB(60, 0, 0),  
-	InputIndicator = Color3.fromRGB(255, 70, 70),  
+	InputFocused = Color3.fromRGB(60, 55, 60),  
+	InputIndicator = Color3.fromRGB(95, 88, 95),  
 	Dialog = Color3.fromRGB(30, 30, 30),  
-	DialogHolder = Color3.fromRGB(40, 0, 0),  
-	DialogHolderLine = Color3.fromRGB(20, 0, 0),  
-	DialogButton = Color3.fromRGB(255, 50, 50),  
-	DialogButtonBorder = Color3.fromRGB(255, 50, 50),  
-	DialogBorder = Color3.fromRGB(120, 20, 20),  
+	DialogHolder = Color3.fromRGB(40, 35, 40),  
+	DialogHolderLine = Color3.fromRGB(20, 18, 20),  
+	DialogButton = Color3.fromRGB(85, 78, 85),  
+	DialogButtonBorder = Color3.fromRGB(85, 78, 85),  
+	DialogBorder = Color3.fromRGB(70, 65, 70),  
 	DialogInput = Color3.fromRGB(40, 40, 40),  
-	DialogInputLine = Color3.fromRGB(255, 50, 50),  
+	DialogInputLine = Color3.fromRGB(85, 78, 85),  
 	Text = Color3.fromRGB(255, 255, 255),  -- สีขาวสำหรับข้อความ
 	SubText = Color3.fromRGB(180, 180, 180),  
-	Hover = Color3.fromRGB(255, 60, 60),  
+	Hover = Color3.fromRGB(95, 88, 95),  
 	HoverChange = 0.05
 }  end,
     [49] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(49)return {
