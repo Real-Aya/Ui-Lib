@@ -1,1 +1,6638 @@
-local a;local b={{1,"ModuleScript",{"MainModule"},{{19,"ModuleScript",{"Elements"},{{27,"ModuleScript",{"Toggle"}},{22,"ModuleScript",{"Dropdown"}},{21,"ModuleScript",{"Colorpicker"}},{25,"ModuleScript",{"Paragraph"}},{23,"ModuleScript",{"Input"}},{24,"ModuleScript",{"Keybind"}},{20,"ModuleScript",{"Button"}},{26,"ModuleScript",{"Slider"}}}},{47,"ModuleScript",{"Themes"},{{53,"ModuleScript",{"Rose"}},{52,"ModuleScript",{"Light"}},{50,"ModuleScript",{"Dark"}},{54,"ModuleScript",{"Ayaya"}},{49,"ModuleScript",{"Aqua"}},{48,"ModuleScript",{"Amethyst"}},{51,"ModuleScript",{"Darker"}}}},{29,"Folder",{"Packages"},{{30,"ModuleScript",{"Flipper"},{{46,"ModuleScript",{"isMotor.spec"}},{37,"ModuleScript",{"Linear"}},{38,"ModuleScript",{"Linear.spec"}},{34,"ModuleScript",{"GroupMotor.spec"}},{36,"ModuleScript",{"Instant.spec"}},{41,"ModuleScript",{"SingleMotor"}},{42,"ModuleScript",{"SingleMotor.spec"}},{43,"ModuleScript",{"Spring"}},{40,"ModuleScript",{"Signal.spec"}},{39,"ModuleScript",{"Signal"}},{44,"ModuleScript",{"Spring.spec"}},{45,"ModuleScript",{"isMotor"}},{31,"ModuleScript",{"BaseMotor"}},{35,"ModuleScript",{"Instant"}},{33,"ModuleScript",{"GroupMotor"}},{32,"ModuleScript",{"BaseMotor.spec"}}}}}},{2,"ModuleScript",{"Acrylic"},{{6,"ModuleScript",{"Utils"}},{5,"ModuleScript",{"CreateAcrylic"}},{4,"ModuleScript",{"AcrylicPaint"}},{3,"ModuleScript",{"AcrylicBlur"}}}},{28,"ModuleScript",{"Icons"}},{18,"ModuleScript",{"Creator"}},{7,"Folder",{"Components"},{{10,"ModuleScript",{"Dialog"}},{14,"ModuleScript",{"Tab"}},{8,"ModuleScript",{"Assets"}},{12,"ModuleScript",{"Notification"}},{11,"ModuleScript",{"Element"}},{17,"ModuleScript",{"Window"}},{15,"ModuleScript",{"Textbox"}},{13,"ModuleScript",{"Section"}},{9,"ModuleScript",{"Button"}},{16,"ModuleScript",{"TitleBar"}}}}}}}local c={function()local d,e,f,g,h=a(1)game:GetService"Lighting"local i=game:GetService"RunService"local j=game:GetService"Players".LocalPlayer;game:GetService"UserInputService"game:GetService"TweenService"local k=game:GetService"Workspace".CurrentCamera;j:GetMouse()local l=e;local m=f(l.Creator)local n=f(l.Elements)local o=f(l.Acrylic)local p=l.Components;local q=f(p.Notification)local r=m.New;local s=protectgui or syn and syn.protect_gui or function()end;local t=r("ScreenGui",{Parent=i:IsStudio()and j.PlayerGui or game:GetService"CoreGui"})s(t)q:Init(t)local u={Version="1.1.0",OpenFrames={},Options={},Themes=f(l.Themes).Names,Window=nil,WindowFrame=nil,Unloaded=false,Theme="Dark",DialogOpen=false,UseAcrylic=true,Acrylic=true,Transparency=true,MinimizeKeybind=nil,MinimizeKey=Enum.KeyCode.LeftControl,GUI=t}function u.SafeCallback(v,w,...)if not w then return end;local x,y=pcall(w,...)if not x then local z,A=y:find":%d+: "if not A then return u:Notify{Title="Interface",Content="Callback error",SubContent=y,Duration=5}end;return u:Notify{Title="Interface",Content="Callback error",SubContent=y:sub(A+1),Duration=5}end end;function u.Round(v,w,x)if x==0 then return math.floor(w)end;w=tostring(w)return w:find"%."and tonumber(w:sub(1,w:find"%."+x))or w end;local v=f(l.Icons).assets;function u.GetIcon(w,x)if x~=nil and v["lucide-"..x]then return v["lucide-"..x]end;return nil end;local w={}w.__index=w;w.__namecall=function(x,y,...)return w[y](...)end;for x,y in ipairs(n)do w["Add"..y.__type]=function(z,A,B)y.Container=z.Container;y.Type=z.Type;y.ScrollFrame=z.ScrollFrame;y.Library=u;return y:New(A,B)end end;u.Elements=w;function u.CreateWindow(x,y)assert(y.Title,"Toggle - Missing Title")y.SubTitle=y.SubTitle or""y.TabWidth=y.TabWidth or 170;y.Size=y.Size or UDim2.fromOffset(590,470)y.Acrylic=y.Acrylic or true;y.Theme=y.Theme or"Dark"y.MinimizeKey=y.MinimizeKey or Enum.KeyCode.LeftControl;if u.Window then print"You cannot create more than one window."return end;local z=f(p.Window){Parent=t,Size=y.Size,Title=y.Title,SubTitle=y.SubTitle,TabWidth=y.TabWidth}u.MinimizeKey=y.MinimizeKey;u.UseAcrylic=y.Acrylic;if u.UseAcrylic then o.init()end;u.Window=z;u:SetTheme(y.Theme)return z end;function u.SetTheme(x,y)if u.Window and table.find(u.Themes,y)then u.Theme=y;m.UpdateTheme()end end;function u.Destroy(x)if u.Window then u.Unloaded=true;if u.UseAcrylic then u.Window.AcrylicPaint.Model:Destroy()end;m.Disconnect()u.GUI:Destroy()end end;function u.ToggleAcrylic(x,y)if u.Window then if u.UseAcrylic then u.Acrylic=y;u.Window.AcrylicPaint.Model.Transparency=y and 0.98 or 1;if y then o.Enable()else o.Disable()end end end end;function u.ToggleTransparency(x,y)if u.Window then u.Window.AcrylicPaint.Frame.Background.BackgroundTransparency=y and 0.35 or 0 end end;function u.Notify(x,y)return q:New(y)end;if getgenv then getgenv().Fluent=u end;return u end,function()local d,e,f,g,h=a(2)local i={AcrylicBlur=f(e.AcrylicBlur),CreateAcrylic=f(e.CreateAcrylic),AcrylicPaint=f(e.AcrylicPaint)}function i.init()local j=Instance.new"DepthOfFieldEffect"j.FarIntensity=0;j.InFocusRadius=0.1;j.NearIntensity=1;local k={}function i.Enable()for l,m in pairs(k)do m.Enabled=false end;j.Parent=game:GetService"Lighting"end;function i.Disable()for l,m in pairs(k)do m.Enabled=m.enabled end;j.Parent=nil end;local function C()local function D(l)if l:IsA"DepthOfFieldEffect"then k[l]={enabled=l.Enabled}end end;for l,m in pairs(game:GetService"Lighting":GetChildren())do D(m)end;if game:GetService"Workspace".CurrentCamera then for l,m in pairs(game:GetService"Workspace".CurrentCamera:GetChildren())do D(m)end end end;C()i.Enable()end;return i end,function()local d,e,f,g,h=a(3)local i=f(e.Parent.Parent.Creator)local j=f(e.Parent.CreateAcrylic)local k,l=unpack(f(e.Parent.Utils))local function E(m)local n={}m=m or 0.001;local o={topLeft=Vector2.new(),topRight=Vector2.new(),bottomRight=Vector2.new()}local p=j()p.Parent=workspace;local function F(q,r)o.topLeft=r;o.topRight=r+Vector2.new(q.X,0)o.bottomRight=r+q end;local function G()local q=game:GetService"Workspace".CurrentCamera;if q then q=q.CFrame end;local r=q;if not r then r=CFrame.new()end;local s=r;local t=o.topLeft;local u=o.topRight;local v=o.bottomRight;local w=k(t,m)local x=k(u,m)local y=k(v,m)local z=(x-w).Magnitude;local A=(x-y).Magnitude;p.CFrame=CFrame.fromMatrix((w+y)/2,s.XVector,s.YVector,s.ZVector)p.Mesh.Scale=Vector3.new(z,A,0)end;local function H(q)local r=l()local s=q.AbsoluteSize-Vector2.new(r,r)local t=q.AbsolutePosition+Vector2.new(r/2,r/2)F(s,t)task.spawn(G)end;local function I()local q=game:GetService"Workspace".CurrentCamera;if not q then return end;table.insert(n,q:GetPropertyChangedSignal"CFrame":Connect(G))table.insert(n,q:GetPropertyChangedSignal"ViewportSize":Connect(G))table.insert(n,q:GetPropertyChangedSignal"FieldOfView":Connect(G))task.spawn(G)end;p.Destroying:Connect(function()for q,r in n do pcall(function()r:Disconnect()end)end end)I()return H,p end;return function(m)local n={}local o,p=E(m)local q=i.New("Frame",{BackgroundTransparency=1,Size=UDim2.fromScale(1,1)})i.AddSignal(q:GetPropertyChangedSignal"AbsolutePosition",function()o(q)end)i.AddSignal(q:GetPropertyChangedSignal"AbsoluteSize",function()o(q)end)n.AddParent=function(r)i.AddSignal(r:GetPropertyChangedSignal"Visible",function()n.SetVisibility(r.Visible)end)end;n.SetVisibility=function(r)p.Transparency=r and 0.98 or 1 end;n.Frame=q;n.Model=p;return n end end,function()local d,e,f,g,h=a(4)local i=f(e.Parent.Parent.Creator)local j=f(e.Parent.AcrylicBlur)local k=i.New;return function(l)local m={}m.Frame=k("Frame",{Size=UDim2.fromScale(1,1),BackgroundTransparency=0.9,BackgroundColor3=Color3.fromRGB(255,255,255),BorderSizePixel=0},{k("ImageLabel",{Image="rbxassetid://8992230677",ScaleType="Slice",SliceCenter=Rect.new(Vector2.new(99,99),Vector2.new(99,99)),AnchorPoint=Vector2.new(0.5,0.5),Size=UDim2.new(1,120,1,116),Position=UDim2.new(0.5,0,0.5,0),BackgroundTransparency=1,ImageColor3=Color3.fromRGB(0,0,0),ImageTransparency=0.7}),k("UICorner",{CornerRadius=UDim.new(0,8)}),k("Frame",{BackgroundTransparency=0.45,Size=UDim2.fromScale(1,1),Name="Background",ThemeTag={BackgroundColor3="AcrylicMain"}},{k("UICorner",{CornerRadius=UDim.new(0,8)})}),k("Frame",{BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=0.4,Size=UDim2.fromScale(1,1)},{k("UICorner",{CornerRadius=UDim.new(0,8)}),k("UIGradient",{Rotation=90,ThemeTag={Color="AcrylicGradient"}})}),k("ImageLabel",{Image="rbxassetid://9968344105",ImageTransparency=0.98,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.new(0,128,0,128),Size=UDim2.fromScale(1,1),BackgroundTransparency=1},{k("UICorner",{CornerRadius=UDim.new(0,8)})}),k("ImageLabel",{Image="rbxassetid://9968344227",ImageTransparency=0.9,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.new(0,128,0,128),Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ThemeTag={ImageTransparency="AcrylicNoise"}},{k("UICorner",{CornerRadius=UDim.new(0,8)})}),k("Frame",{BackgroundTransparency=1,Size=UDim2.fromScale(1,1),ZIndex=2},{k("UICorner",{CornerRadius=UDim.new(0,8)}),k("UIStroke",{Transparency=0.5,Thickness=1,ThemeTag={Color="AcrylicBorder"}})})})local n;if f(e.Parent.Parent).UseAcrylic then n=j()n.Frame.Parent=m.Frame;m.Model=n.Model;m.AddParent=n.AddParent;m.SetVisibility=n.SetVisibility end;return m end end,function()local d,e,f,g,h=a(5)local i=e.Parent.Parent;local j=f(i.Creator)local function J()local k=j.New("Part",{Name="Body",Color=Color3.new(0,0,0),Material=Enum.Material.Glass,Size=Vector3.new(1,1,0),Anchored=true,CanCollide=false,Locked=true,CastShadow=false,Transparency=0.98},{j.New("SpecialMesh",{MeshType=Enum.MeshType.Brick,Offset=Vector3.new(0,0,-1E-6)})})return k end;return J end,function()a(6)local function K(d,e,f,g,h)return(d-e)*(h-g)/(f-e)+g end;local function L(d,e)local f=game:GetService"Workspace".CurrentCamera:ScreenPointToRay(d.X,d.Y)return f.Origin+f.Direction*e end;local function M()local d=game:GetService"Workspace".CurrentCamera.ViewportSize.Y;return K(d,0,2560,8,56)end;return{L,M}end,[8]=function()a(8)return{Close="rbxassetid://9886659671",Min="rbxassetid://9886659276",Max="rbxassetid://9886659406",Restore="rbxassetid://9886659001"}end,[9]=function()local d,e,f,g,h=a(9)local i=e.Parent.Parent;local j=f(i.Packages.Flipper)local k=f(i.Creator)local l=k.New;local m=j.Spring.new;return function(n,o,p)p=p or false;local q={}q.Title=l("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",TextColor3=Color3.fromRGB(200,200,200),TextSize=14,TextWrapped=true,TextXAlignment=Enum.TextXAlignment.Center,TextYAlignment=Enum.TextYAlignment.Center,BackgroundColor3=Color3.fromRGB(255,255,255),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Size=UDim2.fromScale(1,1),ThemeTag={TextColor3="Text"}})q.HoverFrame=l("Frame",{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ThemeTag={BackgroundColor3="Hover"}},{l("UICorner",{CornerRadius=UDim.new(0,4)})})q.Frame=l("TextButton",{Size=UDim2.new(0,0,0,32),Parent=o,ThemeTag={BackgroundColor3="DialogButton"}},{l("UICorner",{CornerRadius=UDim.new(0,4)}),l("UIStroke",{ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Transparency=0.65,ThemeTag={Color="DialogButtonBorder"}}),q.HoverFrame,q.Title})local r,s=k.SpringMotor(1,q.HoverFrame,"BackgroundTransparency",p)k.AddSignal(q.Frame.MouseEnter,function()s(0.97)end)k.AddSignal(q.Frame.MouseLeave,function()s(1)end)k.AddSignal(q.Frame.MouseButton1Down,function()s(1)end)k.AddSignal(q.Frame.MouseButton1Up,function()s(0.97)end)return q end end,[10]=function()local d,e,f,g,h=a(10)game:GetService"UserInputService"game:GetService"Players".LocalPlayer:GetMouse()local i=game:GetService"Workspace".CurrentCamera;local j=e.Parent.Parent;local k=f(j.Packages.Flipper)local l=f(j.Creator)local m=k.Spring.new;local n=k.Instant.new;local o=l.New;local p={Window=nil}function p.Init(q,r)p.Window=r;return p end;function p.Create(q)local r={Buttons=0}r.TintFrame=o("TextButton",{Text="",Size=UDim2.fromScale(1,1),BackgroundColor3=Color3.fromRGB(0,0,0),BackgroundTransparency=1,Parent=p.Window.Root},{o("UICorner",{CornerRadius=UDim.new(0,8)})})local s,t=l.SpringMotor(1,r.TintFrame,"BackgroundTransparency",true)r.ButtonHolder=o("Frame",{Size=UDim2.new(1,-40,1,-40),AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),BackgroundTransparency=1},{o("UIListLayout",{Padding=UDim.new(0,10),FillDirection=Enum.FillDirection.Horizontal,HorizontalAlignment=Enum.HorizontalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder})})r.ButtonHolderFrame=o("Frame",{Size=UDim2.new(1,0,0,70),Position=UDim2.new(0,0,1,-70),ThemeTag={BackgroundColor3="DialogHolder"}},{o("Frame",{Size=UDim2.new(1,0,0,1),ThemeTag={BackgroundColor3="DialogHolderLine"}}),r.ButtonHolder})r.Title=o("TextLabel",{FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.SemiBold,Enum.FontStyle.Normal),Text="Dialog",TextColor3=Color3.fromRGB(240,240,240),TextSize=22,TextXAlignment=Enum.TextXAlignment.Left,Size=UDim2.new(1,0,0,22),Position=UDim2.fromOffset(20,25),BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})r.Scale=o("UIScale",{Scale=1})local u,v=l.SpringMotor(1.1,r.Scale,"Scale")r.Root=o("CanvasGroup",{Size=UDim2.fromOffset(300,165),AnchorPoint=Vector2.new(0.5,0.5),Position=UDim2.fromScale(0.5,0.5),GroupTransparency=1,Parent=r.TintFrame,ThemeTag={BackgroundColor3="Dialog"}},{o("UICorner",{CornerRadius=UDim.new(0,8)}),o("UIStroke",{Transparency=0.5,ThemeTag={Color="DialogBorder"}}),r.Scale,r.Title,r.ButtonHolderFrame})local w,x=l.SpringMotor(1,r.Root,"GroupTransparency")function r.Open(y)f(j).DialogOpen=true;r.Scale.Scale=1.1;t(0.75)x(0)v(1)end;function r.Close(y)f(j).DialogOpen=false;t(1)x(1)v(1.1)r.Root.UIStroke:Destroy()task.wait(0.15)r.TintFrame:Destroy()end;function r.Button(y,z,A)r.Buttons=r.Buttons+1;z=z or"Button"A=A or function()end;local B=f(j.Components.Button)("",r.ButtonHolder,true)B.Title.Text=z;for N,O in next,r.ButtonHolder:GetChildren()do if O:IsA"TextButton"then O.Size=UDim2.new(1/r.Buttons,-((r.Buttons-1)*10/r.Buttons),0,32)end end;l.AddSignal(B.Frame.MouseButton1Click,function()f(j):SafeCallback(A)pcall(function()r:Close()end)end)return B end;return r end;return p end,[11]=function()local d,e,f,g,h=a(11)local j=e.Parent.Parent;local k=f(j.Packages.Flipper)local l=f(j.Creator)local n=l.New;local o=k.Spring.new;return function(p,q,r,s)local t={}t.TitleLabel=n("TextLabel",{FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Medium,Enum.FontStyle.Normal),Text=p,TextColor3=Color3.fromRGB(240,240,240),TextSize=13,TextXAlignment=Enum.TextXAlignment.Left,Size=UDim2.new(1,0,0,14),BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})t.DescLabel=n("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text=q,TextColor3=Color3.fromRGB(200,200,200),TextSize=12,TextWrapped=true,TextXAlignment=Enum.TextXAlignment.Left,BackgroundColor3=Color3.fromRGB(255,255,255),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Size=UDim2.new(1,0,0,14),ThemeTag={TextColor3="SubText"}})t.LabelHolder=n("Frame",{AutomaticSize=Enum.AutomaticSize.Y,BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,Position=UDim2.fromOffset(10,0),Size=UDim2.new(1,-28,0,0)},{n("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Center}),n("UIPadding",{PaddingBottom=UDim.new(0,13),PaddingTop=UDim.new(0,13)}),t.TitleLabel,t.DescLabel})t.Border=n("UIStroke",{Transparency=0.5,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Color=Color3.fromRGB(0,0,0),ThemeTag={Color="ElementBorder"}})t.Frame=n("TextButton",{Size=UDim2.new(1,0,0,0),BackgroundTransparency=0.89,BackgroundColor3=Color3.fromRGB(130,130,130),Parent=r,AutomaticSize=Enum.AutomaticSize.Y,Text="",LayoutOrder=7,ThemeTag={BackgroundColor3="Element",BackgroundTransparency="ElementTransparency"}},{n("UICorner",{CornerRadius=UDim.new(0,4)}),t.Border,t.LabelHolder})function t.SetTitle(u,v)t.TitleLabel.Text=v end;function t.SetDesc(u,v)if v==nil then v=""end;if v==""then t.DescLabel.Visible=false else t.DescLabel.Visible=true end;t.DescLabel.Text=v end;function t.Destroy(u)t.Frame:Destroy()end;t:SetTitle(p)t:SetDesc(q)if s then local u=j.Themes;local v,w=l.SpringMotor(l.GetThemeProperty"ElementTransparency",t.Frame,"BackgroundTransparency",false,true)l.AddSignal(t.Frame.MouseEnter,function()w(l.GetThemeProperty"ElementTransparency"-l.GetThemeProperty"HoverChange")end)l.AddSignal(t.Frame.MouseLeave,function()w(l.GetThemeProperty"ElementTransparency")end)l.AddSignal(t.Frame.MouseButton1Down,function()w(l.GetThemeProperty"ElementTransparency"+l.GetThemeProperty"HoverChange")end)l.AddSignal(t.Frame.MouseButton1Up,function()w(l.GetThemeProperty"ElementTransparency"-l.GetThemeProperty"HoverChange")end)end;return t end end,[12]=function()local d,e,f,g,h=a(12)local j=e.Parent.Parent;local k=f(j.Packages.Flipper)local l=f(j.Creator)local n=f(j.Acrylic)local o=k.Spring.new;local p=k.Instant.new;local q=l.New;local r={}function r.Init(s,t)r.Holder=q("Frame",{Position=UDim2.new(1,-30,1,-30),Size=UDim2.new(0,310,1,-30),AnchorPoint=Vector2.new(1,1),BackgroundTransparency=1,Parent=t},{q("UIListLayout",{HorizontalAlignment=Enum.HorizontalAlignment.Center,SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Bottom,Padding=UDim.new(0,20)})})end;function r.New(s,t)t.Title=t.Title or"Title"t.Content=t.Content or"Content"t.SubContent=t.SubContent or""t.Duration=t.Duration or nil;t.Buttons=t.Buttons or{}local u={Closed=false}u.AcrylicPaint=n.AcrylicPaint()u.Title=q("TextLabel",{Position=UDim2.new(0,14,0,17),Text=t.Title,RichText=true,TextColor3=Color3.fromRGB(255,255,255),TextTransparency=0,FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",TextSize=13,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.new(1,-12,0,12),TextWrapped=true,BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})u.ContentLabel=q("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text=t.Content,TextColor3=Color3.fromRGB(240,240,240),TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,AutomaticSize=Enum.AutomaticSize.Y,Size=UDim2.new(1,0,0,14),BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,TextWrapped=true,ThemeTag={TextColor3="Text"}})u.SubContentLabel=q("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text=t.SubContent,TextColor3=Color3.fromRGB(240,240,240),TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,AutomaticSize=Enum.AutomaticSize.Y,Size=UDim2.new(1,0,0,14),BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,TextWrapped=true,ThemeTag={TextColor3="SubText"}})u.LabelHolder=q("Frame",{AutomaticSize=Enum.AutomaticSize.Y,BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,Position=UDim2.fromOffset(14,40),Size=UDim2.new(1,-28,0,0)},{q("UIListLayout",{SortOrder=Enum.SortOrder.LayoutOrder,VerticalAlignment=Enum.VerticalAlignment.Center,Padding=UDim.new(0,3)}),u.ContentLabel,u.SubContentLabel})u.CloseButton=q("TextButton",{Text="",Position=UDim2.new(1,-14,0,13),Size=UDim2.fromOffset(20,20),AnchorPoint=Vector2.new(1,0),BackgroundTransparency=1},{q("ImageLabel",{Image=f(e.Parent.Assets).Close,Size=UDim2.fromOffset(16,16),Position=UDim2.fromScale(0.5,0.5),AnchorPoint=Vector2.new(0.5,0.5),BackgroundTransparency=1,ThemeTag={ImageColor3="Text"}})})u.Root=q("Frame",{BackgroundTransparency=1,Size=UDim2.new(1,0,1,0),Position=UDim2.fromScale(1,0)},{u.AcrylicPaint.Frame,u.Title,u.CloseButton,u.LabelHolder})if t.Content==""then u.ContentLabel.Visible=false end;if t.SubContent==""then u.SubContentLabel.Visible=false end;u.Holder=q("Frame",{BackgroundTransparency=1,Size=UDim2.new(1,0,0,200),Parent=r.Holder},{u.Root})local v=k.GroupMotor.new{Scale=1,Offset=60}v:onStep(function(w)u.Root.Position=UDim2.new(w.Scale,w.Offset,0,0)end)l.AddSignal(u.CloseButton.MouseButton1Click,function()u:Close()end)function u.Open(w)local x=u.LabelHolder.AbsoluteSize.Y;u.Holder.Size=UDim2.new(1,0,0,58+x)v:setGoal{Scale=o(0,{frequency=5}),Offset=o(0,{frequency=5})}end;function u.Close(w)if not u.Closed then u.Closed=true;task.spawn(function()v:setGoal{Scale=o(1,{frequency=5}),Offset=o(60,{frequency=5})}task.wait(0.4)if f(j).UseAcrylic then u.AcrylicPaint.Model:Destroy()end;u.Holder:Destroy()end)end end;u:Open()if t.Duration then task.delay(t.Duration,function()u:Close()end)end;return u end;return r end,[13]=function()local d,e,f,g,h=a(13)local j=e.Parent.Parent;local k=f(j.Creator)local l=k.New;return function(n,o)local p={}p.Layout=l("UIListLayout",{Padding=UDim.new(0,5)})p.Container=l("Frame",{Size=UDim2.new(1,0,0,26),Position=UDim2.fromOffset(0,24),BackgroundTransparency=1},{p.Layout})p.Root=l("Frame",{BackgroundTransparency=1,Size=UDim2.new(1,0,0,26),LayoutOrder=7,Parent=o},{l("TextLabel",{RichText=true,Text=n,TextTransparency=0,FontFace=Font.new("rbxassetid://12187365364",Enum.FontWeight.SemiBold,Enum.FontStyle.Normal),TextSize=18,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.new(1,-16,0,18),Position=UDim2.fromOffset(0,2),ThemeTag={TextColor3="Text"}}),p.Container})k.AddSignal(p.Layout:GetPropertyChangedSignal"AbsoluteContentSize",function()p.Container.Size=UDim2.new(1,0,0,p.Layout.AbsoluteContentSize.Y)p.Root.Size=UDim2.new(1,0,0,p.Layout.AbsoluteContentSize.Y+25)end)return p end end,[14]=function()local d,e,f,g,h=a(14)local j=e.Parent.Parent;local k=f(j.Packages.Flipper)local l=f(j.Creator)local n=l.New;local o=k.Spring.new;local p=k.Instant.new;local q=j.Components;local r={Window=nil,Tabs={},Containers={},SelectedTab=0,TabCount=0}function r.Init(s,t)r.Window=t;return r end;function r.GetCurrentTabPos(s)local t=r.Window.TabHolder.AbsolutePosition.Y;local u=r.Tabs[r.SelectedTab].Frame.AbsolutePosition.Y;return u-t end;function r.New(s,t,u,v)local w=f(j)local x=r.Window;local y=w.Elements;r.TabCount=r.TabCount+1;local z=r.TabCount;local A={Selected=false,Name=t,Type="Tab"}if w:GetIcon(u)then u=w:GetIcon(u)end;if u==""or nil then u=nil end;A.Frame=n("TextButton",{Size=UDim2.new(1,0,0,34),BackgroundTransparency=1,Parent=v,ThemeTag={BackgroundColor3="Tab"}},{n("UICorner",{CornerRadius=UDim.new(0,6)}),n("TextLabel",{AnchorPoint=Vector2.new(0,0.5),Position=u and UDim2.new(0,30,0.5,0)or UDim2.new(0,12,0.5,0),Text=t,RichText=true,TextColor3=Color3.fromRGB(255,255,255),TextTransparency=0,FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Regular,Enum.FontStyle.Normal),TextSize=12,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.new(1,-12,1,0),BackgroundTransparency=1,ThemeTag={TextColor3="Text"}}),n("ImageLabel",{AnchorPoint=Vector2.new(0,0.5),Size=UDim2.fromOffset(16,16),Position=UDim2.new(0,8,0.5,0),BackgroundTransparency=1,Image=u and u or nil,ThemeTag={ImageColor3="Text"}})})local B=n("UIListLayout",{Padding=UDim.new(0,5),SortOrder=Enum.SortOrder.LayoutOrder})A.ContainerFrame=n("ScrollingFrame",{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,Parent=x.ContainerHolder,Visible=false,BottomImage="rbxassetid://6889812791",MidImage="rbxassetid://6889812721",TopImage="rbxassetid://6276641225",ScrollBarImageColor3=Color3.fromRGB(255,255,255),ScrollBarImageTransparency=0.95,ScrollBarThickness=3,BorderSizePixel=0,CanvasSize=UDim2.fromScale(0,0),ScrollingDirection=Enum.ScrollingDirection.Y},{B,n("UIPadding",{PaddingRight=UDim.new(0,10),PaddingLeft=UDim.new(0,1),PaddingTop=UDim.new(0,1),PaddingBottom=UDim.new(0,1)})})l.AddSignal(B:GetPropertyChangedSignal"AbsoluteContentSize",function()A.ContainerFrame.CanvasSize=UDim2.new(0,0,0,B.AbsoluteContentSize.Y+2)end)A.Motor,A.SetTransparency=l.SpringMotor(1,A.Frame,"BackgroundTransparency")l.AddSignal(A.Frame.MouseEnter,function()A.SetTransparency(A.Selected and 0.85 or 0.89)end)l.AddSignal(A.Frame.MouseLeave,function()A.SetTransparency(A.Selected and 0.89 or 1)end)l.AddSignal(A.Frame.MouseButton1Down,function()A.SetTransparency(0.92)end)l.AddSignal(A.Frame.MouseButton1Up,function()A.SetTransparency(A.Selected and 0.85 or 0.89)end)l.AddSignal(A.Frame.MouseButton1Click,function()r:SelectTab(z)end)r.Containers[z]=A.ContainerFrame;r.Tabs[z]=A;A.Container=A.ContainerFrame;A.ScrollFrame=A.Container;function A.AddSection(N,O)local P={Type="Section"}local Q=f(q.Section)(O,A.Container)P.Container=Q.Container;P.ScrollFrame=A.Container;setmetatable(P,y)return P end;setmetatable(A,y)return A end;function r.SelectTab(s,t)local u=r.Window;r.SelectedTab=t;for v,w in next,r.Tabs do w.SetTransparency(1)w.Selected=false end;r.Tabs[t].SetTransparency(0.89)r.Tabs[t].Selected=true;u.TabDisplay.Text=r.Tabs[t].Name;u.SelectorPosMotor:setGoal(o(r:GetCurrentTabPos(),{frequency=6}))task.spawn(function()u.ContainerPosMotor:setGoal(o(110,{frequency=10}))u.ContainerBackMotor:setGoal(o(1,{frequency=10}))task.wait(0.15)for v,w in next,r.Containers do w.Visible=false end;r.Containers[t].Visible=true;u.ContainerPosMotor:setGoal(o(94,{frequency=5}))u.ContainerBackMotor:setGoal(o(0,{frequency=8}))end)end;return r end,[15]=function()local d,e,f,g,h=a(15)local j=game:GetService"TextService"local k=e.Parent.Parent;f(k.Packages.Flipper)local l=f(k.Creator)local n=l.New;return function(o,p)p=p or false;local q={}q.Input=n("TextBox",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",TextColor3=Color3.fromRGB(200,200,200),TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=Enum.TextYAlignment.Center,BackgroundColor3=Color3.fromRGB(255,255,255),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Size=UDim2.fromScale(1,1),Position=UDim2.fromOffset(10,0),ThemeTag={TextColor3="Text",PlaceholderColor3="SubText"}})q.Container=n("Frame",{BackgroundTransparency=1,ClipsDescendants=true,Position=UDim2.new(0,6,0,0),Size=UDim2.new(1,-12,1,0)},{q.Input})q.Indicator=n("Frame",{Size=UDim2.new(1,-4,0,1),Position=UDim2.new(0,2,1,0),AnchorPoint=Vector2.new(0,1),BackgroundTransparency=p and 0.5 or 0,ThemeTag={BackgroundColor3=p and"InputIndicator"or"DialogInputLine"}})q.Frame=n("Frame",{Size=UDim2.new(0,0,0,30),BackgroundTransparency=p and 0.9 or 0,Parent=o,ThemeTag={BackgroundColor3=p and"Input"or"DialogInput"}},{n("UICorner",{CornerRadius=UDim.new(0,4)}),n("UIStroke",{ApplyStrokeMode=Enum.ApplyStrokeMode.Border,Transparency=p and 0.5 or 0.65,ThemeTag={Color=p and"InElementBorder"or"DialogButtonBorder"}}),q.Indicator,q.Container})local function R()local r=2;local s=q.Container.AbsoluteSize.X;if not q.Input:IsFocused()or q.Input.TextBounds.X<=s-2*r then q.Input.Position=UDim2.new(0,r,0,0)else local t=q.Input.CursorPosition;if t~=-1 then local u=string.sub(q.Input.Text,1,t-1)local v=j:GetTextSize(u,q.Input.TextSize,q.Input.Font,Vector2.new(math.huge,math.huge)).X;local w=q.Input.Position.X.Offset+v;if w<r then q.Input.Position=UDim2.fromOffset(r-v,0)elseif w>s-r-1 then q.Input.Position=UDim2.fromOffset(s-v-r-1,0)end end end end;task.spawn(R)l.AddSignal(q.Input:GetPropertyChangedSignal"Text",R)l.AddSignal(q.Input:GetPropertyChangedSignal"CursorPosition",R)l.AddSignal(q.Input.Focused,function()R()q.Indicator.Size=UDim2.new(1,-2,0,2)q.Indicator.Position=UDim2.new(0,1,1,0)q.Indicator.BackgroundTransparency=0;l.OverrideTag(q.Frame,{BackgroundColor3=p and"InputFocused"or"DialogHolder"})l.OverrideTag(q.Indicator,{BackgroundColor3="Accent"})end)l.AddSignal(q.Input.FocusLost,function()R()q.Indicator.Size=UDim2.new(1,-4,0,1)q.Indicator.Position=UDim2.new(0,2,1,0)q.Indicator.BackgroundTransparency=0.5;l.OverrideTag(q.Frame,{BackgroundColor3=p and"Input"or"DialogInput"})l.OverrideTag(q.Indicator,{BackgroundColor3=p and"InputIndicator"or"DialogInputLine"})end)return q end end,[16]=function()local d,e,f,g,h=a(16)local j=e.Parent.Parent;local k=f(e.Parent.Assets)local l=f(j.Creator)f(j.Packages.Flipper)local n=l.New;local o=l.AddSignal;return function(p)local q={}local r=f(j)local function S(s,t,u,v)local w={Callback=v or function()end}w.Frame=n("TextButton",{Size=UDim2.new(0,34,1,-8),AnchorPoint=Vector2.new(1,0),BackgroundTransparency=1,Parent=u,Position=t,Text="",ThemeTag={BackgroundColor3="Text"}},{n("UICorner",{CornerRadius=UDim.new(0,7)}),n("ImageLabel",{Image=s,Size=UDim2.fromOffset(16,16),Position=UDim2.fromScale(0.5,0.5),AnchorPoint=Vector2.new(0.5,0.5),BackgroundTransparency=1,Name="Icon",ThemeTag={ImageColor3="Text"}})})local x,y=l.SpringMotor(1,w.Frame,"BackgroundTransparency")o(w.Frame.MouseEnter,function()y(0.94)end)o(w.Frame.MouseLeave,function()y(1,true)end)o(w.Frame.MouseButton1Down,function()y(0.96)end)o(w.Frame.MouseButton1Up,function()y(0.94)end)o(w.Frame.MouseButton1Click,w.Callback)w.SetCallback=function(z)w.Callback=z end;return w end;q.Frame=n("Frame",{Size=UDim2.new(1,0,0,42),BackgroundTransparency=1,Parent=p.Parent},{n("Frame",{Size=UDim2.new(1,-16,1,0),Position=UDim2.new(0,16,0,0),BackgroundTransparency=1},{n("UIListLayout",{Padding=UDim.new(0,5),FillDirection=Enum.FillDirection.Horizontal,SortOrder=Enum.SortOrder.LayoutOrder}),n("TextLabel",{RichText=true,Text=p.Title,FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Regular,Enum.FontStyle.Normal),TextSize=12,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.fromScale(0,1),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,ThemeTag={TextColor3="Text"}}),n("TextLabel",{RichText=true,Text=p.SubTitle,TextTransparency=0.4,FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Regular,Enum.FontStyle.Normal),TextSize=12,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.fromScale(0,1),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})}),n("Frame",{BackgroundTransparency=0.5,Size=UDim2.new(1,0,0,1),Position=UDim2.new(0,0,1,0),ThemeTag={BackgroundColor3="TitleBarLine"}})})q.CloseButton=S(k.Close,UDim2.new(1,-4,0,4),q.Frame,function()r.Window:Dialog{Title="Close",Content="Are you sure you want to unload the interface?",Buttons={{Title="Yes",Callback=function()r:Destroy()end},{Title="No"}}}end)q.MaxButton=S(k.Max,UDim2.new(1,-40,0,4),q.Frame,function()p.Window.Maximize(not p.Window.Maximized)end)q.MinButton=S(k.Min,UDim2.new(1,-80,0,4),q.Frame,function()r.Window:Minimize()end)return q end end,[17]=function()local d,e,f,g,h=a(17)local j=game:GetService"UserInputService"local k=game:GetService"Players".LocalPlayer:GetMouse()local l=game:GetService"Workspace".CurrentCamera;local n=e.Parent.Parent;local o=f(n.Packages.Flipper)local p=f(n.Creator)local q=f(n.Acrylic)local r=f(e.Parent.Assets)local s=e.Parent;local t=o.Spring.new;local u=o.Instant.new;local v=p.New;return function(w)local x=f(n)local y={Minimized=false,Maximized=false,Size=w.Size,CurrentPos=0,Position=UDim2.fromOffset(l.ViewportSize.X/2-w.Size.X.Offset/2,l.ViewportSize.Y/2-w.Size.Y.Offset/2)}local z,A,B,N=false;local O,P=false;local Q=false;y.AcrylicPaint=q.AcrylicPaint()local T=v("Frame",{Size=UDim2.fromOffset(4,0),BackgroundColor3=Color3.fromRGB(76,194,255),Position=UDim2.fromOffset(0,17),AnchorPoint=Vector2.new(0,0.5),ThemeTag={BackgroundColor3="Accent"}},{v("UICorner",{CornerRadius=UDim.new(0,2)})})local U=v("Frame",{Size=UDim2.fromOffset(20,20),BackgroundTransparency=1,Position=UDim2.new(1,-20,1,-20)})y.TabHolder=v("ScrollingFrame",{Size=UDim2.fromScale(1,1),BackgroundTransparency=1,ScrollBarImageTransparency=1,ScrollBarThickness=0,BorderSizePixel=0,CanvasSize=UDim2.fromScale(0,0),ScrollingDirection=Enum.ScrollingDirection.Y},{v("UIListLayout",{Padding=UDim.new(0,4)})})local V=v("Frame",{Size=UDim2.new(0,w.TabWidth,1,-66),Position=UDim2.new(0,12,0,54),BackgroundTransparency=1,ClipsDescendants=true},{y.TabHolder,T})y.TabDisplay=v("TextLabel",{RichText=true,Text="Tab",TextTransparency=0,FontFace=Font.new("rbxassetid://12187365364",Enum.FontWeight.SemiBold,Enum.FontStyle.Normal),TextSize=28,TextXAlignment="Left",TextYAlignment="Center",Size=UDim2.new(1,-16,0,28),Position=UDim2.fromOffset(w.TabWidth+26,56),BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})y.ContainerHolder=v("CanvasGroup",{Size=UDim2.new(1,-w.TabWidth-32,1,-102),Position=UDim2.fromOffset(w.TabWidth+26,90),BackgroundTransparency=1})y.Root=v("Frame",{BackgroundTransparency=1,Size=y.Size,Position=y.Position,Parent=w.Parent,Active=true},{y.AcrylicPaint.Frame,y.TabDisplay,y.ContainerHolder,V,U})y.TitleBar=f(e.Parent.TitleBar){Title=w.Title,SubTitle=w.SubTitle,Parent=y.Root,Window=y}if x.UseAcrylic then y.AcrylicPaint.AddParent(y.Root)end;local W=o.GroupMotor.new{X=y.Size.X.Offset,Y=y.Size.Y.Offset}local X=o.GroupMotor.new{X=y.Position.X.Offset,Y=y.Position.Y.Offset}y.SelectorPosMotor=o.SingleMotor.new(17)y.SelectorSizeMotor=o.SingleMotor.new(0)y.ContainerBackMotor=o.SingleMotor.new(0)y.ContainerPosMotor=o.SingleMotor.new(94)W:onStep(function(Y)y.Root.Size=UDim2.new(0,Y.X,0,Y.Y)end)X:onStep(function(Y)y.Root.Position=UDim2.new(0,Y.X,0,Y.Y)end)local Y=0;local Z=0;y.SelectorPosMotor:onStep(function(_)T.Position=UDim2.new(0,0,0,_+17)local a0=tick()local a1=a0-Z;if Y~=nil then y.SelectorSizeMotor:setGoal(t(math.abs(_-Y)/(a1*60)+16))Y=_ end;Z=a0 end)y.SelectorSizeMotor:onStep(function(_)T.Size=UDim2.new(0,4,0,_)end)y.ContainerBackMotor:onStep(function(_)y.ContainerHolder.GroupTransparency=_ end)y.ContainerPosMotor:onStep(function(_)y.ContainerHolder.Position=UDim2.fromOffset(w.TabWidth+26,_)end)local _;local a0;y.Maximize=function(a1,a2,a3)y.Maximized=a1;y.TitleBar.MaxButton.Frame.Icon.Image=a1 and r.Restore or r.Max;if a1 then _=y.Size.X.Offset;a0=y.Size.Y.Offset end;local a4=a1 and l.ViewportSize.X or _;local a5=a1 and l.ViewportSize.Y or a0;W:setGoal{X=o[a3 and"Instant"or"Spring"].new(a4,{frequency=6}),Y=o[a3 and"Instant"or"Spring"].new(a5,{frequency=6})}y.Size=UDim2.fromOffset(a4,a5)if not a2 then X:setGoal{X=t(a1 and 0 or y.Position.X.Offset,{frequency=6}),Y=t(a1 and 0 or y.Position.Y.Offset,{frequency=6})}end end;p.AddSignal(y.TitleBar.Frame.InputBegan,function(a1)if a1.UserInputType==Enum.UserInputType.MouseButton1 or a1.UserInputType==Enum.UserInputType.Touch then z=true;B=a1.Position;N=y.Root.Position;if y.Maximized then N=UDim2.fromOffset(k.X-k.X*(_-100)/y.Root.AbsoluteSize.X,k.Y-k.Y*a0/y.Root.AbsoluteSize.Y)end;a1.Changed:Connect(function()if a1.UserInputState==Enum.UserInputState.End then z=false end end)end end)p.AddSignal(y.TitleBar.Frame.InputChanged,function(a1)if a1.UserInputType==Enum.UserInputType.MouseMovement or a1.UserInputType==Enum.UserInputType.Touch then A=a1 end end)p.AddSignal(U.InputBegan,function(a1)if a1.UserInputType==Enum.UserInputType.MouseButton1 or a1.UserInputType==Enum.UserInputType.Touch then O=true;P=a1.Position end end)p.AddSignal(j.InputChanged,function(a1)if a1==A and z then local a2=a1.Position-B;y.Position=UDim2.fromOffset(N.X.Offset+a2.X,N.Y.Offset+a2.Y)X:setGoal{X=u(y.Position.X.Offset),Y=u(y.Position.Y.Offset)}if y.Maximized then y.Maximize(false,true,true)end end;if(a1.UserInputType==Enum.UserInputType.MouseMovement or a1.UserInputType==Enum.UserInputType.Touch)and O then local a2=a1.Position-P;local a3=y.Size;local a4=Vector3.new(a3.X.Offset,a3.Y.Offset,0)+Vector3.new(1,1,0)*a2;local a5=Vector2.new(math.clamp(a4.X,470,2048),math.clamp(a4.Y,380,2048))W:setGoal{X=o.Instant.new(a5.X),Y=o.Instant.new(a5.Y)}end end)p.AddSignal(j.InputEnded,function(a1)if O==true or a1.UserInputType==Enum.UserInputType.Touch then O=false;y.Size=UDim2.fromOffset(W:getValue().X,W:getValue().Y)end end)p.AddSignal(y.TabHolder.UIListLayout:GetPropertyChangedSignal"AbsoluteContentSize",function()y.TabHolder.CanvasSize=UDim2.new(0,0,0,y.TabHolder.UIListLayout.AbsoluteContentSize.Y)end)p.AddSignal(j.InputBegan,function(a1)if type(x.MinimizeKeybind)=="table"and x.MinimizeKeybind.Type=="Keybind"and not j:GetFocusedTextBox()then if a1.KeyCode.Name==x.MinimizeKeybind.Value then y:Minimize()end elseif a1.KeyCode==x.MinimizeKey and not j:GetFocusedTextBox()then y:Minimize()end end)function y.Minimize(a1)y.Minimized=not y.Minimized;y.Root.Visible=not y.Minimized;if not Q then Q=true;local a2=x.MinimizeKeybind and x.MinimizeKeybind.Value or x.MinimizeKey.Name;x:Notify{Title="Interface",Content="Press "..a2 .." to toggle the inteface.",Duration=6}end end;function y.Destroy(a1)if x.UseAcrylic then y.AcrylicPaint.Model:Destroy()end;y.Root:Destroy()end;local a1=f(s.Dialog):Init(y)function y.Dialog(a2,a3)local a4=a1:Create()a4.Title.Text=a3.Title;local a5=v("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text=a3.Content,TextColor3=Color3.fromRGB(240,240,240),TextSize=14,TextXAlignment=Enum.TextXAlignment.Left,TextYAlignment=Enum.TextYAlignment.Top,Size=UDim2.new(1,-40,1,0),Position=UDim2.fromOffset(20,60),BackgroundTransparency=1,Parent=a4.Root,ClipsDescendants=false,ThemeTag={TextColor3="Text"}})v("UISizeConstraint",{MinSize=Vector2.new(300,165),MaxSize=Vector2.new(620,math.huge),Parent=a4.Root})a4.Root.Size=UDim2.fromOffset(a5.TextBounds.X+40,165)if a5.TextBounds.X+40>y.Size.X.Offset-120 then a4.Root.Size=UDim2.fromOffset(y.Size.X.Offset-120,165)a5.TextWrapped=true;a4.Root.Size=UDim2.fromOffset(y.Size.X.Offset-120,a5.TextBounds.Y+150)end;for a6,a7 in next,a3.Buttons do a4:Button(a7.Title,a7.Callback)end;a4:Open()end;local a2=f(s.Tab):Init(y)function y.AddTab(a3,a4)return a2:New(a4.Title,a4.Icon,y.TabHolder)end;function y.SelectTab(a3,a4)a2:SelectTab(1)end;p.AddSignal(y.TabHolder:GetPropertyChangedSignal"CanvasPosition",function()Y=a2:GetCurrentTabPos()+16;Z=0;y.SelectorPosMotor:setGoal(u(a2:GetCurrentTabPos()))end)return y end end,[18]=function()local d,e,f,g,h=a(18)local j=e.Parent;local k=f(j.Themes)local l=f(j.Packages.Flipper)local n={Registry={},Signals={},TransparencyMotors={},DefaultProperties={ScreenGui={ResetOnSpawn=false,ZIndexBehavior=Enum.ZIndexBehavior.Sibling},Frame={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),BorderSizePixel=0},ScrollingFrame={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),ScrollBarImageColor3=Color3.new(0,0,0)},TextLabel={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),Font=Enum.Font.SourceSans,Text="",TextColor3=Color3.new(0,0,0),BackgroundTransparency=1,TextSize=14},TextButton={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),AutoButtonColor=false,Font=Enum.Font.SourceSans,Text="",TextColor3=Color3.new(0,0,0),TextSize=14},TextBox={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),ClearTextOnFocus=false,Font=Enum.Font.SourceSans,Text="",TextColor3=Color3.new(0,0,0),TextSize=14},ImageLabel={BackgroundTransparency=1,BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),BorderSizePixel=0},ImageButton={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),AutoButtonColor=false},CanvasGroup={BackgroundColor3=Color3.new(1,1,1),BorderColor3=Color3.new(0,0,0),BorderSizePixel=0}}}local function a8(o,p)if p.ThemeTag then n.AddThemeObject(o,p.ThemeTag)end end;function n.AddSignal(o,p)table.insert(n.Signals,o:Connect(p))end;function n.Disconnect()for o=#n.Signals,1,-1 do local p=table.remove(n.Signals,o)p:Disconnect()end end;function n.GetThemeProperty(o)if k[f(j).Theme][o]then return k[f(j).Theme][o]end;return k.Dark[o]end;function n.UpdateTheme()for o,p in next,n.Registry do for q,r in next,p.Properties do o[q]=n.GetThemeProperty(r)end end;for o,p in next,n.TransparencyMotors do p:setGoal(l.Instant.new(n.GetThemeProperty"ElementTransparency"))end end;function n.AddThemeObject(o,p)local q=#n.Registry+1;local r={Object=o,Properties=p,Idx=q}n.Registry[o]=r;n.UpdateTheme()return o end;function n.OverrideTag(o,p)n.Registry[o].Properties=p;n.UpdateTheme()end;function n.New(o,p,q)local r=Instance.new(o)for s,t in next,n.DefaultProperties[o]or{}do r[s]=t end;for s,t in next,p or{}do if s~="ThemeTag"then r[s]=t end end;for s,t in next,q or{}do t.Parent=r end;a8(r,p)return r end;function n.SpringMotor(o,p,q,r,s)r=r or false;s=s or false;local t=l.SingleMotor.new(o)t:onStep(function(u)p[q]=u end)if s then table.insert(n.TransparencyMotors,t)end;local function a9(u,v)v=v or false;if not r then if not v then if q=="BackgroundTransparency"and f(j).DialogOpen then return end end end;t:setGoal(l.Spring.new(u,{frequency=8}))end;return t,a9 end;return n end,[19]=function()local d,e,f,g,h=a(19)local j={}for k,l in next,e:GetChildren()do table.insert(j,f(l))end;return j end,[20]=function()local d,e,f,g,h=a(20)local j=e.Parent.Parent;local k=f(j.Creator)local l=k.New;local n=j.Components;local o={}o.__index=o;o.__type="Button"function o.New(p,q)assert(q.Title,"Button - Missing Title")q.Callback=q.Callback or function()end;local r=f(n.Element)(q.Title,q.Description,p.Container,true)l("ImageLabel",{Image="rbxassetid://10709791437",Size=UDim2.fromOffset(16,16),AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-10,0.5,0),BackgroundTransparency=1,Parent=r.Frame,ThemeTag={ImageColor3="Text"}})k.AddSignal(r.Frame.MouseButton1Click,function()p.Library:SafeCallback(q.Callback)end)return r end;return o end,[21]=function()local d,e,f,g,h=a(21)local j=game:GetService"UserInputService"game:GetService"TouchInputService"local k=game:GetService"RunService"local l=game:GetService"Players"local n=k.RenderStepped;local o=l.LocalPlayer;local p=o:GetMouse()local q=e.Parent.Parent;local r=f(q.Creator)local s=r.New;local t=q.Components;local u={}u.__index=u;u.__type="Colorpicker"function u.New(v,w,x)local y=v.Library;assert(x.Title,"Colorpicker - Missing Title")assert(x.Default,"AddColorPicker: Missing default value.")local z={Value=x.Default,Transparency=x.Transparency or 0,Type="Colorpicker",Title=type(x.Title)=="string"and x.Title or"Colorpicker",Callback=x.Callback or function(z)end}function z.SetHSVFromRGB(A,B)local N,O,P=Color3.toHSV(B)z.Hue=N;z.Sat=O;z.Vib=P end;z:SetHSVFromRGB(z.Value)local A=f(t.Element)(x.Title,x.Description,v.Container,true)z.SetTitle=A.SetTitle;z.SetDesc=A.SetDesc;local B=s("Frame",{Size=UDim2.fromScale(1,1),BackgroundColor3=z.Value,Parent=A.Frame},{s("UICorner",{CornerRadius=UDim.new(0,4)})})s("ImageLabel",{Size=UDim2.fromOffset(26,26),Position=UDim2.new(1,-10,0.5,0),AnchorPoint=Vector2.new(1,0.5),Parent=A.Frame,Image="http://www.roblox.com/asset/?id=14204231522",ImageTransparency=0.45,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.fromOffset(40,40)},{s("UICorner",{CornerRadius=UDim.new(0,4)}),B})local function aa()local N=f(t.Dialog):Create()N.Title.Text=z.Title;N.Root.Size=UDim2.fromOffset(430,330)local O,P,Q=z.Hue,z.Sat,z.Vib;local T=z.Transparency;local function ab()local U=f(t.Textbox)()U.Frame.Parent=N.Root;U.Frame.Size=UDim2.new(0,90,0,32)return U end;local function ac(U,V)return s("TextLabel",{FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Medium,Enum.FontStyle.Normal),Text=U,TextColor3=Color3.fromRGB(240,240,240),TextSize=13,TextXAlignment=Enum.TextXAlignment.Left,Size=UDim2.new(1,0,0,32),Position=V,BackgroundTransparency=1,Parent=N.Root,ThemeTag={TextColor3="Text"}})end;local function ad()local U=Color3.fromHSV(O,P,Q)return{R=math.floor(U.r*255),G=math.floor(U.g*255),B=math.floor(U.b*255)}end;local U=s("ImageLabel",{Size=UDim2.new(0,18,0,18),ScaleType=Enum.ScaleType.Fit,AnchorPoint=Vector2.new(0.5,0.5),BackgroundTransparency=1,Image="http://www.roblox.com/asset/?id=4805639000"})local V=s("ImageLabel",{Size=UDim2.fromOffset(180,160),Position=UDim2.fromOffset(20,55),Image="rbxassetid://4155801252",BackgroundColor3=z.Value,BackgroundTransparency=0,Parent=N.Root},{s("UICorner",{CornerRadius=UDim.new(0,4)}),U})local W=s("Frame",{BackgroundColor3=z.Value,Size=UDim2.fromScale(1,1),BackgroundTransparency=z.Transparency},{s("UICorner",{CornerRadius=UDim.new(0,4)})})s("ImageLabel",{Image="http://www.roblox.com/asset/?id=14204231522",ImageTransparency=0.45,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.fromOffset(40,40),BackgroundTransparency=1,Position=UDim2.fromOffset(112,220),Size=UDim2.fromOffset(88,24),Parent=N.Root},{s("UICorner",{CornerRadius=UDim.new(0,4)}),s("UIStroke",{Thickness=2,Transparency=0.75}),W})local X=s("Frame",{BackgroundColor3=z.Value,Size=UDim2.fromScale(1,1),BackgroundTransparency=0},{s("UICorner",{CornerRadius=UDim.new(0,4)})})s("ImageLabel",{Image="http://www.roblox.com/asset/?id=14204231522",ImageTransparency=0.45,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.fromOffset(40,40),BackgroundTransparency=1,Position=UDim2.fromOffset(20,220),Size=UDim2.fromOffset(88,24),Parent=N.Root},{s("UICorner",{CornerRadius=UDim.new(0,4)}),s("UIStroke",{Thickness=2,Transparency=0.75}),X})local Y={}for Z=0,1,0.1 do table.insert(Y,ColorSequenceKeypoint.new(Z,Color3.fromHSV(Z,1,1)))end;local Z=s("UIGradient",{Color=ColorSequence.new(Y),Rotation=90})local _=s("Frame",{Size=UDim2.new(1,0,1,-10),Position=UDim2.fromOffset(0,5),BackgroundTransparency=1})local a0=s("ImageLabel",{Size=UDim2.fromOffset(14,14),Image="http://www.roblox.com/asset/?id=12266946128",Parent=_,ThemeTag={ImageColor3="DialogInput"}})local a1=s("Frame",{Size=UDim2.fromOffset(12,190),Position=UDim2.fromOffset(210,55),Parent=N.Root},{s("UICorner",{CornerRadius=UDim.new(1,0)}),Z,_})local a2=ab()a2.Frame.Position=UDim2.fromOffset(x.Transparency and 260 or 240,55)ac("Hex",UDim2.fromOffset(x.Transparency and 360 or 340,55))local a3=ab()a3.Frame.Position=UDim2.fromOffset(x.Transparency and 260 or 240,95)ac("Red",UDim2.fromOffset(x.Transparency and 360 or 340,95))local a4=ab()a4.Frame.Position=UDim2.fromOffset(x.Transparency and 260 or 240,135)ac("Green",UDim2.fromOffset(x.Transparency and 360 or 340,135))local a5=ab()a5.Frame.Position=UDim2.fromOffset(x.Transparency and 260 or 240,175)ac("Blue",UDim2.fromOffset(x.Transparency and 360 or 340,175))local a6;if x.Transparency then a6=ab()a6.Frame.Position=UDim2.fromOffset(260,215)ac("Alpha",UDim2.fromOffset(360,215))end;local a7,ae,af;if x.Transparency then local ag=s("Frame",{Size=UDim2.new(1,0,1,-10),Position=UDim2.fromOffset(0,5),BackgroundTransparency=1})ae=s("ImageLabel",{Size=UDim2.fromOffset(14,14),Image="http://www.roblox.com/asset/?id=12266946128",Parent=ag,ThemeTag={ImageColor3="DialogInput"}})af=s("Frame",{Size=UDim2.fromScale(1,1)},{s("UIGradient",{Transparency=NumberSequence.new{NumberSequenceKeypoint.new(0,0),NumberSequenceKeypoint.new(1,1)},Rotation=270}),s("UICorner",{CornerRadius=UDim.new(1,0)})})a7=s("Frame",{Size=UDim2.fromOffset(12,190),Position=UDim2.fromOffset(230,55),Parent=N.Root,BackgroundTransparency=1},{s("UICorner",{CornerRadius=UDim.new(1,0)}),s("ImageLabel",{Image="http://www.roblox.com/asset/?id=14204231522",ImageTransparency=0.45,ScaleType=Enum.ScaleType.Tile,TileSize=UDim2.fromOffset(40,40),BackgroundTransparency=1,Size=UDim2.fromScale(1,1),Parent=N.Root},{s("UICorner",{CornerRadius=UDim.new(1,0)})}),af,ag})end;local function ah()V.BackgroundColor3=Color3.fromHSV(O,1,1)a0.Position=UDim2.new(0,-1,O,-6)U.Position=UDim2.new(P,0,1-Q,0)X.BackgroundColor3=Color3.fromHSV(O,P,Q)a2.Input.Text="#"..Color3.fromHSV(O,P,Q):ToHex()a3.Input.Text=ad().R;a4.Input.Text=ad().G;a5.Input.Text=ad().B;if x.Transparency then af.BackgroundColor3=Color3.fromHSV(O,P,Q)X.BackgroundTransparency=T;ae.Position=UDim2.new(0,-1,1-T,-6)a6.Input.Text=f(q):Round((1-T)*100,0).."%"end end;r.AddSignal(a2.Input.FocusLost,function(ag)if ag then local ai,aj=pcall(Color3.fromHex,a2.Input.Text)if ai and typeof(aj)=="Color3"then O,P,Q=Color3.toHSV(aj)end end;ah()end)r.AddSignal(a3.Input.FocusLost,function(ag)if ag then local ai=ad()local aj,ak=pcall(Color3.fromRGB,a3.Input.Text,ai.G,ai.B)if aj and typeof(ak)=="Color3"then if tonumber(a3.Input.Text)<=255 then O,P,Q=Color3.toHSV(ak)end end end;ah()end)r.AddSignal(a4.Input.FocusLost,function(ag)if ag then local ai=ad()local aj,ak=pcall(Color3.fromRGB,ai.R,a4.Input.Text,ai.B)if aj and typeof(ak)=="Color3"then if tonumber(a4.Input.Text)<=255 then O,P,Q=Color3.toHSV(ak)end end end;ah()end)r.AddSignal(a5.Input.FocusLost,function(ag)if ag then local ai=ad()local aj,ak=pcall(Color3.fromRGB,ai.R,ai.G,a5.Input.Text)if aj and typeof(ak)=="Color3"then if tonumber(a5.Input.Text)<=255 then O,P,Q=Color3.toHSV(ak)end end end;ah()end)if x.Transparency then r.AddSignal(a6.Input.FocusLost,function(ag)if ag then pcall(function()local ai=tonumber(a6.Input.Text)if ai>=0 and ai<=100 then T=1-ai*0.01 end end)end;ah()end)end;r.AddSignal(V.InputBegan,function(ag)if ag.UserInputType==Enum.UserInputType.MouseButton1 or ag.UserInputType==Enum.UserInputType.Touch then while j:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)do local ai=V.AbsolutePosition.X;local aj=ai+V.AbsoluteSize.X;local ak=math.clamp(p.X,ai,aj)local c=V.AbsolutePosition.Y;local al=c+V.AbsoluteSize.Y;local am=math.clamp(p.Y,c,al)P=(ak-ai)/(aj-ai)Q=1-(am-c)/(al-c)ah()n:Wait()end end end)r.AddSignal(a1.InputBegan,function(c)if c.UserInputType==Enum.UserInputType.MouseButton1 or c.UserInputType==Enum.UserInputType.Touch then while j:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)do local al=a1.AbsolutePosition.Y;local am=al+a1.AbsoluteSize.Y;local ag=math.clamp(p.Y,al,am)O=(ag-al)/(am-al)ah()n:Wait()end end end)if x.Transparency then r.AddSignal(a7.InputBegan,function(c)if c.UserInputType==Enum.UserInputType.MouseButton1 then while j:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)do local al=a7.AbsolutePosition.Y;local am=al+a7.AbsoluteSize.Y;local ag=math.clamp(p.Y,al,am)T=1-(ag-al)/(am-al)ah()n:Wait()end end end)end;ah()N:Button("Done",function()z:SetValue({O,P,Q},T)end)N:Button"Cancel"N:Open()end;function z.Display(c)z.Value=Color3.fromHSV(z.Hue,z.Sat,z.Vib)B.BackgroundColor3=z.Value;B.BackgroundTransparency=z.Transparency;u.Library:SafeCallback(z.Callback,z.Value)u.Library:SafeCallback(z.Changed,z.Value)end;function z.SetValue(c,al,am)local N=Color3.fromHSV(al[1],al[2],al[3])z.Transparency=am or 0;z:SetHSVFromRGB(N)z:Display()end;function z.SetValueRGB(c,al,am)z.Transparency=am or 0;z:SetHSVFromRGB(al)z:Display()end;function z.OnChanged(c,al)z.Changed=al;al(z.Value)end;function z.Destroy(c)A:Destroy()y.Options[w]=nil end;r.AddSignal(A.Frame.MouseButton1Click,function()aa()end)z:Display()y.Options[w]=z;return z end;return u end,[22]=function()local c,al,am,d,e=a(22)local f=game:GetService"TweenService"local g=game:GetService"UserInputService"local h=game:GetService"Players".LocalPlayer:GetMouse()local j=game:GetService"Workspace".CurrentCamera;local k=al.Parent.Parent;local l=am(k.Creator)local n=am(k.Packages.Flipper)local o=l.New;local p=k.Components;local q={}q.__index=q;q.__type="Dropdown"function q.New(r,s,t)local u=r.Library;local v={Values=t.Values,Value=t.Default,Multi=t.Multi,Buttons={},Opened=false,Type="Dropdown",Callback=t.Callback or function()end}local w=am(p.Element)(t.Title,t.Description,r.Container,false)w.DescLabel.Size=UDim2.new(1,-170,0,14)v.SetTitle=w.SetTitle;v.SetDesc=w.SetDesc;local x=o("TextLabel",{FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Regular,Enum.FontStyle.Normal),Text="Value",TextColor3=Color3.fromRGB(240,240,240),TextSize=13,TextXAlignment=Enum.TextXAlignment.Left,Size=UDim2.new(1,-30,0,14),Position=UDim2.new(0,8,0.5,0),AnchorPoint=Vector2.new(0,0.5),BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,TextTruncate=Enum.TextTruncate.AtEnd,ThemeTag={TextColor3="Text"}})local y=o("ImageLabel",{Image="rbxassetid://10709790948",Size=UDim2.fromOffset(16,16),AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-8,0.5,0),BackgroundTransparency=1,ThemeTag={ImageColor3="SubText"}})local z=o("TextButton",{Size=UDim2.fromOffset(160,30),Position=UDim2.new(1,-10,0.5,0),AnchorPoint=Vector2.new(1,0.5),BackgroundTransparency=0.9,Parent=w.Frame,ThemeTag={BackgroundColor3="DropdownFrame"}},{o("UICorner",{CornerRadius=UDim.new(0,5)}),o("UIStroke",{Transparency=0.5,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,ThemeTag={Color="InElementBorder"}}),y,x})local A=o("UIListLayout",{Padding=UDim.new(0,3)})local B=o("ScrollingFrame",{Size=UDim2.new(1,-5,1,-10),Position=UDim2.fromOffset(5,5),BackgroundTransparency=1,BottomImage="rbxassetid://6889812791",MidImage="rbxassetid://6889812721",TopImage="rbxassetid://6276641225",ScrollBarImageColor3=Color3.fromRGB(255,255,255),ScrollBarImageTransparency=0.95,ScrollBarThickness=4,BorderSizePixel=0,CanvasSize=UDim2.fromScale(0,0)},{A})local N=o("Frame",{Size=UDim2.fromScale(1,0.6),ThemeTag={BackgroundColor3="DropdownHolder"}},{B,o("UICorner",{CornerRadius=UDim.new(0,7)}),o("UIStroke",{ApplyStrokeMode=Enum.ApplyStrokeMode.Border,ThemeTag={Color="DropdownBorder"}}),o("ImageLabel",{BackgroundTransparency=1,Image="http://www.roblox.com/asset/?id=5554236805",ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(23,23,277,277),Size=UDim2.fromScale(1,1)+UDim2.fromOffset(30,30),Position=UDim2.fromOffset(-15,-15),ImageColor3=Color3.fromRGB(0,0,0),ImageTransparency=0.1})})local O=o("Frame",{BackgroundTransparency=1,Size=UDim2.fromOffset(170,300),Parent=r.Library.GUI,Visible=false},{N,o("UISizeConstraint",{MinSize=Vector2.new(170,0)})})table.insert(u.OpenFrames,O)local function an()local P=0;if j.ViewportSize.Y-z.AbsolutePosition.Y<O.AbsoluteSize.Y-5 then P=O.AbsoluteSize.Y-5-(j.ViewportSize.Y-z.AbsolutePosition.Y)+40 end;O.Position=UDim2.fromOffset(z.AbsolutePosition.X-1,z.AbsolutePosition.Y-5-P)end;local P=0;local function ao()if#v.Values>10 then O.Size=UDim2.fromOffset(P,392)else O.Size=UDim2.fromOffset(P,A.AbsoluteContentSize.Y+10)end end;local function ap()B.CanvasSize=UDim2.fromOffset(0,A.AbsoluteContentSize.Y)end;an()ao()l.AddSignal(z:GetPropertyChangedSignal"AbsolutePosition",an)l.AddSignal(z.MouseButton1Click,function()v:Open()end)l.AddSignal(g.InputBegan,function(Q)if Q.UserInputType==Enum.UserInputType.MouseButton1 or Q.UserInputType==Enum.UserInputType.Touch then local T,U=N.AbsolutePosition,N.AbsoluteSize;if h.X<T.X or h.X>T.X+U.X or h.Y<T.Y-20-1 or h.Y>T.Y+U.Y then v:Close()end end end)local Q=r.ScrollFrame;function v.Open(T)v.Opened=true;Q.ScrollingEnabled=false;O.Visible=true;f:Create(N,TweenInfo.new(0.2,Enum.EasingStyle.Quart,Enum.EasingDirection.Out),{Size=UDim2.fromScale(1,1)}):Play()end;function v.Close(T)v.Opened=false;Q.ScrollingEnabled=true;N.Size=UDim2.fromScale(1,0.6)O.Visible=false end;function v.Display(T)local U=v.Values;local V=""if t.Multi then for W,X in next,U do if v.Value[X]then V=V..X..", "end end;V=V:sub(1,#V-2)else V=v.Value or""end;x.Text=V==""and"--"or V end;function v.GetActiveValues(T)if t.Multi then local U={}for V,W in next,v.Value do table.insert(U,V)end;return U else return v.Value and 1 or 0 end end;function v.BuildDropdownList(T)local U=v.Values;local V={}for W,X in next,B:GetChildren()do if not X:IsA"UIListLayout"then X:Destroy()end end;local W=0;for X,Y in next,U do local Z={}W=W+1;local _=o("Frame",{Size=UDim2.fromOffset(4,14),BackgroundColor3=Color3.fromRGB(76,194,255),Position=UDim2.fromOffset(-1,16),AnchorPoint=Vector2.new(0,0.5),ThemeTag={BackgroundColor3="Accent"}},{o("UICorner",{CornerRadius=UDim.new(0,2)})})local a0=o("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text=Y,TextColor3=Color3.fromRGB(200,200,200),TextSize=13,TextXAlignment=Enum.TextXAlignment.Left,BackgroundColor3=Color3.fromRGB(255,255,255),AutomaticSize=Enum.AutomaticSize.Y,BackgroundTransparency=1,Size=UDim2.fromScale(1,1),Position=UDim2.fromOffset(10,0),Name="ButtonLabel",ThemeTag={TextColor3="Text"}})local a1=o("TextButton",{Size=UDim2.new(1,-5,0,32),BackgroundTransparency=1,ZIndex=23,Text="",Parent=B,ThemeTag={BackgroundColor3="DropdownOption"}},{_,a0,o("UICorner",{CornerRadius=UDim.new(0,6)})})local a2;if t.Multi then a2=v.Value[Y]else a2=v.Value==Y end;local a3,a4=l.SpringMotor(1,a1,"BackgroundTransparency")local a5,a6=l.SpringMotor(1,_,"BackgroundTransparency")local a7=n.SingleMotor.new(6)a7:onStep(function(ae)_.Size=UDim2.new(0,4,0,ae)end)l.AddSignal(a1.MouseEnter,function()a4(a2 and 0.85 or 0.89)end)l.AddSignal(a1.MouseLeave,function()a4(a2 and 0.89 or 1)end)l.AddSignal(a1.MouseButton1Down,function()a4(0.92)end)l.AddSignal(a1.MouseButton1Up,function()a4(a2 and 0.85 or 0.89)end)function Z.UpdateButton(ae)if t.Multi then a2=v.Value[Y]if a2 then a4(0.89)end else a2=v.Value==Y;a4(a2 and 0.89 or 1)end;a7:setGoal(n.Spring.new(a2 and 14 or 6,{frequency=6}))a6(a2 and 0 or 1)end;a0.InputBegan:Connect(function(ae)if ae.UserInputType==Enum.UserInputType.MouseButton1 or ae.UserInputType==Enum.UserInputType.Touch then local af=not a2;if v:GetActiveValues()==1 and not af and not t.AllowNull then else if t.Multi then a2=af;v.Value[Y]=a2 and true or nil else a2=af;v.Value=a2 and Y or nil;for ag,ai in next,V do ai:UpdateButton()end end;Z:UpdateButton()v:Display()u:SafeCallback(v.Callback,v.Value)u:SafeCallback(v.Changed,v.Value)end end end)Z:UpdateButton()v:Display()V[a1]=Z end;P=0;for X,Y in next,V do if X.ButtonLabel then if X.ButtonLabel.TextBounds.X>P then P=X.ButtonLabel.TextBounds.X end end end;P=P+30;ap()ao()end;function v.SetValues(T,U)if U then v.Values=U end;v:BuildDropdownList()end;function v.OnChanged(T,U)v.Changed=U;U(v.Value)end;function v.SetValue(T,U)if v.Multi then local V={}for W,X in next,U do if table.find(v.Values,W)then V[W]=true end end;v.Value=V else if not U then v.Value=nil elseif table.find(v.Values,U)then v.Value=U end end;v:BuildDropdownList()u:SafeCallback(v.Callback,v.Value)u:SafeCallback(v.Changed,v.Value)end;function v.Destroy(T)w:Destroy()u.Options[s]=nil end;v:BuildDropdownList()v:Display()local T={}if type(t.Default)=="string"then local U=table.find(v.Values,t.Default)if U then table.insert(T,U)end elseif type(t.Default)=="table"then for U,V in next,t.Default do local W=table.find(v.Values,V)if W then table.insert(T,W)end end elseif type(t.Default)=="number"and v.Values[t.Default]~=nil then table.insert(T,t.Default)end;if next(T)then for U=1,#T do local V=T[U]if t.Multi then v.Value[v.Values[V]]=true else v.Value=v.Values[V]end;if not t.Multi then break end end;v:BuildDropdownList()v:Display()end;u.Options[s]=v;return v end;return q end,[23]=function()local c,al,am,d,e=a(23)local f=al.Parent.Parent;local g=am(f.Creator)local h=g.New;local j=g.AddSignal;local k=f.Components;local l={}l.__index=l;l.__type="Input"function l.New(n,o,p)local q=n.Library;assert(p.Title,"Input - Missing Title")p.Callback=p.Callback or function()end;local r={Value=p.Default or"",Numeric=p.Numeric or false,Finished=p.Finished or false,Callback=p.Callback or function(r)end,Type="Input"}local s=am(k.Element)(p.Title,p.Description,n.Container,false)r.SetTitle=s.SetTitle;r.SetDesc=s.SetDesc;local t=am(k.Textbox)(s.Frame,true)t.Frame.Position=UDim2.new(1,-10,0.5,0)t.Frame.AnchorPoint=Vector2.new(1,0.5)t.Frame.Size=UDim2.fromOffset(160,30)t.Input.Text=p.Default or""t.Input.PlaceholderText=p.Placeholder or""local u=t.Input;function r.SetValue(v,w)if p.MaxLength and#w>p.MaxLength then w=w:sub(1,p.MaxLength)end;if r.Numeric then if not tonumber(w)and w:len()>0 then w=r.Value end end;r.Value=w;u.Text=w;q:SafeCallback(r.Callback,r.Value)q:SafeCallback(r.Changed,r.Value)end;if r.Finished then j(u.FocusLost,function(v)if not v then return end;r:SetValue(u.Text)end)else j(u:GetPropertyChangedSignal"Text",function()r:SetValue(u.Text)end)end;function r.OnChanged(v,w)r.Changed=w;w(r.Value)end;function r.Destroy(v)s:Destroy()q.Options[o]=nil end;q.Options[o]=r;return r end;return l end,[24]=function()local c,al,am,d,e=a(24)local f=game:GetService"UserInputService"local g=al.Parent.Parent;local h=am(g.Creator)local j=h.New;local k=g.Components;local l={}l.__index=l;l.__type="Keybind"function l.New(n,o,p)local q=n.Library;assert(p.Title,"KeyBind - Missing Title")assert(p.Default,"KeyBind - Missing default value.")local r={Value=p.Default,Toggled=false,Mode=p.Mode or"Toggle",Type="Keybind",Callback=p.Callback or function(r)end,ChangedCallback=p.ChangedCallback or function(r)end}local s=false;local t=am(k.Element)(p.Title,p.Description,n.Container,true)r.SetTitle=t.SetTitle;r.SetDesc=t.SetDesc;local u=j("TextLabel",{FontFace=Font.new("rbxasset://fonts/families/GothamSSm.json",Enum.FontWeight.Regular,Enum.FontStyle.Normal),Text=p.Default,TextColor3=Color3.fromRGB(240,240,240),TextSize=13,TextXAlignment=Enum.TextXAlignment.Center,Size=UDim2.new(0,0,0,14),Position=UDim2.new(0,0,0.5,0),AnchorPoint=Vector2.new(0,0.5),BackgroundColor3=Color3.fromRGB(255,255,255),AutomaticSize=Enum.AutomaticSize.X,BackgroundTransparency=1,ThemeTag={TextColor3="Text"}})local v=j("TextButton",{Size=UDim2.fromOffset(0,30),Position=UDim2.new(1,-10,0.5,0),AnchorPoint=Vector2.new(1,0.5),BackgroundTransparency=0.9,Parent=t.Frame,AutomaticSize=Enum.AutomaticSize.X,ThemeTag={BackgroundColor3="Keybind"}},{j("UICorner",{CornerRadius=UDim.new(0,5)}),j("UIPadding",{PaddingLeft=UDim.new(0,8),PaddingRight=UDim.new(0,8)}),j("UIStroke",{Transparency=0.5,ApplyStrokeMode=Enum.ApplyStrokeMode.Border,ThemeTag={Color="InElementBorder"}}),u})function r.GetState(w)if f:GetFocusedTextBox()and r.Mode~="Always"then return false end;if r.Mode=="Always"then return true elseif r.Mode=="Hold"then if r.Value=="None"then return false end;local x=r.Value;if x=="MouseLeft"or x=="MouseRight"then return x=="MouseLeft"and f:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)or x=="MouseRight"and f:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)else return f:IsKeyDown(Enum.KeyCode[r.Value])end else return r.Toggled end end;function r.SetValue(w,x,y)x=x or r.Key;y=y or r.Mode;u.Text=x;r.Value=x;r.Mode=y end;function r.OnClick(w,x)r.Clicked=x end;function r.OnChanged(w,x)r.Changed=x;x(r.Value)end;function r.DoClick(w)q:SafeCallback(r.Callback,r.Toggled)q:SafeCallback(r.Clicked,r.Toggled)end;function r.Destroy(w)t:Destroy()q.Options[o]=nil end;h.AddSignal(v.InputBegan,function(w)if w.UserInputType==Enum.UserInputType.MouseButton1 or w.UserInputType==Enum.UserInputType.Touch then s=true;u.Text="..."wait(0.2)local x;x=f.InputBegan:Connect(function(y)local z;if y.UserInputType==Enum.UserInputType.Keyboard then z=y.KeyCode.Name elseif y.UserInputType==Enum.UserInputType.MouseButton1 then z="MouseLeft"elseif y.UserInputType==Enum.UserInputType.MouseButton2 then z="MouseRight"end;local A;A=f.InputEnded:Connect(function(B)if B.KeyCode.Name==z or z=="MouseLeft"and B.UserInputType==Enum.UserInputType.MouseButton1 or z=="MouseRight"and B.UserInputType==Enum.UserInputType.MouseButton2 then s=false;u.Text=z;r.Value=z;q:SafeCallback(r.ChangedCallback,B.KeyCode or B.UserInputType)q:SafeCallback(r.Changed,B.KeyCode or B.UserInputType)x:Disconnect()A:Disconnect()end end)end)end end)h.AddSignal(f.InputBegan,function(w)if not s and not f:GetFocusedTextBox()then if r.Mode=="Toggle"then local x=r.Value;if x=="MouseLeft"or x=="MouseRight"then if x=="MouseLeft"and w.UserInputType==Enum.UserInputType.MouseButton1 or x=="MouseRight"and w.UserInputType==Enum.UserInputType.MouseButton2 then r.Toggled=not r.Toggled;r:DoClick()end elseif w.UserInputType==Enum.UserInputType.Keyboard then if w.KeyCode.Name==x then r.Toggled=not r.Toggled;r:DoClick()end end end end end)q.Options[o]=r;return r end;return l end,[25]=function()local c,al,am,d,e=a(25)local f=al.Parent.Parent;local g=f.Components;am(f.Packages.Flipper)am(f.Creator)local h={}h.__index=h;h.__type="Paragraph"function h.New(j,k)assert(k.Title,"Paragraph - Missing Title")k.Content=k.Content or""local l=am(g.Element)(k.Title,k.Content,h.Container,false)l.Frame.BackgroundTransparency=0.92;l.Border.Transparency=0.6;return l end;return h end,[26]=function()local c,al,am,d,e=a(26)local f=game:GetService"UserInputService"local g=al.Parent.Parent;local h=am(g.Creator)local j=h.New;local k=g.Components;local l={}l.__index=l;l.__type="Slider"function l.New(n,o,p)local q=n.Library;assert(p.Title,"Slider - Missing Title.")assert(p.Default,"Slider - Missing default value.")assert(p.Min,"Slider - Missing minimum value.")assert(p.Max,"Slider - Missing maximum value.")assert(p.Rounding,"Slider - Missing rounding value.")local r={Value=nil,Min=p.Min,Max=p.Max,Rounding=p.Rounding,Callback=p.Callback or function(r)end,Type="Slider"}local s=false;local t=am(k.Element)(p.Title,p.Description,n.Container,false)t.DescLabel.Size=UDim2.new(1,-170,0,14)r.SetTitle=t.SetTitle;r.SetDesc=t.SetDesc;local u=j("ImageLabel",{AnchorPoint=Vector2.new(0,0.5),Position=UDim2.new(0,-7,0.5,0),Size=UDim2.fromOffset(14,14),Image="http://www.roblox.com/asset/?id=12266946128",ThemeTag={ImageColor3="Accent"}})local v=j("Frame",{BackgroundTransparency=1,Position=UDim2.fromOffset(7,0),Size=UDim2.new(1,-14,1,0)},{u})local w=j("Frame",{Size=UDim2.new(0,0,1,0),ThemeTag={BackgroundColor3="Accent"}},{j("UICorner",{CornerRadius=UDim.new(1,0)})})local x=j("TextLabel",{FontFace=Font.new"rbxasset://fonts/families/GothamSSm.json",Text="Value",TextSize=12,TextWrapped=true,TextXAlignment=Enum.TextXAlignment.Right,BackgroundColor3=Color3.fromRGB(255,255,255),BackgroundTransparency=1,Size=UDim2.new(0,100,0,14),Position=UDim2.new(0,-4,0.5,0),AnchorPoint=Vector2.new(1,0.5),ThemeTag={TextColor3="SubText"}})j("Frame",{Size=UDim2.new(1,0,0,4),AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-10,0.5,0),BackgroundTransparency=0.4,Parent=t.Frame,ThemeTag={BackgroundColor3="SliderRail"}},{j("UICorner",{CornerRadius=UDim.new(1,0)}),j("UISizeConstraint",{MaxSize=Vector2.new(150,math.huge)}),x,w,v})h.AddSignal(u.InputBegan,function(y)if y.UserInputType==Enum.UserInputType.MouseButton1 or y.UserInputType==Enum.UserInputType.Touch then s=true end end)h.AddSignal(u.InputEnded,function(y)if y.UserInputType==Enum.UserInputType.MouseButton1 or y.UserInputType==Enum.UserInputType.Touch then s=false end end)h.AddSignal(f.InputChanged,function(y)if s and(y.UserInputType==Enum.UserInputType.MouseMovement or y.UserInputType==Enum.UserInputType.Touch)then local z=math.clamp((y.Position.X-v.AbsolutePosition.X)/v.AbsoluteSize.X,0,1)r:SetValue(r.Min+(r.Max-r.Min)*z)end end)function r.OnChanged(y,z)r.Changed=z;z(r.Value)end;function r.SetValue(y,z)y.Value=q:Round(math.clamp(z,r.Min,r.Max),r.Rounding)u.Position=UDim2.new((y.Value-r.Min)/(r.Max-r.Min),-7,0.5,0)w.Size=UDim2.fromScale((y.Value-r.Min)/(r.Max-r.Min),1)x.Text=tostring(y.Value)q:SafeCallback(r.Callback,y.Value)q:SafeCallback(r.Changed,y.Value)end;function r.Destroy(y)t:Destroy()q.Options[o]=nil end;r:SetValue(p.Default)q.Options[o]=r;return r end;return l end,[27]=function()local c,al,am,d,e=a(27)local f=game:GetService"TweenService"local g=al.Parent.Parent;local h=am(g.Creator)local j=h.New;local k=g.Components;local l={}l.__index=l;l.__type="Toggle"function l.New(n,o,p)local q=n.Library;assert(p.Title,"Toggle - Missing Title")local r={Value=p.Default or false,Callback=p.Callback or function(r)end,Type="Toggle"}local s=am(k.Element)(p.Title,p.Description,n.Container,true)s.DescLabel.Size=UDim2.new(1,-54,0,14)r.SetTitle=s.SetTitle;r.SetDesc=s.SetDesc;local t=j("ImageLabel",{AnchorPoint=Vector2.new(0,0.5),Size=UDim2.fromOffset(14,14),Position=UDim2.new(0,2,0.5,0),Image="http://www.roblox.com/asset/?id=12266946128",ImageTransparency=0.5,ThemeTag={ImageColor3="ToggleSlider"}})local u=j("UIStroke",{Transparency=0.5,ThemeTag={Color="ToggleSlider"}})local v=j("Frame",{Size=UDim2.fromOffset(36,18),AnchorPoint=Vector2.new(1,0.5),Position=UDim2.new(1,-10,0.5,0),Parent=s.Frame,BackgroundTransparency=1,ThemeTag={BackgroundColor3="Accent"}},{j("UICorner",{CornerRadius=UDim.new(0,9)}),u,t})function r.OnChanged(w,x)r.Changed=x;x(r.Value)end;function r.SetValue(w,x)x=not not x;r.Value=x;h.OverrideTag(u,{Color=r.Value and"Accent"or"ToggleSlider"})h.OverrideTag(t,{ImageColor3=r.Value and"ToggleToggled"or"ToggleSlider"})f:Create(t,TweenInfo.new(0.25,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{Position=UDim2.new(0,r.Value and 19 or 2,0.5,0)}):Play()f:Create(v,TweenInfo.new(0.25,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{BackgroundTransparency=r.Value and 0 or 1}):Play()t.ImageTransparency=r.Value and 0 or 0.5;q:SafeCallback(r.Callback,r.Value)q:SafeCallback(r.Changed,r.Value)end;function r.Destroy(w)s:Destroy()q.Options[o]=nil end;h.AddSignal(s.Frame.MouseButton1Click,function()r:SetValue(not r.Value)end)r:SetValue(r.Value)q.Options[o]=r;return r end;return l end,[28]=function()a(28)return{assets={["lucide-accessibility"]="rbxassetid://10709751939",["lucide-activity"]="rbxassetid://10709752035",["lucide-air-vent"]="rbxassetid://10709752131",["lucide-airplay"]="rbxassetid://10709752254",["lucide-alarm-check"]="rbxassetid://10709752405",["lucide-alarm-clock"]="rbxassetid://10709752630",["lucide-alarm-clock-off"]="rbxassetid://10709752508",["lucide-alarm-minus"]="rbxassetid://10709752732",["lucide-alarm-plus"]="rbxassetid://10709752825",["lucide-album"]="rbxassetid://10709752906",["lucide-alert-circle"]="rbxassetid://10709752996",["lucide-alert-octagon"]="rbxassetid://10709753064",["lucide-alert-triangle"]="rbxassetid://10709753149",["lucide-align-center"]="rbxassetid://10709753570",["lucide-align-center-horizontal"]="rbxassetid://10709753272",["lucide-align-center-vertical"]="rbxassetid://10709753421",["lucide-align-end-horizontal"]="rbxassetid://10709753692",["lucide-align-end-vertical"]="rbxassetid://10709753808",["lucide-align-horizontal-distribute-center"]="rbxassetid://10747779791",["lucide-align-horizontal-distribute-end"]="rbxassetid://10747784534",["lucide-align-horizontal-distribute-start"]="rbxassetid://10709754118",["lucide-align-horizontal-justify-center"]="rbxassetid://10709754204",["lucide-align-horizontal-justify-end"]="rbxassetid://10709754317",["lucide-align-horizontal-justify-start"]="rbxassetid://10709754436",["lucide-align-horizontal-space-around"]="rbxassetid://10709754590",["lucide-align-horizontal-space-between"]="rbxassetid://10709754749",["lucide-align-justify"]="rbxassetid://10709759610",["lucide-align-left"]="rbxassetid://10709759764",["lucide-align-right"]="rbxassetid://10709759895",["lucide-align-start-horizontal"]="rbxassetid://10709760051",["lucide-align-start-vertical"]="rbxassetid://10709760244",["lucide-align-vertical-distribute-center"]="rbxassetid://10709760351",["lucide-align-vertical-distribute-end"]="rbxassetid://10709760434",["lucide-align-vertical-distribute-start"]="rbxassetid://10709760612",["lucide-align-vertical-justify-center"]="rbxassetid://10709760814",["lucide-align-vertical-justify-end"]="rbxassetid://10709761003",["lucide-align-vertical-justify-start"]="rbxassetid://10709761176",["lucide-align-vertical-space-around"]="rbxassetid://10709761324",["lucide-align-vertical-space-between"]="rbxassetid://10709761434",["lucide-anchor"]="rbxassetid://10709761530",["lucide-angry"]="rbxassetid://10709761629",["lucide-annoyed"]="rbxassetid://10709761722",["lucide-aperture"]="rbxassetid://10709761813",["lucide-apple"]="rbxassetid://10709761889",["lucide-archive"]="rbxassetid://10709762233",["lucide-archive-restore"]="rbxassetid://10709762058",["lucide-armchair"]="rbxassetid://10709762327",["lucide-arrow-big-down"]="rbxassetid://10747796644",["lucide-arrow-big-left"]="rbxassetid://10709762574",["lucide-arrow-big-right"]="rbxassetid://10709762727",["lucide-arrow-big-up"]="rbxassetid://10709762879",["lucide-arrow-down"]="rbxassetid://10709767827",["lucide-arrow-down-circle"]="rbxassetid://10709763034",["lucide-arrow-down-left"]="rbxassetid://10709767656",["lucide-arrow-down-right"]="rbxassetid://10709767750",["lucide-arrow-left"]="rbxassetid://10709768114",["lucide-arrow-left-circle"]="rbxassetid://10709767936",["lucide-arrow-left-right"]="rbxassetid://10709768019",["lucide-arrow-right"]="rbxassetid://10709768347",["lucide-arrow-right-circle"]="rbxassetid://10709768226",["lucide-arrow-up"]="rbxassetid://10709768939",["lucide-arrow-up-circle"]="rbxassetid://10709768432",["lucide-arrow-up-down"]="rbxassetid://10709768538",["lucide-arrow-up-left"]="rbxassetid://10709768661",["lucide-arrow-up-right"]="rbxassetid://10709768787",["lucide-asterisk"]="rbxassetid://10709769095",["lucide-at-sign"]="rbxassetid://10709769286",["lucide-award"]="rbxassetid://10709769406",["lucide-axe"]="rbxassetid://10709769508",["lucide-axis-3d"]="rbxassetid://10709769598",["lucide-baby"]="rbxassetid://10709769732",["lucide-backpack"]="rbxassetid://10709769841",["lucide-baggage-claim"]="rbxassetid://10709769935",["lucide-banana"]="rbxassetid://10709770005",["lucide-banknote"]="rbxassetid://10709770178",["lucide-bar-chart"]="rbxassetid://10709773755",["lucide-bar-chart-2"]="rbxassetid://10709770317",["lucide-bar-chart-3"]="rbxassetid://10709770431",["lucide-bar-chart-4"]="rbxassetid://10709770560",["lucide-bar-chart-horizontal"]="rbxassetid://10709773669",["lucide-barcode"]="rbxassetid://10747360675",["lucide-baseline"]="rbxassetid://10709773863",["lucide-bath"]="rbxassetid://10709773963",["lucide-battery"]="rbxassetid://10709774640",["lucide-battery-charging"]="rbxassetid://10709774068",["lucide-battery-full"]="rbxassetid://10709774206",["lucide-battery-low"]="rbxassetid://10709774370",["lucide-battery-medium"]="rbxassetid://10709774513",["lucide-beaker"]="rbxassetid://10709774756",["lucide-bed"]="rbxassetid://10709775036",["lucide-bed-double"]="rbxassetid://10709774864",["lucide-bed-single"]="rbxassetid://10709774968",["lucide-beer"]="rbxassetid://10709775167",["lucide-bell"]="rbxassetid://10709775704",["lucide-bell-minus"]="rbxassetid://10709775241",["lucide-bell-off"]="rbxassetid://10709775320",["lucide-bell-plus"]="rbxassetid://10709775448",["lucide-bell-ring"]="rbxassetid://10709775560",["lucide-bike"]="rbxassetid://10709775894",["lucide-binary"]="rbxassetid://10709776050",["lucide-bitcoin"]="rbxassetid://10709776126",["lucide-bluetooth"]="rbxassetid://10709776655",["lucide-bluetooth-connected"]="rbxassetid://10709776240",["lucide-bluetooth-off"]="rbxassetid://10709776344",["lucide-bluetooth-searching"]="rbxassetid://10709776501",["lucide-bold"]="rbxassetid://10747813908",["lucide-bomb"]="rbxassetid://10709781460",["lucide-bone"]="rbxassetid://10709781605",["lucide-book"]="rbxassetid://10709781824",["lucide-book-open"]="rbxassetid://10709781717",["lucide-bookmark"]="rbxassetid://10709782154",["lucide-bookmark-minus"]="rbxassetid://10709781919",["lucide-bookmark-plus"]="rbxassetid://10709782044",["lucide-bot"]="rbxassetid://10709782230",["lucide-box"]="rbxassetid://10709782497",["lucide-box-select"]="rbxassetid://10709782342",["lucide-boxes"]="rbxassetid://10709782582",["lucide-briefcase"]="rbxassetid://10709782662",["lucide-brush"]="rbxassetid://10709782758",["lucide-bug"]="rbxassetid://10709782845",["lucide-building"]="rbxassetid://10709783051",["lucide-building-2"]="rbxassetid://10709782939",["lucide-bus"]="rbxassetid://10709783137",["lucide-cake"]="rbxassetid://10709783217",["lucide-calculator"]="rbxassetid://10709783311",["lucide-calendar"]="rbxassetid://10709789505",["lucide-calendar-check"]="rbxassetid://10709783474",["lucide-calendar-check-2"]="rbxassetid://10709783392",["lucide-calendar-clock"]="rbxassetid://10709783577",["lucide-calendar-days"]="rbxassetid://10709783673",["lucide-calendar-heart"]="rbxassetid://10709783835",["lucide-calendar-minus"]="rbxassetid://10709783959",["lucide-calendar-off"]="rbxassetid://10709788784",["lucide-calendar-plus"]="rbxassetid://10709788937",["lucide-calendar-range"]="rbxassetid://10709789053",["lucide-calendar-search"]="rbxassetid://10709789200",["lucide-calendar-x"]="rbxassetid://10709789407",["lucide-calendar-x-2"]="rbxassetid://10709789329",["lucide-camera"]="rbxassetid://10709789686",["lucide-camera-off"]="rbxassetid://10747822677",["lucide-car"]="rbxassetid://10709789810",["lucide-carrot"]="rbxassetid://10709789960",["lucide-cast"]="rbxassetid://10709790097",["lucide-charge"]="rbxassetid://10709790202",["lucide-check"]="rbxassetid://10709790644",["lucide-check-circle"]="rbxassetid://10709790387",["lucide-check-circle-2"]="rbxassetid://10709790298",["lucide-check-square"]="rbxassetid://10709790537",["lucide-chef-hat"]="rbxassetid://10709790757",["lucide-cherry"]="rbxassetid://10709790875",["lucide-chevron-down"]="rbxassetid://10709790948",["lucide-chevron-first"]="rbxassetid://10709791015",["lucide-chevron-last"]="rbxassetid://10709791130",["lucide-chevron-left"]="rbxassetid://10709791281",["lucide-chevron-right"]="rbxassetid://10709791437",["lucide-chevron-up"]="rbxassetid://10709791523",["lucide-chevrons-down"]="rbxassetid://10709796864",["lucide-chevrons-down-up"]="rbxassetid://10709791632",["lucide-chevrons-left"]="rbxassetid://10709797151",["lucide-chevrons-left-right"]="rbxassetid://10709797006",["lucide-chevrons-right"]="rbxassetid://10709797382",["lucide-chevrons-right-left"]="rbxassetid://10709797274",["lucide-chevrons-up"]="rbxassetid://10709797622",["lucide-chevrons-up-down"]="rbxassetid://10709797508",["lucide-chrome"]="rbxassetid://10709797725",["lucide-circle"]="rbxassetid://10709798174",["lucide-circle-dot"]="rbxassetid://10709797837",["lucide-circle-ellipsis"]="rbxassetid://10709797985",["lucide-circle-slashed"]="rbxassetid://10709798100",["lucide-citrus"]="rbxassetid://10709798276",["lucide-clapperboard"]="rbxassetid://10709798350",["lucide-clipboard"]="rbxassetid://10709799288",["lucide-clipboard-check"]="rbxassetid://10709798443",["lucide-clipboard-copy"]="rbxassetid://10709798574",["lucide-clipboard-edit"]="rbxassetid://10709798682",["lucide-clipboard-list"]="rbxassetid://10709798792",["lucide-clipboard-signature"]="rbxassetid://10709798890",["lucide-clipboard-type"]="rbxassetid://10709798999",["lucide-clipboard-x"]="rbxassetid://10709799124",["lucide-clock"]="rbxassetid://10709805144",["lucide-clock-1"]="rbxassetid://10709799535",["lucide-clock-10"]="rbxassetid://10709799718",["lucide-clock-11"]="rbxassetid://10709799818",["lucide-clock-12"]="rbxassetid://10709799962",["lucide-clock-2"]="rbxassetid://10709803876",["lucide-clock-3"]="rbxassetid://10709803989",["lucide-clock-4"]="rbxassetid://10709804164",["lucide-clock-5"]="rbxassetid://10709804291",["lucide-clock-6"]="rbxassetid://10709804435",["lucide-clock-7"]="rbxassetid://10709804599",["lucide-clock-8"]="rbxassetid://10709804784",["lucide-clock-9"]="rbxassetid://10709804996",["lucide-cloud"]="rbxassetid://10709806740",["lucide-cloud-cog"]="rbxassetid://10709805262",["lucide-cloud-drizzle"]="rbxassetid://10709805371",["lucide-cloud-fog"]="rbxassetid://10709805477",["lucide-cloud-hail"]="rbxassetid://10709805596",["lucide-cloud-lightning"]="rbxassetid://10709805727",["lucide-cloud-moon"]="rbxassetid://10709805942",["lucide-cloud-moon-rain"]="rbxassetid://10709805838",["lucide-cloud-off"]="rbxassetid://10709806060",["lucide-cloud-rain"]="rbxassetid://10709806277",["lucide-cloud-rain-wind"]="rbxassetid://10709806166",["lucide-cloud-snow"]="rbxassetid://10709806374",["lucide-cloud-sun"]="rbxassetid://10709806631",["lucide-cloud-sun-rain"]="rbxassetid://10709806475",["lucide-cloudy"]="rbxassetid://10709806859",["lucide-clover"]="rbxassetid://10709806995",["lucide-code"]="rbxassetid://10709810463",["lucide-code-2"]="rbxassetid://10709807111",["lucide-codepen"]="rbxassetid://10709810534",["lucide-codesandbox"]="rbxassetid://10709810676",["lucide-coffee"]="rbxassetid://10709810814",["lucide-cog"]="rbxassetid://10709810948",["lucide-coins"]="rbxassetid://10709811110",["lucide-columns"]="rbxassetid://10709811261",["lucide-command"]="rbxassetid://10709811365",["lucide-compass"]="rbxassetid://10709811445",["lucide-component"]="rbxassetid://10709811595",["lucide-concierge-bell"]="rbxassetid://10709811706",["lucide-connection"]="rbxassetid://10747361219",["lucide-contact"]="rbxassetid://10709811834",["lucide-contrast"]="rbxassetid://10709811939",["lucide-cookie"]="rbxassetid://10709812067",["lucide-copy"]="rbxassetid://10709812159",["lucide-copyleft"]="rbxassetid://10709812251",["lucide-copyright"]="rbxassetid://10709812311",["lucide-corner-down-left"]="rbxassetid://10709812396",["lucide-corner-down-right"]="rbxassetid://10709812485",["lucide-corner-left-down"]="rbxassetid://10709812632",["lucide-corner-left-up"]="rbxassetid://10709812784",["lucide-corner-right-down"]="rbxassetid://10709812939",["lucide-corner-right-up"]="rbxassetid://10709813094",["lucide-corner-up-left"]="rbxassetid://10709813185",["lucide-corner-up-right"]="rbxassetid://10709813281",["lucide-cpu"]="rbxassetid://10709813383",["lucide-croissant"]="rbxassetid://10709818125",["lucide-crop"]="rbxassetid://10709818245",["lucide-cross"]="rbxassetid://10709818399",["lucide-crosshair"]="rbxassetid://10709818534",["lucide-crown"]="rbxassetid://10709818626",["lucide-cup-soda"]="rbxassetid://10709818763",["lucide-curly-braces"]="rbxassetid://10709818847",["lucide-currency"]="rbxassetid://10709818931",["lucide-database"]="rbxassetid://10709818996",["lucide-delete"]="rbxassetid://10709819059",["lucide-diamond"]="rbxassetid://10709819149",["lucide-dice-1"]="rbxassetid://10709819266",["lucide-dice-2"]="rbxassetid://10709819361",["lucide-dice-3"]="rbxassetid://10709819508",["lucide-dice-4"]="rbxassetid://10709819670",["lucide-dice-5"]="rbxassetid://10709819801",["lucide-dice-6"]="rbxassetid://10709819896",["lucide-dices"]="rbxassetid://10723343321",["lucide-diff"]="rbxassetid://10723343416",["lucide-disc"]="rbxassetid://10723343537",["lucide-divide"]="rbxassetid://10723343805",["lucide-divide-circle"]="rbxassetid://10723343636",["lucide-divide-square"]="rbxassetid://10723343737",["lucide-dollar-sign"]="rbxassetid://10723343958",["lucide-download"]="rbxassetid://10723344270",["lucide-download-cloud"]="rbxassetid://10723344088",["lucide-droplet"]="rbxassetid://10723344432",["lucide-droplets"]="rbxassetid://10734883356",["lucide-drumstick"]="rbxassetid://10723344737",["lucide-edit"]="rbxassetid://10734883598",["lucide-edit-2"]="rbxassetid://10723344885",["lucide-edit-3"]="rbxassetid://10723345088",["lucide-egg"]="rbxassetid://10723345518",["lucide-egg-fried"]="rbxassetid://10723345347",["lucide-electricity"]="rbxassetid://10723345749",["lucide-electricity-off"]="rbxassetid://10723345643",["lucide-equal"]="rbxassetid://10723345990",["lucide-equal-not"]="rbxassetid://10723345866",["lucide-eraser"]="rbxassetid://10723346158",["lucide-euro"]="rbxassetid://10723346372",["lucide-expand"]="rbxassetid://10723346553",["lucide-external-link"]="rbxassetid://10723346684",["lucide-eye"]="rbxassetid://10723346959",["lucide-eye-off"]="rbxassetid://10723346871",["lucide-factory"]="rbxassetid://10723347051",["lucide-fan"]="rbxassetid://10723354359",["lucide-fast-forward"]="rbxassetid://10723354521",["lucide-feather"]="rbxassetid://10723354671",["lucide-figma"]="rbxassetid://10723354801",["lucide-file"]="rbxassetid://10723374641",["lucide-file-archive"]="rbxassetid://10723354921",["lucide-file-audio"]="rbxassetid://10723355148",["lucide-file-audio-2"]="rbxassetid://10723355026",["lucide-file-axis-3d"]="rbxassetid://10723355272",["lucide-file-badge"]="rbxassetid://10723355622",["lucide-file-badge-2"]="rbxassetid://10723355451",["lucide-file-bar-chart"]="rbxassetid://10723355887",["lucide-file-bar-chart-2"]="rbxassetid://10723355746",["lucide-file-box"]="rbxassetid://10723355989",["lucide-file-check"]="rbxassetid://10723356210",["lucide-file-check-2"]="rbxassetid://10723356100",["lucide-file-clock"]="rbxassetid://10723356329",["lucide-file-code"]="rbxassetid://10723356507",["lucide-file-cog"]="rbxassetid://10723356830",["lucide-file-cog-2"]="rbxassetid://10723356676",["lucide-file-diff"]="rbxassetid://10723357039",["lucide-file-digit"]="rbxassetid://10723357151",["lucide-file-down"]="rbxassetid://10723357322",["lucide-file-edit"]="rbxassetid://10723357495",["lucide-file-heart"]="rbxassetid://10723357637",["lucide-file-image"]="rbxassetid://10723357790",["lucide-file-input"]="rbxassetid://10723357933",["lucide-file-json"]="rbxassetid://10723364435",["lucide-file-json-2"]="rbxassetid://10723364361",["lucide-file-key"]="rbxassetid://10723364605",["lucide-file-key-2"]="rbxassetid://10723364515",["lucide-file-line-chart"]="rbxassetid://10723364725",["lucide-file-lock"]="rbxassetid://10723364957",["lucide-file-lock-2"]="rbxassetid://10723364861",["lucide-file-minus"]="rbxassetid://10723365254",["lucide-file-minus-2"]="rbxassetid://10723365086",["lucide-file-output"]="rbxassetid://10723365457",["lucide-file-pie-chart"]="rbxassetid://10723365598",["lucide-file-plus"]="rbxassetid://10723365877",["lucide-file-plus-2"]="rbxassetid://10723365766",["lucide-file-question"]="rbxassetid://10723365987",["lucide-file-scan"]="rbxassetid://10723366167",["lucide-file-search"]="rbxassetid://10723366550",["lucide-file-search-2"]="rbxassetid://10723366340",["lucide-file-signature"]="rbxassetid://10723366741",["lucide-file-spreadsheet"]="rbxassetid://10723366962",["lucide-file-symlink"]="rbxassetid://10723367098",["lucide-file-terminal"]="rbxassetid://10723367244",["lucide-file-text"]="rbxassetid://10723367380",["lucide-file-type"]="rbxassetid://10723367606",["lucide-file-type-2"]="rbxassetid://10723367509",["lucide-file-up"]="rbxassetid://10723367734",["lucide-file-video"]="rbxassetid://10723373884",["lucide-file-video-2"]="rbxassetid://10723367834",["lucide-file-volume"]="rbxassetid://10723374172",["lucide-file-volume-2"]="rbxassetid://10723374030",["lucide-file-warning"]="rbxassetid://10723374276",["lucide-file-x"]="rbxassetid://10723374544",["lucide-file-x-2"]="rbxassetid://10723374378",["lucide-files"]="rbxassetid://10723374759",["lucide-film"]="rbxassetid://10723374981",["lucide-filter"]="rbxassetid://10723375128",["lucide-fingerprint"]="rbxassetid://10723375250",["lucide-flag"]="rbxassetid://10723375890",["lucide-flag-off"]="rbxassetid://10723375443",["lucide-flag-triangle-left"]="rbxassetid://10723375608",["lucide-flag-triangle-right"]="rbxassetid://10723375727",["lucide-flame"]="rbxassetid://10723376114",["lucide-flashlight"]="rbxassetid://10723376471",["lucide-flashlight-off"]="rbxassetid://10723376365",["lucide-flask-conical"]="rbxassetid://10734883986",["lucide-flask-round"]="rbxassetid://10723376614",["lucide-flip-horizontal"]="rbxassetid://10723376884",["lucide-flip-horizontal-2"]="rbxassetid://10723376745",["lucide-flip-vertical"]="rbxassetid://10723377138",["lucide-flip-vertical-2"]="rbxassetid://10723377026",["lucide-flower"]="rbxassetid://10747830374",["lucide-flower-2"]="rbxassetid://10723377305",["lucide-focus"]="rbxassetid://10723377537",["lucide-folder"]="rbxassetid://10723387563",["lucide-folder-archive"]="rbxassetid://10723384478",["lucide-folder-check"]="rbxassetid://10723384605",["lucide-folder-clock"]="rbxassetid://10723384731",["lucide-folder-closed"]="rbxassetid://10723384893",["lucide-folder-cog"]="rbxassetid://10723385213",["lucide-folder-cog-2"]="rbxassetid://10723385036",["lucide-folder-down"]="rbxassetid://10723385338",["lucide-folder-edit"]="rbxassetid://10723385445",["lucide-folder-heart"]="rbxassetid://10723385545",["lucide-folder-input"]="rbxassetid://10723385721",["lucide-folder-key"]="rbxassetid://10723385848",["lucide-folder-lock"]="rbxassetid://10723386005",["lucide-folder-minus"]="rbxassetid://10723386127",["lucide-folder-open"]="rbxassetid://10723386277",["lucide-folder-output"]="rbxassetid://10723386386",["lucide-folder-plus"]="rbxassetid://10723386531",["lucide-folder-search"]="rbxassetid://10723386787",["lucide-folder-search-2"]="rbxassetid://10723386674",["lucide-folder-symlink"]="rbxassetid://10723386930",["lucide-folder-tree"]="rbxassetid://10723387085",["lucide-folder-up"]="rbxassetid://10723387265",["lucide-folder-x"]="rbxassetid://10723387448",["lucide-folders"]="rbxassetid://10723387721",["lucide-form-input"]="rbxassetid://10723387841",["lucide-forward"]="rbxassetid://10723388016",["lucide-frame"]="rbxassetid://10723394389",["lucide-framer"]="rbxassetid://10723394565",["lucide-frown"]="rbxassetid://10723394681",["lucide-fuel"]="rbxassetid://10723394846",["lucide-function-square"]="rbxassetid://10723395041",["lucide-gamepad"]="rbxassetid://10723395457",["lucide-gamepad-2"]="rbxassetid://10723395215",["lucide-gauge"]="rbxassetid://10723395708",["lucide-gavel"]="rbxassetid://10723395896",["lucide-gem"]="rbxassetid://10723396000",["lucide-ghost"]="rbxassetid://10723396107",["lucide-gift"]="rbxassetid://10723396402",["lucide-gift-card"]="rbxassetid://10723396225",["lucide-git-branch"]="rbxassetid://10723396676",["lucide-git-branch-plus"]="rbxassetid://10723396542",["lucide-git-commit"]="rbxassetid://10723396812",["lucide-git-compare"]="rbxassetid://10723396954",["lucide-git-fork"]="rbxassetid://10723397049",["lucide-git-merge"]="rbxassetid://10723397165",["lucide-git-pull-request"]="rbxassetid://10723397431",["lucide-git-pull-request-closed"]="rbxassetid://10723397268",["lucide-git-pull-request-draft"]="rbxassetid://10734884302",["lucide-glass"]="rbxassetid://10723397788",["lucide-glass-2"]="rbxassetid://10723397529",["lucide-glass-water"]="rbxassetid://10723397678",["lucide-glasses"]="rbxassetid://10723397895",["lucide-globe"]="rbxassetid://10723404337",["lucide-globe-2"]="rbxassetid://10723398002",["lucide-grab"]="rbxassetid://10723404472",["lucide-graduation-cap"]="rbxassetid://10723404691",["lucide-grape"]="rbxassetid://10723404822",["lucide-grid"]="rbxassetid://10723404936",["lucide-grip-horizontal"]="rbxassetid://10723405089",["lucide-grip-vertical"]="rbxassetid://10723405236",["lucide-hammer"]="rbxassetid://10723405360",["lucide-hand"]="rbxassetid://10723405649",["lucide-hand-metal"]="rbxassetid://10723405508",["lucide-hard-drive"]="rbxassetid://10723405749",["lucide-hard-hat"]="rbxassetid://10723405859",["lucide-hash"]="rbxassetid://10723405975",["lucide-haze"]="rbxassetid://10723406078",["lucide-headphones"]="rbxassetid://10723406165",["lucide-heart"]="rbxassetid://10723406885",["lucide-heart-crack"]="rbxassetid://10723406299",["lucide-heart-handshake"]="rbxassetid://10723406480",["lucide-heart-off"]="rbxassetid://10723406662",["lucide-heart-pulse"]="rbxassetid://10723406795",["lucide-help-circle"]="rbxassetid://10723406988",["lucide-hexagon"]="rbxassetid://10723407092",["lucide-highlighter"]="rbxassetid://10723407192",["lucide-history"]="rbxassetid://10723407335",["lucide-home"]="rbxassetid://10723407389",["lucide-hourglass"]="rbxassetid://10723407498",["lucide-ice-cream"]="rbxassetid://10723414308",["lucide-image"]="rbxassetid://10723415040",["lucide-image-minus"]="rbxassetid://10723414487",["lucide-image-off"]="rbxassetid://10723414677",["lucide-image-plus"]="rbxassetid://10723414827",["lucide-import"]="rbxassetid://10723415205",["lucide-inbox"]="rbxassetid://10723415335",["lucide-indent"]="rbxassetid://10723415494",["lucide-indian-rupee"]="rbxassetid://10723415642",["lucide-infinity"]="rbxassetid://10723415766",["lucide-info"]="rbxassetid://10723415903",["lucide-inspect"]="rbxassetid://10723416057",["lucide-italic"]="rbxassetid://10723416195",["lucide-japanese-yen"]="rbxassetid://10723416363",["lucide-joystick"]="rbxassetid://10723416527",["lucide-key"]="rbxassetid://10723416652",["lucide-keyboard"]="rbxassetid://10723416765",["lucide-lamp"]="rbxassetid://10723417513",["lucide-lamp-ceiling"]="rbxassetid://10723416922",["lucide-lamp-desk"]="rbxassetid://10723417016",["lucide-lamp-floor"]="rbxassetid://10723417131",["lucide-lamp-wall-down"]="rbxassetid://10723417240",["lucide-lamp-wall-up"]="rbxassetid://10723417356",["lucide-landmark"]="rbxassetid://10723417608",["lucide-languages"]="rbxassetid://10723417703",["lucide-laptop"]="rbxassetid://10723423881",["lucide-laptop-2"]="rbxassetid://10723417797",["lucide-lasso"]="rbxassetid://10723424235",["lucide-lasso-select"]="rbxassetid://10723424058",["lucide-laugh"]="rbxassetid://10723424372",["lucide-layers"]="rbxassetid://10723424505",["lucide-layout"]="rbxassetid://10723425376",["lucide-layout-dashboard"]="rbxassetid://10723424646",["lucide-layout-grid"]="rbxassetid://10723424838",["lucide-layout-list"]="rbxassetid://10723424963",["lucide-layout-template"]="rbxassetid://10723425187",["lucide-leaf"]="rbxassetid://10723425539",["lucide-library"]="rbxassetid://10723425615",["lucide-life-buoy"]="rbxassetid://10723425685",["lucide-lightbulb"]="rbxassetid://10723425852",["lucide-lightbulb-off"]="rbxassetid://10723425762",["lucide-line-chart"]="rbxassetid://10723426393",["lucide-link"]="rbxassetid://10723426722",["lucide-link-2"]="rbxassetid://10723426595",["lucide-link-2-off"]="rbxassetid://10723426513",["lucide-list"]="rbxassetid://10723433811",["lucide-list-checks"]="rbxassetid://10734884548",["lucide-list-end"]="rbxassetid://10723426886",["lucide-list-minus"]="rbxassetid://10723426986",["lucide-list-music"]="rbxassetid://10723427081",["lucide-list-ordered"]="rbxassetid://10723427199",["lucide-list-plus"]="rbxassetid://10723427334",["lucide-list-start"]="rbxassetid://10723427494",["lucide-list-video"]="rbxassetid://10723427619",["lucide-list-x"]="rbxassetid://10723433655",["lucide-loader"]="rbxassetid://10723434070",["lucide-loader-2"]="rbxassetid://10723433935",["lucide-locate"]="rbxassetid://10723434557",["lucide-locate-fixed"]="rbxassetid://10723434236",["lucide-locate-off"]="rbxassetid://10723434379",["lucide-lock"]="rbxassetid://10723434711",["lucide-log-in"]="rbxassetid://10723434830",["lucide-log-out"]="rbxassetid://10723434906",["lucide-luggage"]="rbxassetid://10723434993",["lucide-magnet"]="rbxassetid://10723435069",["lucide-mail"]="rbxassetid://10734885430",["lucide-mail-check"]="rbxassetid://10723435182",["lucide-mail-minus"]="rbxassetid://10723435261",["lucide-mail-open"]="rbxassetid://10723435342",["lucide-mail-plus"]="rbxassetid://10723435443",["lucide-mail-question"]="rbxassetid://10723435515",["lucide-mail-search"]="rbxassetid://10734884739",["lucide-mail-warning"]="rbxassetid://10734885015",["lucide-mail-x"]="rbxassetid://10734885247",["lucide-mails"]="rbxassetid://10734885614",["lucide-map"]="rbxassetid://10734886202",["lucide-map-pin"]="rbxassetid://10734886004",["lucide-map-pin-off"]="rbxassetid://10734885803",["lucide-maximize"]="rbxassetid://10734886735",["lucide-maximize-2"]="rbxassetid://10734886496",["lucide-medal"]="rbxassetid://10734887072",["lucide-megaphone"]="rbxassetid://10734887454",["lucide-megaphone-off"]="rbxassetid://10734887311",["lucide-meh"]="rbxassetid://10734887603",["lucide-menu"]="rbxassetid://10734887784",["lucide-message-circle"]="rbxassetid://10734888000",["lucide-message-square"]="rbxassetid://10734888228",["lucide-mic"]="rbxassetid://10734888864",["lucide-mic-2"]="rbxassetid://10734888430",["lucide-mic-off"]="rbxassetid://10734888646",["lucide-microscope"]="rbxassetid://10734889106",["lucide-microwave"]="rbxassetid://10734895076",["lucide-milestone"]="rbxassetid://10734895310",["lucide-minimize"]="rbxassetid://10734895698",["lucide-minimize-2"]="rbxassetid://10734895530",["lucide-minus"]="rbxassetid://10734896206",["lucide-minus-circle"]="rbxassetid://10734895856",["lucide-minus-square"]="rbxassetid://10734896029",["lucide-monitor"]="rbxassetid://10734896881",["lucide-monitor-off"]="rbxassetid://10734896360",["lucide-monitor-speaker"]="rbxassetid://10734896512",["lucide-moon"]="rbxassetid://10734897102",["lucide-more-horizontal"]="rbxassetid://10734897250",["lucide-more-vertical"]="rbxassetid://10734897387",["lucide-mountain"]="rbxassetid://10734897956",["lucide-mountain-snow"]="rbxassetid://10734897665",["lucide-mouse"]="rbxassetid://10734898592",["lucide-mouse-pointer"]="rbxassetid://10734898476",["lucide-mouse-pointer-2"]="rbxassetid://10734898194",["lucide-mouse-pointer-click"]="rbxassetid://10734898355",["lucide-move"]="rbxassetid://10734900011",["lucide-move-3d"]="rbxassetid://10734898756",["lucide-move-diagonal"]="rbxassetid://10734899164",["lucide-move-diagonal-2"]="rbxassetid://10734898934",["lucide-move-horizontal"]="rbxassetid://10734899414",["lucide-move-vertical"]="rbxassetid://10734899821",["lucide-music"]="rbxassetid://10734905958",["lucide-music-2"]="rbxassetid://10734900215",["lucide-music-3"]="rbxassetid://10734905665",["lucide-music-4"]="rbxassetid://10734905823",["lucide-navigation"]="rbxassetid://10734906744",["lucide-navigation-2"]="rbxassetid://10734906332",["lucide-navigation-2-off"]="rbxassetid://10734906144",["lucide-navigation-off"]="rbxassetid://10734906580",["lucide-network"]="rbxassetid://10734906975",["lucide-newspaper"]="rbxassetid://10734907168",["lucide-octagon"]="rbxassetid://10734907361",["lucide-option"]="rbxassetid://10734907649",["lucide-outdent"]="rbxassetid://10734907933",["lucide-package"]="rbxassetid://10734909540",["lucide-package-2"]="rbxassetid://10734908151",["lucide-package-check"]="rbxassetid://10734908384",["lucide-package-minus"]="rbxassetid://10734908626",["lucide-package-open"]="rbxassetid://10734908793",["lucide-package-plus"]="rbxassetid://10734909016",["lucide-package-search"]="rbxassetid://10734909196",["lucide-package-x"]="rbxassetid://10734909375",["lucide-paint-bucket"]="rbxassetid://10734909847",["lucide-paintbrush"]="rbxassetid://10734910187",["lucide-paintbrush-2"]="rbxassetid://10734910030",["lucide-palette"]="rbxassetid://10734910430",["lucide-palmtree"]="rbxassetid://10734910680",["lucide-paperclip"]="rbxassetid://10734910927",["lucide-party-popper"]="rbxassetid://10734918735",["lucide-pause"]="rbxassetid://10734919336",["lucide-pause-circle"]="rbxassetid://10735024209",["lucide-pause-octagon"]="rbxassetid://10734919143",["lucide-pen-tool"]="rbxassetid://10734919503",["lucide-pencil"]="rbxassetid://10734919691",["lucide-percent"]="rbxassetid://10734919919",["lucide-person-standing"]="rbxassetid://10734920149",["lucide-phone"]="rbxassetid://10734921524",["lucide-phone-call"]="rbxassetid://10734920305",["lucide-phone-forwarded"]="rbxassetid://10734920508",["lucide-phone-incoming"]="rbxassetid://10734920694",["lucide-phone-missed"]="rbxassetid://10734920845",["lucide-phone-off"]="rbxassetid://10734921077",["lucide-phone-outgoing"]="rbxassetid://10734921288",["lucide-pie-chart"]="rbxassetid://10734921727",["lucide-piggy-bank"]="rbxassetid://10734921935",["lucide-pin"]="rbxassetid://10734922324",["lucide-pin-off"]="rbxassetid://10734922180",["lucide-pipette"]="rbxassetid://10734922497",["lucide-pizza"]="rbxassetid://10734922774",["lucide-plane"]="rbxassetid://10734922971",["lucide-play"]="rbxassetid://10734923549",["lucide-play-circle"]="rbxassetid://10734923214",["lucide-plus"]="rbxassetid://10734924532",["lucide-plus-circle"]="rbxassetid://10734923868",["lucide-plus-square"]="rbxassetid://10734924219",["lucide-podcast"]="rbxassetid://10734929553",["lucide-pointer"]="rbxassetid://10734929723",["lucide-pound-sterling"]="rbxassetid://10734929981",["lucide-power"]="rbxassetid://10734930466",["lucide-power-off"]="rbxassetid://10734930257",["lucide-printer"]="rbxassetid://10734930632",["lucide-puzzle"]="rbxassetid://10734930886",["lucide-quote"]="rbxassetid://10734931234",["lucide-radio"]="rbxassetid://10734931596",["lucide-radio-receiver"]="rbxassetid://10734931402",["lucide-rectangle-horizontal"]="rbxassetid://10734931777",["lucide-rectangle-vertical"]="rbxassetid://10734932081",["lucide-recycle"]="rbxassetid://10734932295",["lucide-redo"]="rbxassetid://10734932822",["lucide-redo-2"]="rbxassetid://10734932586",["lucide-refresh-ccw"]="rbxassetid://10734933056",["lucide-refresh-cw"]="rbxassetid://10734933222",["lucide-refrigerator"]="rbxassetid://10734933465",["lucide-regex"]="rbxassetid://10734933655",["lucide-repeat"]="rbxassetid://10734933966",["lucide-repeat-1"]="rbxassetid://10734933826",["lucide-reply"]="rbxassetid://10734934252",["lucide-reply-all"]="rbxassetid://10734934132",["lucide-rewind"]="rbxassetid://10734934347",["lucide-rocket"]="rbxassetid://10734934585",["lucide-rocking-chair"]="rbxassetid://10734939942",["lucide-rotate-3d"]="rbxassetid://10734940107",["lucide-rotate-ccw"]="rbxassetid://10734940376",["lucide-rotate-cw"]="rbxassetid://10734940654",["lucide-rss"]="rbxassetid://10734940825",["lucide-ruler"]="rbxassetid://10734941018",["lucide-russian-ruble"]="rbxassetid://10734941199",["lucide-sailboat"]="rbxassetid://10734941354",["lucide-save"]="rbxassetid://10734941499",["lucide-scale"]="rbxassetid://10734941912",["lucide-scale-3d"]="rbxassetid://10734941739",["lucide-scaling"]="rbxassetid://10734942072",["lucide-scan"]="rbxassetid://10734942565",["lucide-scan-face"]="rbxassetid://10734942198",["lucide-scan-line"]="rbxassetid://10734942351",["lucide-scissors"]="rbxassetid://10734942778",["lucide-screen-share"]="rbxassetid://10734943193",["lucide-screen-share-off"]="rbxassetid://10734942967",["lucide-scroll"]="rbxassetid://10734943448",["lucide-search"]="rbxassetid://10734943674",["lucide-send"]="rbxassetid://10734943902",["lucide-separator-horizontal"]="rbxassetid://10734944115",["lucide-separator-vertical"]="rbxassetid://10734944326",["lucide-server"]="rbxassetid://10734949856",["lucide-server-cog"]="rbxassetid://10734944444",["lucide-server-crash"]="rbxassetid://10734944554",["lucide-server-off"]="rbxassetid://10734944668",["lucide-settings"]="rbxassetid://10734950309",["lucide-settings-2"]="rbxassetid://10734950020",["lucide-share"]="rbxassetid://10734950813",["lucide-share-2"]="rbxassetid://10734950553",["lucide-sheet"]="rbxassetid://10734951038",["lucide-shield"]="rbxassetid://10734951847",["lucide-shield-alert"]="rbxassetid://10734951173",["lucide-shield-check"]="rbxassetid://10734951367",["lucide-shield-close"]="rbxassetid://10734951535",["lucide-shield-off"]="rbxassetid://10734951684",["lucide-shirt"]="rbxassetid://10734952036",["lucide-shopping-bag"]="rbxassetid://10734952273",["lucide-shopping-cart"]="rbxassetid://10734952479",["lucide-shovel"]="rbxassetid://10734952773",["lucide-shower-head"]="rbxassetid://10734952942",["lucide-shrink"]="rbxassetid://10734953073",["lucide-shrub"]="rbxassetid://10734953241",["lucide-shuffle"]="rbxassetid://10734953451",["lucide-sidebar"]="rbxassetid://10734954301",["lucide-sidebar-close"]="rbxassetid://10734953715",["lucide-sidebar-open"]="rbxassetid://10734954000",["lucide-sigma"]="rbxassetid://10734954538",["lucide-signal"]="rbxassetid://10734961133",["lucide-signal-high"]="rbxassetid://10734954807",["lucide-signal-low"]="rbxassetid://10734955080",["lucide-signal-medium"]="rbxassetid://10734955336",["lucide-signal-zero"]="rbxassetid://10734960878",["lucide-siren"]="rbxassetid://10734961284",["lucide-skip-back"]="rbxassetid://10734961526",["lucide-skip-forward"]="rbxassetid://10734961809",["lucide-skull"]="rbxassetid://10734962068",["lucide-slack"]="rbxassetid://10734962339",["lucide-slash"]="rbxassetid://10734962600",["lucide-slice"]="rbxassetid://10734963024",["lucide-sliders"]="rbxassetid://10734963400",["lucide-sliders-horizontal"]="rbxassetid://10734963191",["lucide-smartphone"]="rbxassetid://10734963940",["lucide-smartphone-charging"]="rbxassetid://10734963671",["lucide-smile"]="rbxassetid://10734964441",["lucide-smile-plus"]="rbxassetid://10734964188",["lucide-snowflake"]="rbxassetid://10734964600",["lucide-sofa"]="rbxassetid://10734964852",["lucide-sort-asc"]="rbxassetid://10734965115",["lucide-sort-desc"]="rbxassetid://10734965287",["lucide-speaker"]="rbxassetid://10734965419",["lucide-sprout"]="rbxassetid://10734965572",["lucide-square"]="rbxassetid://10734965702",["lucide-star"]="rbxassetid://10734966248",["lucide-star-half"]="rbxassetid://10734965897",["lucide-star-off"]="rbxassetid://10734966097",["lucide-stethoscope"]="rbxassetid://10734966384",["lucide-sticker"]="rbxassetid://10734972234",["lucide-sticky-note"]="rbxassetid://10734972463",["lucide-stop-circle"]="rbxassetid://10734972621",["lucide-stretch-horizontal"]="rbxassetid://10734972862",["lucide-stretch-vertical"]="rbxassetid://10734973130",["lucide-strikethrough"]="rbxassetid://10734973290",["lucide-subscript"]="rbxassetid://10734973457",["lucide-sun"]="rbxassetid://10734974297",["lucide-sun-dim"]="rbxassetid://10734973645",["lucide-sun-medium"]="rbxassetid://10734973778",["lucide-sun-moon"]="rbxassetid://10734973999",["lucide-sun-snow"]="rbxassetid://10734974130",["lucide-sunrise"]="rbxassetid://10734974522",["lucide-sunset"]="rbxassetid://10734974689",["lucide-superscript"]="rbxassetid://10734974850",["lucide-swiss-franc"]="rbxassetid://10734975024",["lucide-switch-camera"]="rbxassetid://10734975214",["lucide-sword"]="rbxassetid://10734975486",["lucide-swords"]="rbxassetid://10734975692",["lucide-syringe"]="rbxassetid://10734975932",["lucide-table"]="rbxassetid://10734976230",["lucide-table-2"]="rbxassetid://10734976097",["lucide-tablet"]="rbxassetid://10734976394",["lucide-tag"]="rbxassetid://10734976528",["lucide-tags"]="rbxassetid://10734976739",["lucide-target"]="rbxassetid://10734977012",["lucide-tent"]="rbxassetid://10734981750",["lucide-terminal"]="rbxassetid://10734982144",["lucide-terminal-square"]="rbxassetid://10734981995",["lucide-text-cursor"]="rbxassetid://10734982395",["lucide-text-cursor-input"]="rbxassetid://10734982297",["lucide-thermometer"]="rbxassetid://10734983134",["lucide-thermometer-snowflake"]="rbxassetid://10734982571",["lucide-thermometer-sun"]="rbxassetid://10734982771",["lucide-thumbs-down"]="rbxassetid://10734983359",["lucide-thumbs-up"]="rbxassetid://10734983629",["lucide-ticket"]="rbxassetid://10734983868",["lucide-timer"]="rbxassetid://10734984606",["lucide-timer-off"]="rbxassetid://10734984138",["lucide-timer-reset"]="rbxassetid://10734984355",["lucide-toggle-left"]="rbxassetid://10734984834",["lucide-toggle-right"]="rbxassetid://10734985040",["lucide-tornado"]="rbxassetid://10734985247",["lucide-toy-brick"]="rbxassetid://10747361919",["lucide-train"]="rbxassetid://10747362105",["lucide-trash"]="rbxassetid://10747362393",["lucide-trash-2"]="rbxassetid://10747362241",["lucide-tree-deciduous"]="rbxassetid://10747362534",["lucide-tree-pine"]="rbxassetid://10747362748",["lucide-trees"]="rbxassetid://10747363016",["lucide-trending-down"]="rbxassetid://10747363205",["lucide-trending-up"]="rbxassetid://10747363465",["lucide-triangle"]="rbxassetid://10747363621",["lucide-trophy"]="rbxassetid://10747363809",["lucide-truck"]="rbxassetid://10747364031",["lucide-tv"]="rbxassetid://10747364593",["lucide-tv-2"]="rbxassetid://10747364302",["lucide-type"]="rbxassetid://10747364761",["lucide-umbrella"]="rbxassetid://10747364971",["lucide-underline"]="rbxassetid://10747365191",["lucide-undo"]="rbxassetid://10747365484",["lucide-undo-2"]="rbxassetid://10747365359",["lucide-unlink"]="rbxassetid://10747365771",["lucide-unlink-2"]="rbxassetid://10747397871",["lucide-unlock"]="rbxassetid://10747366027",["lucide-upload"]="rbxassetid://10747366434",["lucide-upload-cloud"]="rbxassetid://10747366266",["lucide-usb"]="rbxassetid://10747366606",["lucide-user"]="rbxassetid://10747373176",["lucide-user-check"]="rbxassetid://10747371901",["lucide-user-cog"]="rbxassetid://10747372167",["lucide-user-minus"]="rbxassetid://10747372346",["lucide-user-plus"]="rbxassetid://10747372702",["lucide-user-x"]="rbxassetid://10747372992",["lucide-users"]="rbxassetid://10747373426",["lucide-utensils"]="rbxassetid://10747373821",["lucide-utensils-crossed"]="rbxassetid://10747373629",["lucide-venetian-mask"]="rbxassetid://10747374003",["lucide-verified"]="rbxassetid://10747374131",["lucide-vibrate"]="rbxassetid://10747374489",["lucide-vibrate-off"]="rbxassetid://10747374269",["lucide-video"]="rbxassetid://10747374938",["lucide-video-off"]="rbxassetid://10747374721",["lucide-view"]="rbxassetid://10747375132",["lucide-voicemail"]="rbxassetid://10747375281",["lucide-volume"]="rbxassetid://10747376008",["lucide-volume-1"]="rbxassetid://10747375450",["lucide-volume-2"]="rbxassetid://10747375679",["lucide-volume-x"]="rbxassetid://10747375880",["lucide-wallet"]="rbxassetid://10747376205",["lucide-wand"]="rbxassetid://10747376565",["lucide-wand-2"]="rbxassetid://10747376349",["lucide-watch"]="rbxassetid://10747376722",["lucide-waves"]="rbxassetid://10747376931",["lucide-webcam"]="rbxassetid://10747381992",["lucide-wifi"]="rbxassetid://10747382504",["lucide-wifi-off"]="rbxassetid://10747382268",["lucide-wind"]="rbxassetid://10747382750",["lucide-wrap-text"]="rbxassetid://10747383065",["lucide-wrench"]="rbxassetid://10747383470",["lucide-x"]="rbxassetid://10747384394",["lucide-x-circle"]="rbxassetid://10747383819",["lucide-x-octagon"]="rbxassetid://10747384037",["lucide-x-square"]="rbxassetid://10747384217",["lucide-zoom-in"]="rbxassetid://10747384552",["lucide-zoom-out"]="rbxassetid://10747384679"}}end,[30]=function()local c,al,am,d,e=a(30)local f={SingleMotor=am(al.SingleMotor),GroupMotor=am(al.GroupMotor),Instant=am(al.Instant),Linear=am(al.Linear),Spring=am(al.Spring),isMotor=am(al.isMotor)}return f end,[31]=function()local c,al,am,d,e=a(31)local f=game:GetService"RunService"local g=am(al.Parent.Signal)local h=function()end;local j={}j.__index=j;function j.new()return setmetatable({_onStep=g.new(),_onStart=g.new(),_onComplete=g.new()},j)end;function j.onStep(k,l)return k._onStep:connect(l)end;function j.onStart(k,l)return k._onStart:connect(l)end;function j.onComplete(k,l)return k._onComplete:connect(l)end;function j.start(k)if not k._connection then k._connection=f.RenderStepped:Connect(function(l)k:step(l)end)end end;function j.stop(k)if k._connection then k._connection:Disconnect()k._connection=nil end end;j.destroy=j.stop;j.step=h;j.getValue=h;j.setGoal=h;function j.__tostring(k)return"Motor"end;return j end,[32]=function()local c,al,am,d,e=a(32)return function()local f=game:GetService"RunService"local g=am(al.Parent.BaseMotor)describe("connection management",function()local h=g.new()it("should hook up connections on :start()",function()h:start()expect(typeof(h._connection)).to.equal"RBXScriptConnection"end)it("should remove connections on :stop() or :destroy()",function()h:stop()expect(h._connection).to.equal(nil)end)end)it("should call :step() with deltaTime",function()local h=g.new()local j;function h.step(k,...)j={...}h:stop()end;h:start()local k=f.RenderStepped:Wait()f.RenderStepped:Wait()expect(j).to.be.ok()expect(j[1]).to.equal(k)end)end end,[33]=function()local c,al,am,d,e=a(33)local f=am(al.Parent.BaseMotor)local g=am(al.Parent.SingleMotor)local h=am(al.Parent.isMotor)local j=setmetatable({},f)j.__index=j;local function aq(k)if h(k)then return k end;local l=typeof(k)if l=="number"then return g.new(k,false)elseif l=="table"then return j.new(k,false)end;error("Unable to convert %q to motor; type %s is unsupported":format(k,l),2)end;function j.new(k,l)assert(k,"Missing argument #1: initialValues")assert(typeof(k)=="table","initialValues must be a table!")assert(not k.step,'initialValues contains disallowed property "step". Did you mean to put a table of values here?')local n=setmetatable(f.new(),j)if l~=nil then n._useImplicitConnections=l else n._useImplicitConnections=true end;n._complete=true;n._motors={}for o,p in pairs(k)do n._motors[o]=aq(p)end;return n end;function j.step(k,l)if k._complete then return true end;local n=true;for o,p in pairs(k._motors)do local q=p:step(l)if not q then n=false end end;k._onStep:fire(k:getValue())if n then if k._useImplicitConnections then k:stop()end;k._complete=true;k._onComplete:fire()end;return n end;function j.setGoal(k,l)assert(not l.step,'goals contains disallowed property "step". Did you mean to put a table of goals here?')k._complete=false;k._onStart:fire()for n,o in pairs(l)do local p=assert(k._motors[n],"Unknown motor for key %s":format(n))p:setGoal(o)end;if k._useImplicitConnections then k:start()end end;function j.getValue(k)local l={}for n,o in pairs(k._motors)do l[n]=o:getValue()end;return l end;function j.__tostring(k)return"Motor(Group)"end;return j end,[34]=function()local c,al,am,d,e=a(34)return function()local f=am(al.Parent.GroupMotor)local g=am(al.Parent.Instant)local h=am(al.Parent.Spring)it("should complete when all child motors are complete",function()local j=f.new({A=1,B=2},false)expect(j._complete).to.equal(true)j:setGoal{A=g.new(3),B=h.new(4,{frequency=7.5,dampingRatio=1})}expect(j._complete).to.equal(false)j:step(1.6666666666666665E-2)expect(j._complete).to.equal(false)for k=1,30 do j:step(1.6666666666666665E-2)end;expect(j._complete).to.equal(true)end)it("should start when the goal is set",function()local j=f.new({A=0},false)local k=false;j:onStart(function()k=not k end)j:setGoal{A=g.new(1)}expect(k).to.equal(true)j:setGoal{A=g.new(1)}expect(k).to.equal(false)end)it("should properly return all values",function()local j=f.new({A=1,B=2},false)local k=j:getValue()expect(k.A).to.equal(1)expect(k.B).to.equal(2)end)it("should error when a goal is given to GroupMotor.new",function()local j=pcall(function()f.new(g.new(0))end)expect(j).to.equal(false)end)it("should error when a single goal is provided to GroupMotor:step",function()local j=pcall(function()f.new{a=1}:setGoal(g.new(0))end)expect(j).to.equal(false)end)end end,[35]=function()a(35)local c={}c.__index=c;function c.new(al)return setmetatable({_targetValue=al},c)end;function c.step(al)return{complete=true,value=al._targetValue}end;return c end,[36]=function()local c,al,am,d,e=a(36)return function()local f=am(al.Parent.Instant)it("should return a completed state with the provided value",function()local g=f.new(1.23)local h=g:step(0.1,{value=0,complete=false})expect(h.complete).to.equal(true)expect(h.value).to.equal(1.23)end)end end,[37]=function()a(37)local c={}c.__index=c;function c.new(al,am)assert(al,"Missing argument #1: targetValue")am=am or{}return setmetatable({_targetValue=al,_velocity=am.velocity or 1},c)end;function c.step(al,am,d)local e=am.value;local f=al._velocity;local g=al._targetValue;local h=d*f;local j=h>=math.abs(g-e)e=e+h*(g>e and 1 or-1)if j then e=al._targetValue;f=0 end;return{complete=j,value=e,velocity=f}end;return c end,[38]=function()local c,al,am,d,e=a(38)return function()local f=am(al.Parent.SingleMotor)local g=am(al.Parent.Linear)describe("completed state",function()local h=f.new(0,false)local j=g.new(1,{velocity=1})h:setGoal(j)for k=1,60 do h:step(1.6666666666666665E-2)end;it("should complete",function()expect(h._state.complete).to.equal(true)end)it("should be exactly the goal value when completed",function()expect(h._state.value).to.equal(1)end)end)describe("uncompleted state",function()local h=f.new(0,false)local j=g.new(1,{velocity=1})h:setGoal(j)for k=1,59 do h:step(1.6666666666666665E-2)end;it("should be uncomplete",function()expect(h._state.complete).to.equal(false)end)end)describe("negative velocity",function()local h=f.new(1,false)local j=g.new(0,{velocity=1})h:setGoal(j)for k=1,60 do h:step(1.6666666666666665E-2)end;it("should complete",function()expect(h._state.complete).to.equal(true)end)it("should be exactly the goal value when completed",function()expect(h._state.value).to.equal(0)end)end)end end,[39]=function()a(39)local c={}c.__index=c;function c.new(al,am)return setmetatable({signal=al,connected=true,_handler=am},c)end;function c.disconnect(al)if al.connected then al.connected=false;for am,d in pairs(al.signal._connections)do if d==al then table.remove(al.signal._connections,am)return end end end end;local al={}al.__index=al;function al.new()return setmetatable({_connections={},_threads={}},al)end;function al.fire(am,...)for d,e in pairs(am._connections)do e._handler(...)end;for d,e in pairs(am._threads)do coroutine.resume(e,...)end;am._threads={}end;function al.connect(am,d)local e=c.new(am,d)table.insert(am._connections,e)return e end;function al.wait(am)table.insert(am._threads,coroutine.running())return coroutine.yield()end;return al end,[40]=function()local c,al,am,d,e=a(40)return function()local f=am(al.Parent.Signal)it("should invoke all connections, instantly",function()local g=f.new()local h,j;g:connect(function(k)h=k end)g:connect(function(k)j=k end)g:fire"hello"expect(h).to.equal"hello"expect(j).to.equal"hello"end)it("should return values when :wait() is called",function()local g=f.new()spawn(function()g:fire(123,"hello")end)local h,j=g:wait()expect(h).to.equal(123)expect(j).to.equal"hello"end)it("should properly handle disconnections",function()local g=f.new()local h=false;local j=g:connect(function()h=true end)j:disconnect()g:fire()expect(h).to.equal(false)end)end end,[41]=function()local c,al,am,d,e=a(41)local f=am(al.Parent.BaseMotor)local g=setmetatable({},f)g.__index=g;function g.new(h,j)assert(h,"Missing argument #1: initialValue")assert(typeof(h)=="number","initialValue must be a number!")local k=setmetatable(f.new(),g)if j~=nil then k._useImplicitConnections=j else k._useImplicitConnections=true end;k._goal=nil;k._state={complete=true,value=h}return k end;function g.step(h,j)if h._state.complete then return true end;local k=h._goal:step(h._state,j)h._state=k;h._onStep:fire(k.value)if k.complete then if h._useImplicitConnections then h:stop()end;h._onComplete:fire()end;return k.complete end;function g.getValue(h)return h._state.value end;function g.setGoal(h,j)h._state.complete=false;h._goal=j;h._onStart:fire()if h._useImplicitConnections then h:start()end end;function g.__tostring(h)return"Motor(Single)"end;return g end,[42]=function()local c,al,am,d,e=a(42)return function()local f=am(al.Parent.SingleMotor)local g=am(al.Parent.Instant)it("should assign new state on step",function()local h=f.new(0,false)h:setGoal(g.new(5))h:step(1.6666666666666665E-2)expect(h._state.complete).to.equal(true)expect(h._state.value).to.equal(5)end)it("should invoke onComplete listeners when the goal is completed",function()local h=f.new(0,false)local j=false;h:onComplete(function()j=true end)h:setGoal(g.new(5))h:step(1.6666666666666665E-2)expect(j).to.equal(true)end)it("should start when the goal is set",function()local h=f.new(0,false)local j=false;h:onStart(function()j=not j end)h:setGoal(g.new(5))expect(j).to.equal(true)h:setGoal(g.new(5))expect(j).to.equal(false)end)end end,[43]=function()a(43)local c=0.001;local al=0.001;local am=0.0001;local d={}d.__index=d;function d.new(e,f)assert(e,"Missing argument #1: targetValue")f=f or{}return setmetatable({_targetValue=e,_frequency=f.frequency or 4,_dampingRatio=f.dampingRatio or 1},d)end;function d.step(e,f,g)local h=e._dampingRatio;local j=e._frequency*2*math.pi;local k=e._targetValue;local l=f.value;local n=f.velocity or 0;local o=l-k;local p=math.exp(-h*j*g)local q,r;if h==1 then q=(o*(1+j*g)+n*g)*p+k;r=(n*(1-j*g)-o*j*j*g)*p elseif h<1 then local s=math.sqrt(1-h*h)local t=math.cos(j*s*g)local u=math.sin(j*s*g)local v;if s>am then v=u/s else local w=g*j;v=w+(w*w*s*s*s*s/20-s*s)*w*w*w/6 end;local w;if j*s>am then w=u/(j*s)else local x=j*s;w=g+(g*g*x*x*x*x/20-x*x)*g*g*g/6 end;q=(o*(t+h*v)+n*w)*p+k;r=(n*(t-v*h)-o*v*j)*p else local s=math.sqrt(h*h-1)local t=-j*(h-s)local u=-j*(h+s)local v=(n-o*t)/(2*j*s)local w=o-v;local x=w*math.exp(t*g)local y=v*math.exp(u*g)q=x+y+k;r=x*t+y*u end;local s=math.abs(r)<c and math.abs(q-k)<al;return{complete=s,value=s and k or q,velocity=r}end;return d end,[44]=function()local c,al,am,d,e=a(44)return function()local f=am(al.Parent.SingleMotor)local g=am(al.Parent.Spring)describe("completed state",function()local h=f.new(0,false)local j=g.new(1,{frequency=2,dampingRatio=0.75})h:setGoal(j)for k=1,100 do h:step(1.6666666666666665E-2)end;it("should complete",function()expect(h._state.complete).to.equal(true)end)it("should be exactly the goal value when completed",function()expect(h._state.value).to.equal(1)end)end)it("should inherit velocity",function()local h=f.new(0,false)h._state={complete=false,value=0,velocity=-5}local j=g.new(1,{frequency=2,dampingRatio=1})h:setGoal(j)h:step(1.6666666666666665E-2)expect(h._state.velocity<0).to.equal(true)end)end end,[45]=function()a(45)local function ar(c)local al=tostring(c):match"^Motor%((.+)%)$"if al then return true,al else return false end end;return ar end,[46]=function()local c,al,am,d,e=a(46)return function()local f=am(al.Parent.isMotor)local g=am(al.Parent.SingleMotor)local h=am(al.Parent.GroupMotor)local j=g.new(0)local k=h.new{}it("should properly detect motors",function()expect(f(j)).to.equal(true)expect(f(k)).to.equal(true)end)it("shouldn't detect things that aren't motors",function()expect(f{}).to.equal(false)end)it("should return the proper motor type",function()local l,n=f(j)local o,p=f(k)expect(n).to.equal"Single"expect(p).to.equal"Group"end)end end,[47]=function()local c,al,am,d,e=a(47)local f={Names={"Dark","Darker","Light","Aqua","Amethyst","Rose"}}for g,h in next,al:GetChildren()do local j=am(h)f[j.Name]=j end;return f end,[48]=function()a(48)return{Name="Amethyst",Accent=Color3.fromRGB(97,62,167),AcrylicMain=Color3.fromRGB(20,20,20),AcrylicBorder=Color3.fromRGB(110,90,130),AcrylicGradient=ColorSequence.new(Color3.fromRGB(85,57,139),Color3.fromRGB(40,25,65)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(95,75,110),Tab=Color3.fromRGB(160,140,180),Element=Color3.fromRGB(140,120,160),ElementBorder=Color3.fromRGB(60,50,70),InElementBorder=Color3.fromRGB(100,90,110),ElementTransparency=0.87,ToggleSlider=Color3.fromRGB(140,120,160),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(140,120,160),DropdownFrame=Color3.fromRGB(170,160,200),DropdownHolder=Color3.fromRGB(60,45,80),DropdownBorder=Color3.fromRGB(50,40,65),DropdownOption=Color3.fromRGB(140,120,160),Keybind=Color3.fromRGB(140,120,160),Input=Color3.fromRGB(140,120,160),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(60,45,80),DialogHolder=Color3.fromRGB(45,30,65),DialogHolderLine=Color3.fromRGB(40,25,60),DialogButton=Color3.fromRGB(60,45,80),DialogButtonBorder=Color3.fromRGB(95,80,110),DialogBorder=Color3.fromRGB(85,70,100),DialogInput=Color3.fromRGB(70,55,85),DialogInputLine=Color3.fromRGB(175,160,190),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(140,120,160),HoverChange=0.04}end,[49]=function()a(49)return{Name="Aqua",Accent=Color3.fromRGB(60,165,165),AcrylicMain=Color3.fromRGB(20,20,20),AcrylicBorder=Color3.fromRGB(50,100,100),AcrylicGradient=ColorSequence.new(Color3.fromRGB(60,140,140),Color3.fromRGB(40,80,80)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(60,120,120),Tab=Color3.fromRGB(140,180,180),Element=Color3.fromRGB(110,160,160),ElementBorder=Color3.fromRGB(40,70,70),InElementBorder=Color3.fromRGB(80,110,110),ElementTransparency=0.84,ToggleSlider=Color3.fromRGB(110,160,160),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(110,160,160),DropdownFrame=Color3.fromRGB(160,200,200),DropdownHolder=Color3.fromRGB(40,80,80),DropdownBorder=Color3.fromRGB(40,65,65),DropdownOption=Color3.fromRGB(110,160,160),Keybind=Color3.fromRGB(110,160,160),Input=Color3.fromRGB(110,160,160),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(130,170,170),Dialog=Color3.fromRGB(40,80,80),DialogHolder=Color3.fromRGB(30,60,60),DialogHolderLine=Color3.fromRGB(25,50,50),DialogButton=Color3.fromRGB(40,80,80),DialogButtonBorder=Color3.fromRGB(80,110,110),DialogBorder=Color3.fromRGB(50,100,100),DialogInput=Color3.fromRGB(45,90,90),DialogInputLine=Color3.fromRGB(130,170,170),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(110,160,160),HoverChange=0.04}end,[50]=function()a(50)return{Name="Dark",Accent=Color3.fromRGB(96,205,255),AcrylicMain=Color3.fromRGB(60,60,60),AcrylicBorder=Color3.fromRGB(90,90,90),AcrylicGradient=ColorSequence.new(Color3.fromRGB(40,40,40),Color3.fromRGB(40,40,40)),AcrylicNoise=0.9,TitleBarLine=Color3.fromRGB(75,75,75),Tab=Color3.fromRGB(120,120,120),Element=Color3.fromRGB(120,120,120),ElementBorder=Color3.fromRGB(35,35,35),InElementBorder=Color3.fromRGB(90,90,90),ElementTransparency=0.87,ToggleSlider=Color3.fromRGB(120,120,120),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(120,120,120),DropdownFrame=Color3.fromRGB(160,160,160),DropdownHolder=Color3.fromRGB(45,45,45),DropdownBorder=Color3.fromRGB(35,35,35),DropdownOption=Color3.fromRGB(120,120,120),Keybind=Color3.fromRGB(120,120,120),Input=Color3.fromRGB(160,160,160),InputFocused=Color3.fromRGB(10,10,10),InputIndicator=Color3.fromRGB(150,150,150),Dialog=Color3.fromRGB(45,45,45),DialogHolder=Color3.fromRGB(35,35,35),DialogHolderLine=Color3.fromRGB(30,30,30),DialogButton=Color3.fromRGB(45,45,45),DialogButtonBorder=Color3.fromRGB(80,80,80),DialogBorder=Color3.fromRGB(70,70,70),DialogInput=Color3.fromRGB(55,55,55),DialogInputLine=Color3.fromRGB(160,160,160),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(120,120,120),HoverChange=0.07}end,[51]=function()a(51)return{Name="Darker",Accent=Color3.fromRGB(72,138,182),AcrylicMain=Color3.fromRGB(30,30,30),AcrylicBorder=Color3.fromRGB(60,60,60),AcrylicGradient=ColorSequence.new(Color3.fromRGB(25,25,25),Color3.fromRGB(15,15,15)),AcrylicNoise=0.94,TitleBarLine=Color3.fromRGB(65,65,65),Tab=Color3.fromRGB(100,100,100),Element=Color3.fromRGB(70,70,70),ElementBorder=Color3.fromRGB(25,25,25),InElementBorder=Color3.fromRGB(55,55,55),ElementTransparency=0.82,DropdownFrame=Color3.fromRGB(120,120,120),DropdownHolder=Color3.fromRGB(35,35,35),DropdownBorder=Color3.fromRGB(25,25,25),Dialog=Color3.fromRGB(35,35,35),DialogHolder=Color3.fromRGB(25,25,25),DialogHolderLine=Color3.fromRGB(20,20,20),DialogButton=Color3.fromRGB(35,35,35),DialogButtonBorder=Color3.fromRGB(55,55,55),DialogBorder=Color3.fromRGB(50,50,50),DialogInput=Color3.fromRGB(45,45,45),DialogInputLine=Color3.fromRGB(120,120,120)}end,[52]=function()a(52)return{Name="Light",Accent=Color3.fromRGB(0,103,192),AcrylicMain=Color3.fromRGB(200,200,200),AcrylicBorder=Color3.fromRGB(120,120,120),AcrylicGradient=ColorSequence.new(Color3.fromRGB(255,255,255),Color3.fromRGB(255,255,255)),AcrylicNoise=0.96,TitleBarLine=Color3.fromRGB(160,160,160),Tab=Color3.fromRGB(90,90,90),Element=Color3.fromRGB(255,255,255),ElementBorder=Color3.fromRGB(180,180,180),InElementBorder=Color3.fromRGB(150,150,150),ElementTransparency=0.65,ToggleSlider=Color3.fromRGB(40,40,40),ToggleToggled=Color3.fromRGB(255,255,255),SliderRail=Color3.fromRGB(40,40,40),DropdownFrame=Color3.fromRGB(200,200,200),DropdownHolder=Color3.fromRGB(240,240,240),DropdownBorder=Color3.fromRGB(200,200,200),DropdownOption=Color3.fromRGB(150,150,150),Keybind=Color3.fromRGB(120,120,120),Input=Color3.fromRGB(200,200,200),InputFocused=Color3.fromRGB(100,100,100),InputIndicator=Color3.fromRGB(80,80,80),Dialog=Color3.fromRGB(255,255,255),DialogHolder=Color3.fromRGB(240,240,240),DialogHolderLine=Color3.fromRGB(228,228,228),DialogButton=Color3.fromRGB(255,255,255),DialogButtonBorder=Color3.fromRGB(190,190,190),DialogBorder=Color3.fromRGB(140,140,140),DialogInput=Color3.fromRGB(250,250,250),DialogInputLine=Color3.fromRGB(160,160,160),Text=Color3.fromRGB(0,0,0),SubText=Color3.fromRGB(40,40,40),Hover=Color3.fromRGB(50,50,50),HoverChange=0.16}end,[53]=function()a(53)return{Name="Rose",Accent=Color3.fromRGB(180,55,90),AcrylicMain=Color3.fromRGB(40,40,40),AcrylicBorder=Color3.fromRGB(130,90,110),AcrylicGradient=ColorSequence.new(Color3.fromRGB(190,60,135),Color3.fromRGB(165,50,70)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(140,85,105),Tab=Color3.fromRGB(180,140,160),Element=Color3.fromRGB(200,120,170),ElementBorder=Color3.fromRGB(110,70,85),InElementBorder=Color3.fromRGB(120,90,90),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(200,120,170),ToggleToggled=Color3.fromRGB(0,0,0),SliderRail=Color3.fromRGB(200,120,170),DropdownFrame=Color3.fromRGB(200,160,180),DropdownHolder=Color3.fromRGB(120,50,75),DropdownBorder=Color3.fromRGB(90,40,55),DropdownOption=Color3.fromRGB(200,120,170),Keybind=Color3.fromRGB(200,120,170),Input=Color3.fromRGB(200,120,170),InputFocused=Color3.fromRGB(20,10,30),InputIndicator=Color3.fromRGB(170,150,190),Dialog=Color3.fromRGB(120,50,75),DialogHolder=Color3.fromRGB(95,40,60),DialogHolderLine=Color3.fromRGB(90,35,55),DialogButton=Color3.fromRGB(120,50,75),DialogButtonBorder=Color3.fromRGB(155,90,115),DialogBorder=Color3.fromRGB(100,70,90),DialogInput=Color3.fromRGB(135,55,80),DialogInputLine=Color3.fromRGB(190,160,180),Text=Color3.fromRGB(240,240,240),SubText=Color3.fromRGB(170,170,170),Hover=Color3.fromRGB(200,120,170),HoverChange=0.04}end,[54]=function()a(54)return{Name="Ayaya",Accent=Color3.fromRGB(88,64,48),AcrylicMain=Color3.fromRGB(102,81,66),AcrylicBorder=Color3.fromRGB(90,70,55),AcrylicGradient=ColorSequence.new(Color3.fromRGB(130,100,85),Color3.fromRGB(95,75,60)),AcrylicNoise=0.92,TitleBarLine=Color3.fromRGB(100,80,65),Tab=Color3.fromRGB(75,58,50),Element=Color3.fromRGB(140,110,90),ElementBorder=Color3.fromRGB(110,85,70),InElementBorder=Color3.fromRGB(120,100,85),ElementTransparency=0.86,ToggleSlider=Color3.fromRGB(140,110,90),ToggleToggled=Color3.fromRGB(60,40,30),SliderRail=Color3.fromRGB(140,110,90),DropdownFrame=Color3.fromRGB(160,130,110),DropdownHolder=Color3.fromRGB(110,80,65),DropdownBorder=Color3.fromRGB(90,70,55),DropdownOption=Color3.fromRGB(140,110,90),Keybind=Color3.fromRGB(140,110,90),Input=Color3.fromRGB(140,110,90),InputFocused=Color3.fromRGB(70,50,40),InputIndicator=Color3.fromRGB(160,130,120),Dialog=Color3.fromRGB(110,80,65),DialogHolder=Color3.fromRGB(95,70,55),DialogHolderLine=Color3.fromRGB(90,65,50),DialogButton=Color3.fromRGB(110,80,65),DialogButtonBorder=Color3.fromRGB(140,110,90),DialogBorder=Color3.fromRGB(120,100,85),DialogInput=Color3.fromRGB(130,100,80),DialogInputLine=Color3.fromRGB(170,140,120),Text=Color3.fromRGB(240,230,220),SubText=Color3.fromRGB(180,170,160),Hover=Color3.fromRGB(140,110,90),HoverChange=0.04}end}do local al,am,d,e,f,g,h,j,k,n,o,p,q,r,s,t=task,setmetatable,error,newproxy,getmetatable,next,table,unpack,coroutine,script,type,require,pcall,getfenv,setfenv,rawget;local u=h.insert;local v=h.remove;local w=h.freeze or function(w)return w end;local x=al and al.defer or function(x,...)local y=k.create(x)k.resume(y,...)return y end;local y="0.0.0-venv"local z={}local A={}local B={}local N={}local O={}local P={}local Q={GetChildren=function(Q)local T=P[Q]local U={}for V in g,T do u(U,V)end;return U end,FindFirstChild=function(Q,T)if not T then d("Argument 1 missing or nil",2)end;for U in g,P[Q]do if U.Name==T then return U end end;return end,GetFullName=function(Q)local T=Q.Name;local U=Q.Parent;while U do T=U.Name.."."..T;U=U.Parent end;return"VirtualEnv."..T end}local T={}for U,V in g,Q do T[U]=function(W,...)if not P[W]then d("Expected ':' not '.' calling member function "..U,1)end;return V(W,...)end end;local function as(U,V,W)local X;local Y=am({},{__mode="k"})local function at(Z)d(Z.." is not a valid (virtual) member of "..U.." \""..V.."\"",1)end;local function au(Z)d("Unable to assign (virtual) property "..Z..". Property is read only",1)end;local Z=e(true)local _=f(Z)_.__index=function(a0,a1)if a1=="ClassName"then return U elseif a1=="Name"then return V elseif a1=="Parent"then return W elseif U=="StringValue"and a1=="Value"then return X else local a2=T[a1]if a2 then return a2 end end;for a2 in g,Y do if a2.Name==a1 then return a2 end end;at(a1)end;_.__newindex=function(a0,a1,a2)if a1=="ClassName"then au(a1)elseif a1=="Name"then V=a2 elseif a1=="Parent"then if a2==Z then return end;if W~=nil then P[W][Z]=nil end;W=a2;if a2~=nil then P[a2][Z]=true end elseif U=="StringValue"and a1=="Value"then X=a2 else at(a1)end end;_.__tostring=function()return V end;P[Z]=Y;if W~=nil then P[W][Z]=true end;return Z end;local function av(U,V)local W=U[1]local X=U[2]local Y=U[3]local Z=U[4]local _=v(Y,1)local a0=as(X,_,V)z[W]=a0;if Y then for a1,a2 in g,Y do a0[a1]=a2 end end;if Z then for a1,a2 in g,Z do av(a2,a0)end end;return a0 end;local U={}for V,W in g,b do u(U,av(W))end;for V,W in g,c do local X=z[V]A[X]=W;local Y=X.ClassName;if Y=="LocalScript"or Y=="Script"then u(N,X)end end;local function aw(V)local W=V.ClassName;local X=B[V]if X and W=="ModuleScript"then return j(X)end;local Y=A[V]if not Y then return end;if W=="LocalScript"or W=="Script"then Y()return else local Z={Y()}B[V]=Z;return j(Z)end end;function a(V)local W=z[V]local X=A[W]if not X then return end;local Y=false;local Z;local _;local a0;local a1=w{Version=y,Script=n,Shared=O,GetScript=function()return n end,GetShared=function()return O end}local a2=W;local function ax(a3,...)if P[a3]and a3.ClassName=="ModuleScript"and A[a3]then return aw(a3)end;return p(a3,...)end;local function ay(a3,...)if not Y then a0()end;if o(a3)=="number"and a3>=0 then if a3==0 then return _ else a3=a3+1;local a4,a5=q(r,a3)if a4 and a5==Z then return _ end end end;return r(a3,...)end;local function az(a3,a4,...)if not Y then a0()end;if o(a3)=="number"and a3>=0 then if a3==0 then return s(_,a4)else a3=a3+1;local a5,a6=q(r,a3)if a5 and a6==Z then return s(_,a4)end end end;return s(a3,a4,...)end;function a0()Z=r(0)local a3={maui=a1,script=a2,require=ax,getfenv=ay,setfenv=az}_=am({},{__index=function(a4,a5)local a6=t(_,a5)if a6~=nil then return a6 end;local a7=a3[a5]if a7~=nil then return a7 end;return Z[a5]end})s(X,_)Y=true end;return a1,a2,ax,ay,az end;for V,W in g,N do x(aw,W)end;do local V;for W,X in g,U do if X.ClassName=="ModuleScript"and X.Name=="MainModule"then V=X;break end end;if V then return aw(V)end end end
+--[[
+    This Code Edit By Ayaya ;>
+	And No Minify Code But Normaly It Not Make For Edit If Need U Dm Me For a little Help ;>
+--]]
+
+-- Will be used later for getting flattened globals
+local ImportGlobals
+
+-- Holds the actual DOM data
+local ObjectTree = {
+    {
+        1,
+        "ModuleScript",
+        {
+            "MainModule"
+        },
+        {
+            {
+                19,
+                "ModuleScript",
+                {
+                    "Elements"
+                },
+                {
+                    {
+                        27,
+                        "ModuleScript",
+                        {
+                            "Toggle"
+                        }
+                    },
+                    {
+                        22,
+                        "ModuleScript",
+                        {
+                            "Dropdown"
+                        }
+                    },
+                    {
+                        21,
+                        "ModuleScript",
+                        {
+                            "Colorpicker"
+                        }
+                    },
+                    {
+                        25,
+                        "ModuleScript",
+                        {
+                            "Paragraph"
+                        }
+                    },
+                    {
+                        23,
+                        "ModuleScript",
+                        {
+                            "Input"
+                        }
+                    },
+                    {
+                        24,
+                        "ModuleScript",
+                        {
+                            "Keybind"
+                        }
+                    },
+                    {
+                        20,
+                        "ModuleScript",
+                        {
+                            "Button"
+                        }
+                    },
+                    {
+                        26,
+                        "ModuleScript",
+                        {
+                            "Slider"
+                        }
+                    }
+                }
+            },
+            {
+                47,
+                "ModuleScript",
+                {
+                    "Themes"
+                },
+                {
+                    {
+                        53,
+                        "ModuleScript",
+                        {
+                            "Rose"
+                        }
+                    },
+                    {
+                        52,
+                        "ModuleScript",
+                        {
+                            "Light"
+                        }
+                    },
+                    {
+                        50,
+                        "ModuleScript",
+                        {
+                            "Dark"
+                        }
+                    },
+                    {
+                        54,
+                        "ModuleScript",
+                        {
+                            "Ayaya"
+                        }
+                    },
+                    {
+                        49,
+                        "ModuleScript",
+                        {
+                            "Aqua"
+                        }
+                    },
+                    {
+                        48,
+                        "ModuleScript",
+                        {
+                            "Amethyst"
+                        }
+                    },
+                    {
+                        51,
+                        "ModuleScript",
+                        {
+                            "Darker"
+                        }
+                    }
+                }
+            },
+            {
+                29,
+                "Folder",
+                {
+                    "Packages"
+                },
+                {
+                    {
+                        30,
+                        "ModuleScript",
+                        {
+                            "Flipper"
+                        },
+                        {
+                            {
+                                46,
+                                "ModuleScript",
+                                {
+                                    "isMotor.spec"
+                                }
+                            },
+                            {
+                                37,
+                                "ModuleScript",
+                                {
+                                    "Linear"
+                                }
+                            },
+                            {
+                                38,
+                                "ModuleScript",
+                                {
+                                    "Linear.spec"
+                                }
+                            },
+                            {
+                                34,
+                                "ModuleScript",
+                                {
+                                    "GroupMotor.spec"
+                                }
+                            },
+                            {
+                                36,
+                                "ModuleScript",
+                                {
+                                    "Instant.spec"
+                                }
+                            },
+                            {
+                                41,
+                                "ModuleScript",
+                                {
+                                    "SingleMotor"
+                                }
+                            },
+                            {
+                                42,
+                                "ModuleScript",
+                                {
+                                    "SingleMotor.spec"
+                                }
+                            },
+                            {
+                                43,
+                                "ModuleScript",
+                                {
+                                    "Spring"
+                                }
+                            },
+                            {
+                                40,
+                                "ModuleScript",
+                                {
+                                    "Signal.spec"
+                                }
+                            },
+                            {
+                                39,
+                                "ModuleScript",
+                                {
+                                    "Signal"
+                                }
+                            },
+                            {
+                                44,
+                                "ModuleScript",
+                                {
+                                    "Spring.spec"
+                                }
+                            },
+                            {
+                                45,
+                                "ModuleScript",
+                                {
+                                    "isMotor"
+                                }
+                            },
+                            {
+                                31,
+                                "ModuleScript",
+                                {
+                                    "BaseMotor"
+                                }
+                            },
+                            {
+                                35,
+                                "ModuleScript",
+                                {
+                                    "Instant"
+                                }
+                            },
+                            {
+                                33,
+                                "ModuleScript",
+                                {
+                                    "GroupMotor"
+                                }
+                            },
+                            {
+                                32,
+                                "ModuleScript",
+                                {
+                                    "BaseMotor.spec"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                2,
+                "ModuleScript",
+                {
+                    "Acrylic"
+                },
+                {
+                    {
+                        6,
+                        "ModuleScript",
+                        {
+                            "Utils"
+                        }
+                    },
+                    {
+                        5,
+                        "ModuleScript",
+                        {
+                            "CreateAcrylic"
+                        }
+                    },
+                    {
+                        4,
+                        "ModuleScript",
+                        {
+                            "AcrylicPaint"
+                        }
+                    },
+                    {
+                        3,
+                        "ModuleScript",
+                        {
+                            "AcrylicBlur"
+                        }
+                    }
+                }
+            },
+            {
+                28,
+                "ModuleScript",
+                {
+                    "Icons"
+                }
+            },
+            {
+                18,
+                "ModuleScript",
+                {
+                    "Creator"
+                }
+            },
+            {
+                7,
+                "Folder",
+                {
+                    "Components"
+                },
+                {
+                    {
+                        10,
+                        "ModuleScript",
+                        {
+                            "Dialog"
+                        }
+                    },
+                    {
+                        14,
+                        "ModuleScript",
+                        {
+                            "Tab"
+                        }
+                    },
+                    {
+                        8,
+                        "ModuleScript",
+                        {
+                            "Assets"
+                        }
+                    },
+                    {
+                        12,
+                        "ModuleScript",
+                        {
+                            "Notification"
+                        }
+                    },
+                    {
+                        11,
+                        "ModuleScript",
+                        {
+                            "Element"
+                        }
+                    },
+                    {
+                        17,
+                        "ModuleScript",
+                        {
+                            "Window"
+                        }
+                    },
+                    {
+                        15,
+                        "ModuleScript",
+                        {
+                            "Textbox"
+                        }
+                    },
+                    {
+                        13,
+                        "ModuleScript",
+                        {
+                            "Section"
+                        }
+                    },
+                    {
+                        9,
+                        "ModuleScript",
+                        {
+                            "Button"
+                        }
+                    },
+                    {
+                        16,
+                        "ModuleScript",
+                        {
+                            "TitleBar"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+-- Holds direct closure data
+local ClosureBindings = {
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(1)local Lighting = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local Camera = game:GetService("Workspace").CurrentCamera
+local Mouse = LocalPlayer:GetMouse()
+
+local Root = script
+local Creator = require(Root.Creator)
+local ElementsTable = require(Root.Elements)
+local Acrylic = require(Root.Acrylic)
+local Components = Root.Components
+local NotificationModule = require(Components.Notification)
+
+local New = Creator.New
+
+local ProtectGui = protectgui or (syn and syn.protect_gui) or function() end
+local GUI = New("ScreenGui", {
+	Parent = RunService:IsStudio() and LocalPlayer.PlayerGui or game:GetService("CoreGui"),
+})
+ProtectGui(GUI)
+NotificationModule:Init(GUI)
+
+local Library = {
+	Version = "1.1.0",
+
+	OpenFrames = {},
+	Options = {},
+	Themes = require(Root.Themes).Names,
+
+	Window = nil,
+	WindowFrame = nil,
+	Unloaded = false,
+
+	Theme = "Dark",
+	DialogOpen = false,
+	UseAcrylic = true,
+	Acrylic = true,
+	Transparency = true,
+	MinimizeKeybind = nil,
+	MinimizeKey = Enum.KeyCode.LeftControl,
+
+	GUI = GUI,
+}
+
+function Library:SafeCallback(Function, ...)
+	if not Function then
+		return
+	end
+
+	local Success, Event = pcall(Function, ...)
+	if not Success then
+		local _, i = Event:find(":%d+: ")
+
+		if not i then
+			return Library:Notify({
+				Title = "Interface",
+				Content = "Callback error",
+				SubContent = Event,
+				Duration = 5,
+			})
+		end
+
+		return Library:Notify({
+			Title = "Interface",
+			Content = "Callback error",
+			SubContent = Event:sub(i + 1),
+			Duration = 5,
+		})
+	end
+end
+
+function Library:Round(Number, Factor)
+	if Factor == 0 then
+		return math.floor(Number)
+	end
+	Number = tostring(Number)
+	return Number:find("%.") and tonumber(Number:sub(1, Number:find("%.") + Factor)) or Number
+end
+
+local Icons = require(Root.Icons).assets
+function Library:GetIcon(Name)
+	if Name ~= nil and Icons["lucide-" .. Name] then
+		return Icons["lucide-" .. Name]
+	end
+	return nil
+end
+
+local Elements = {}
+Elements.__index = Elements
+Elements.__namecall = function(Table, Key, ...)
+	return Elements[Key](...)
+end
+
+for _, ElementComponent in ipairs(ElementsTable) do
+	Elements["Add" .. ElementComponent.__type] = function(self, Idx, Config)
+		ElementComponent.Container = self.Container
+		ElementComponent.Type = self.Type
+		ElementComponent.ScrollFrame = self.ScrollFrame
+		ElementComponent.Library = Library
+
+		return ElementComponent:New(Idx, Config)
+	end
+end
+
+Library.Elements = Elements
+
+function Library:CreateWindow(Config)
+	assert(Config.Title, "Toggle - Missing Title")
+
+	Config.SubTitle = Config.SubTitle or ""
+	Config.TabWidth = Config.TabWidth or 170
+	Config.Size = Config.Size or UDim2.fromOffset(590, 470)
+	Config.Acrylic = Config.Acrylic or true
+	Config.Theme = Config.Theme or "Dark"
+	Config.MinimizeKey = Config.MinimizeKey or Enum.KeyCode.LeftControl
+
+	if Library.Window then
+		print("You cannot create more than one window.")
+		return
+	end
+
+	local Window = require(Components.Window)({
+		Parent = GUI,
+		Size = Config.Size,
+		Title = Config.Title,
+		SubTitle = Config.SubTitle,
+		TabWidth = Config.TabWidth,
+	})
+
+	Library.MinimizeKey = Config.MinimizeKey
+
+	Library.UseAcrylic = Config.Acrylic
+	if Library.UseAcrylic then
+		Acrylic.init()
+	end
+
+	Library.Window = Window
+	Library:SetTheme(Config.Theme)
+
+	return Window
+end
+
+function Library:SetTheme(Value)
+	if Library.Window and table.find(Library.Themes, Value) then
+		Library.Theme = Value
+		Creator.UpdateTheme()
+	end
+end
+
+function Library:Destroy()
+	if Library.Window then
+		Library.Unloaded = true
+		if Library.UseAcrylic then
+			Library.Window.AcrylicPaint.Model:Destroy()
+		end
+		Creator.Disconnect()
+		Library.GUI:Destroy()
+	end
+end
+
+function Library:ToggleAcrylic(Value)
+	if Library.Window then
+		if Library.UseAcrylic then
+			Library.Acrylic = Value
+			Library.Window.AcrylicPaint.Model.Transparency = Value and 0.98 or 1
+			if Value then
+				Acrylic.Enable()
+			else
+				Acrylic.Disable()
+			end
+		end
+	end
+end
+
+function Library:ToggleTransparency(Value)
+	if Library.Window then
+		Library.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = Value and 0.35 or 0
+	end
+end
+
+function Library:Notify(Config)
+	return NotificationModule:New(Config)
+end
+
+if getgenv then
+	getgenv().Fluent = Library
+end
+
+return Library
+ end,
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(2)local Acrylic = {
+	AcrylicBlur = require(script.AcrylicBlur),
+	CreateAcrylic = require(script.CreateAcrylic),
+	AcrylicPaint = require(script.AcrylicPaint),
+}
+
+function Acrylic.init()
+	local baseEffect = Instance.new("DepthOfFieldEffect")
+	baseEffect.FarIntensity = 0
+	baseEffect.InFocusRadius = 0.1
+	baseEffect.NearIntensity = 1
+
+	local depthOfFieldDefaults = {}
+
+	function Acrylic.Enable()
+		for _, effect in pairs(depthOfFieldDefaults) do
+			effect.Enabled = false
+		end
+		baseEffect.Parent = game:GetService("Lighting")
+	end
+
+	function Acrylic.Disable()
+		for _, effect in pairs(depthOfFieldDefaults) do
+			effect.Enabled = effect.enabled
+		end
+		baseEffect.Parent = nil
+	end
+
+	local function registerDefaults()
+		local function register(object)
+			if object:IsA("DepthOfFieldEffect") then
+				depthOfFieldDefaults[object] = { enabled = object.Enabled }
+			end
+		end
+
+		for _, child in pairs(game:GetService("Lighting"):GetChildren()) do
+			register(child)
+		end
+
+		if game:GetService("Workspace").CurrentCamera then
+			for _, child in pairs(game:GetService("Workspace").CurrentCamera:GetChildren()) do
+				register(child)
+			end
+		end
+	end
+
+	registerDefaults()
+	Acrylic.Enable()
+end
+
+return Acrylic
+ end,
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(3)local Creator = require(script.Parent.Parent.Creator)
+local createAcrylic = require(script.Parent.CreateAcrylic)
+local viewportPointToWorld, getOffset = unpack(require(script.Parent.Utils))
+
+local function createAcrylicBlur(distance)
+	local cleanups = {}
+
+	distance = distance or 0.001
+	local positions = {
+		topLeft = Vector2.new(),
+		topRight = Vector2.new(),
+		bottomRight = Vector2.new(),
+	}
+	local model = createAcrylic()
+	model.Parent = workspace
+
+	local function updatePositions(size, position)
+		positions.topLeft = position
+		positions.topRight = position + Vector2.new(size.X, 0)
+		positions.bottomRight = position + size
+	end
+
+	local function render()
+		local res = game:GetService("Workspace").CurrentCamera
+		if res then
+			res = res.CFrame
+		end
+		local cond = res
+		if not cond then
+			cond = CFrame.new()
+		end
+
+		local camera = cond
+		local topLeft = positions.topLeft
+		local topRight = positions.topRight
+		local bottomRight = positions.bottomRight
+
+		local topLeft3D = viewportPointToWorld(topLeft, distance)
+		local topRight3D = viewportPointToWorld(topRight, distance)
+		local bottomRight3D = viewportPointToWorld(bottomRight, distance)
+
+		local width = (topRight3D - topLeft3D).Magnitude
+		local height = (topRight3D - bottomRight3D).Magnitude
+
+		model.CFrame =
+			CFrame.fromMatrix((topLeft3D + bottomRight3D) / 2, camera.XVector, camera.YVector, camera.ZVector)
+		model.Mesh.Scale = Vector3.new(width, height, 0)
+	end
+
+	local function onChange(rbx)
+		local offset = getOffset()
+		local size = rbx.AbsoluteSize - Vector2.new(offset, offset)
+		local position = rbx.AbsolutePosition + Vector2.new(offset / 2, offset / 2)
+
+		updatePositions(size, position)
+		task.spawn(render)
+	end
+
+	local function renderOnChange()
+		local camera = game:GetService("Workspace").CurrentCamera
+		if not camera then
+			return
+		end
+
+		table.insert(cleanups, camera:GetPropertyChangedSignal("CFrame"):Connect(render))
+		table.insert(cleanups, camera:GetPropertyChangedSignal("ViewportSize"):Connect(render))
+		table.insert(cleanups, camera:GetPropertyChangedSignal("FieldOfView"):Connect(render))
+		task.spawn(render)
+	end
+
+	model.Destroying:Connect(function()
+		for _, item in cleanups do
+			pcall(function()
+				item:Disconnect()
+			end)
+		end
+	end)
+
+	renderOnChange()
+
+	return onChange, model
+end
+
+return function(distance)
+	local Blur = {}
+	local onChange, model = createAcrylicBlur(distance)
+
+	local comp = Creator.New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+	})
+
+	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsolutePosition"), function()
+		onChange(comp)
+	end)
+
+	Creator.AddSignal(comp:GetPropertyChangedSignal("AbsoluteSize"), function()
+		onChange(comp)
+	end)
+
+	Blur.AddParent = function(Parent)
+		Creator.AddSignal(Parent:GetPropertyChangedSignal("Visible"), function()
+			Blur.SetVisibility(Parent.Visible)
+		end)
+	end
+
+	Blur.SetVisibility = function(Value)
+		model.Transparency = Value and 0.98 or 1
+	end
+
+	Blur.Frame = comp
+	Blur.Model = model
+
+	return Blur
+end
+ end,
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(4)local Creator = require(script.Parent.Parent.Creator)
+local AcrylicBlur = require(script.Parent.AcrylicBlur)
+
+local New = Creator.New
+
+return function(props)
+	local AcrylicPaint = {}
+
+	AcrylicPaint.Frame = New("Frame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 0.9,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BorderSizePixel = 0,
+	}, {
+		New("ImageLabel", {
+			Image = "rbxassetid://8992230677",
+			ScaleType = "Slice",
+			SliceCenter = Rect.new(Vector2.new(99, 99), Vector2.new(99, 99)),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Size = UDim2.new(1, 120, 1, 116),
+			Position = UDim2.new(0.5, 0, 0.5, 0),
+			BackgroundTransparency = 1,
+			ImageColor3 = Color3.fromRGB(0, 0, 0),
+			ImageTransparency = 0.7,
+		}),
+
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 8),
+		}),
+
+		New("Frame", {
+			BackgroundTransparency = 0.45,
+			Size = UDim2.fromScale(1, 1),
+			Name = "Background",
+			ThemeTag = {
+				BackgroundColor3 = "AcrylicMain",
+			},
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+			}),
+		}),
+
+		New("Frame", {
+			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+			BackgroundTransparency = 0.4,
+			Size = UDim2.fromScale(1, 1),
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+			}),
+
+			New("UIGradient", {
+				Rotation = 90,
+				ThemeTag = {
+					Color = "AcrylicGradient",
+				},
+			}),
+		}),
+
+		New("ImageLabel", {
+			Image = "rbxassetid://9968344105",
+			ImageTransparency = 0.98,
+			ScaleType = Enum.ScaleType.Tile,
+			TileSize = UDim2.new(0, 128, 0, 128),
+			Size = UDim2.fromScale(1, 1),
+			BackgroundTransparency = 1,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+			}),
+		}),
+
+		New("ImageLabel", {
+			Image = "rbxassetid://9968344227",
+			ImageTransparency = 0.9,
+			ScaleType = Enum.ScaleType.Tile,
+			TileSize = UDim2.new(0, 128, 0, 128),
+			Size = UDim2.fromScale(1, 1),
+			BackgroundTransparency = 1,
+			ThemeTag = {
+				ImageTransparency = "AcrylicNoise",
+			},
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+			}),
+		}),
+
+		New("Frame", {
+			BackgroundTransparency = 1,
+			Size = UDim2.fromScale(1, 1),
+			ZIndex = 2,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 8),
+			}),
+			New("UIStroke", {
+				Transparency = 0.5,
+				Thickness = 1,
+				ThemeTag = {
+					Color = "AcrylicBorder",
+				},
+			}),
+		}),
+	})
+
+	local Blur
+
+	if require(script.Parent.Parent).UseAcrylic then
+		Blur = AcrylicBlur()
+		Blur.Frame.Parent = AcrylicPaint.Frame
+		AcrylicPaint.Model = Blur.Model
+		AcrylicPaint.AddParent = Blur.AddParent
+		AcrylicPaint.SetVisibility = Blur.SetVisibility
+	end
+
+	return AcrylicPaint
+end
+ end,
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(5)local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local function createAcrylic()
+	local Part = Creator.New("Part", {
+		Name = "Body",
+		Color = Color3.new(0, 0, 0),
+		Material = Enum.Material.Glass,
+		Size = Vector3.new(1, 1, 0),
+		Anchored = true,
+		CanCollide = false,
+		Locked = true,
+		CastShadow = false,
+		Transparency = 0.98,
+	}, {
+		Creator.New("SpecialMesh", {
+			MeshType = Enum.MeshType.Brick,
+			Offset = Vector3.new(0, 0, -0.000001),
+		}),
+	})
+
+	return Part
+end
+
+return createAcrylic
+ end,
+    function()local maui,script,require,getfenv,setfenv=ImportGlobals(6)local function map(value, inMin, inMax, outMin, outMax)
+	return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin
+end
+
+local function viewportPointToWorld(location, distance)
+	local unitRay = game:GetService("Workspace").CurrentCamera:ScreenPointToRay(location.X, location.Y)
+	return unitRay.Origin + unitRay.Direction * distance
+end
+
+local function getOffset()
+	local viewportSizeY = game:GetService("Workspace").CurrentCamera.ViewportSize.Y
+	return map(viewportSizeY, 0, 2560, 8, 56)
+end
+
+return { viewportPointToWorld, getOffset }
+ end,
+    [8] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(8)return {
+	Close = "rbxassetid://9886659671",
+	Min = "rbxassetid://9886659276",
+	Max = "rbxassetid://9886659406",
+	Restore = "rbxassetid://9886659001",
+}
+ end,
+    [9] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(9)local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+local New = Creator.New
+
+local Spring = Flipper.Spring.new
+
+return function(Theme, Parent, DialogCheck)
+	DialogCheck = DialogCheck or false
+	local Button = {}
+
+	Button.Title = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		TextColor3 = Color3.fromRGB(200, 200, 200),
+		TextSize = 14,
+		TextWrapped = true,
+		TextXAlignment = Enum.TextXAlignment.Center,
+		TextYAlignment = Enum.TextYAlignment.Center,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	Button.HoverFrame = New("Frame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			BackgroundColor3 = "Hover",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+	})
+
+	Button.Frame = New("TextButton", {
+		Size = UDim2.new(0, 0, 0, 32),
+		Parent = Parent,
+		ThemeTag = {
+			BackgroundColor3 = "DialogButton",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+		New("UIStroke", {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			Transparency = 0.65,
+			ThemeTag = {
+				Color = "DialogButtonBorder",
+			},
+		}),
+		Button.HoverFrame,
+		Button.Title,
+	})
+
+	local Motor, SetTransparency = Creator.SpringMotor(1, Button.HoverFrame, "BackgroundTransparency", DialogCheck)
+	Creator.AddSignal(Button.Frame.MouseEnter, function()
+		SetTransparency(0.97)
+	end)
+	Creator.AddSignal(Button.Frame.MouseLeave, function()
+		SetTransparency(1)
+	end)
+	Creator.AddSignal(Button.Frame.MouseButton1Down, function()
+		SetTransparency(1)
+	end)
+	Creator.AddSignal(Button.Frame.MouseButton1Up, function()
+		SetTransparency(0.97)
+	end)
+
+	return Button
+end
+ end,
+    [10] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(10)local UserInputService = game:GetService("UserInputService")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local Camera = game:GetService("Workspace").CurrentCamera
+
+local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+
+local Spring = Flipper.Spring.new
+local Instant = Flipper.Instant.new
+local New = Creator.New
+
+local Dialog = {
+	Window = nil,
+}
+
+function Dialog:Init(Window)
+	Dialog.Window = Window
+	return Dialog
+end
+
+function Dialog:Create()
+	local NewDialog = {
+		Buttons = 0,
+	}
+
+	NewDialog.TintFrame = New("TextButton", {
+		Text = "",
+		Size = UDim2.fromScale(1, 1),
+		BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+		BackgroundTransparency = 1,
+		Parent = Dialog.Window.Root,
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 8),
+		}),
+	})
+
+	local TintMotor, TintTransparency = Creator.SpringMotor(1, NewDialog.TintFrame, "BackgroundTransparency", true)
+
+	NewDialog.ButtonHolder = New("Frame", {
+		Size = UDim2.new(1, -40, 1, -40),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.fromScale(0.5, 0.5),
+		BackgroundTransparency = 1,
+	}, {
+		New("UIListLayout", {
+			Padding = UDim.new(0, 10),
+			FillDirection = Enum.FillDirection.Horizontal,
+			HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
+	})
+
+	NewDialog.ButtonHolderFrame = New("Frame", {
+		Size = UDim2.new(1, 0, 0, 70),
+		Position = UDim2.new(0, 0, 1, -70),
+		ThemeTag = {
+			BackgroundColor3 = "DialogHolder",
+		},
+	}, {
+		New("Frame", {
+			Size = UDim2.new(1, 0, 0, 1),
+			ThemeTag = {
+				BackgroundColor3 = "DialogHolderLine",
+			},
+		}),
+		NewDialog.ButtonHolder,
+	})
+
+	NewDialog.Title = New("TextLabel", {
+		FontFace = Font.new(
+			"rbxasset://fonts/families/GothamSSm.json",
+			Enum.FontWeight.SemiBold,
+			Enum.FontStyle.Normal
+		),
+		Text = "Dialog",
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 22,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Size = UDim2.new(1, 0, 0, 22),
+		Position = UDim2.fromOffset(20, 25),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	NewDialog.Scale = New("UIScale", {
+		Scale = 1,
+	})
+
+	local ScaleMotor, Scale = Creator.SpringMotor(1.1, NewDialog.Scale, "Scale")
+
+	NewDialog.Root = New("CanvasGroup", {
+		Size = UDim2.fromOffset(300, 165),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Position = UDim2.fromScale(0.5, 0.5),
+		GroupTransparency = 1,
+		Parent = NewDialog.TintFrame,
+		ThemeTag = {
+			BackgroundColor3 = "Dialog",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 8),
+		}),
+		New("UIStroke", {
+			Transparency = 0.5,
+			ThemeTag = {
+				Color = "DialogBorder",
+			},
+		}),
+		NewDialog.Scale,
+		NewDialog.Title,
+		NewDialog.ButtonHolderFrame,
+	})
+
+	local RootMotor, RootTransparency = Creator.SpringMotor(1, NewDialog.Root, "GroupTransparency")
+
+	function NewDialog:Open()
+		require(Root).DialogOpen = true
+		NewDialog.Scale.Scale = 1.1
+		TintTransparency(0.75)
+		RootTransparency(0)
+		Scale(1)
+	end
+
+	function NewDialog:Close()
+		require(Root).DialogOpen = false
+		TintTransparency(1)
+		RootTransparency(1)
+		Scale(1.1)
+		NewDialog.Root.UIStroke:Destroy()
+		task.wait(0.15)
+		NewDialog.TintFrame:Destroy()
+	end
+
+	function NewDialog:Button(Title, Callback)
+		NewDialog.Buttons = NewDialog.Buttons + 1
+		Title = Title or "Button"
+		Callback = Callback or function() end
+
+		local Button = require(Root.Components.Button)("", NewDialog.ButtonHolder, true)
+		Button.Title.Text = Title
+
+		for _, Btn in next, NewDialog.ButtonHolder:GetChildren() do
+			if Btn:IsA("TextButton") then
+				Btn.Size =
+					UDim2.new(1 / NewDialog.Buttons, -(((NewDialog.Buttons - 1) * 10) / NewDialog.Buttons), 0, 32)
+			end
+		end
+
+		Creator.AddSignal(Button.Frame.MouseButton1Click, function()
+			require(Root):SafeCallback(Callback)
+			pcall(function()
+				NewDialog:Close()
+			end)
+		end)
+
+		return Button
+	end
+
+	return NewDialog
+end
+
+return Dialog
+ end,
+    [11] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(11)local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+local New = Creator.New
+
+local Spring = Flipper.Spring.new
+
+return function(Title, Desc, Parent, Hover)
+	local Element = {}
+
+	Element.TitleLabel = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
+		Text = Title,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 13,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Size = UDim2.new(1, 0, 0, 14),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	Element.DescLabel = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		Text = Desc,
+		TextColor3 = Color3.fromRGB(200, 200, 200),
+		TextSize = 12,
+		TextWrapped = true,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 14),
+		ThemeTag = {
+			TextColor3 = "SubText",
+		},
+	})
+
+	Element.LabelHolder = New("Frame", {
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		Position = UDim2.fromOffset(10, 0),
+		Size = UDim2.new(1, -28, 0, 0),
+	}, {
+		New("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			VerticalAlignment = Enum.VerticalAlignment.Center,
+		}),
+		New("UIPadding", {
+			PaddingBottom = UDim.new(0, 13),
+			PaddingTop = UDim.new(0, 13),
+		}),
+		Element.TitleLabel,
+		Element.DescLabel,
+	})
+
+	Element.Border = New("UIStroke", {
+		Transparency = 0.5,
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		Color = Color3.fromRGB(0, 0, 0),
+		ThemeTag = {
+			Color = "ElementBorder",
+		},
+	})
+
+	Element.Frame = New("TextButton", {
+		Size = UDim2.new(1, 0, 0, 0),
+		BackgroundTransparency = 0.89,
+		BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+		Parent = Parent,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Text = "",
+		LayoutOrder = 7,
+		ThemeTag = {
+			BackgroundColor3 = "Element",
+			BackgroundTransparency = "ElementTransparency",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+		Element.Border,
+		Element.LabelHolder,
+	})
+
+	function Element:SetTitle(Set)
+		Element.TitleLabel.Text = Set
+	end
+
+	function Element:SetDesc(Set)
+		if Set == nil then
+			Set = ""
+		end
+		if Set == "" then
+			Element.DescLabel.Visible = false
+		else
+			Element.DescLabel.Visible = true
+		end
+		Element.DescLabel.Text = Set
+	end
+
+	function Element:Destroy()
+		Element.Frame:Destroy()
+	end
+
+	Element:SetTitle(Title)
+	Element:SetDesc(Desc)
+
+	if Hover then
+		local Themes = Root.Themes
+		local Motor, SetTransparency = Creator.SpringMotor(
+			Creator.GetThemeProperty("ElementTransparency"),
+			Element.Frame,
+			"BackgroundTransparency",
+			false,
+			true
+		)
+
+		Creator.AddSignal(Element.Frame.MouseEnter, function()
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency") - Creator.GetThemeProperty("HoverChange"))
+		end)
+		Creator.AddSignal(Element.Frame.MouseLeave, function()
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency"))
+		end)
+		Creator.AddSignal(Element.Frame.MouseButton1Down, function()
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency") + Creator.GetThemeProperty("HoverChange"))
+		end)
+		Creator.AddSignal(Element.Frame.MouseButton1Up, function()
+			SetTransparency(Creator.GetThemeProperty("ElementTransparency") - Creator.GetThemeProperty("HoverChange"))
+		end)
+	end
+
+	return Element
+end
+ end,
+    [12] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(12)local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+local Acrylic = require(Root.Acrylic)
+
+local Spring = Flipper.Spring.new
+local Instant = Flipper.Instant.new
+local New = Creator.New
+
+local Notification = {}
+
+function Notification:Init(GUI)
+	Notification.Holder = New("Frame", {
+		Position = UDim2.new(1, -30, 1, -30),
+		Size = UDim2.new(0, 310, 1, -30),
+		AnchorPoint = Vector2.new(1, 1),
+		BackgroundTransparency = 1,
+		Parent = GUI,
+	}, {
+		New("UIListLayout", {
+			HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			VerticalAlignment = Enum.VerticalAlignment.Bottom,
+			Padding = UDim.new(0, 20),
+		}),
+	})
+end
+
+function Notification:New(Config)
+	Config.Title = Config.Title or "Title"
+	Config.Content = Config.Content or "Content"
+	Config.SubContent = Config.SubContent or ""
+	Config.Duration = Config.Duration or nil
+	Config.Buttons = Config.Buttons or {}
+	local NewNotification = {
+		Closed = false,
+	}
+
+	NewNotification.AcrylicPaint = Acrylic.AcrylicPaint()
+
+	NewNotification.Title = New("TextLabel", {
+		Position = UDim2.new(0, 14, 0, 17),
+		Text = Config.Title,
+		RichText = true,
+		TextColor3 = Color3.fromRGB(255, 255, 255),
+		TextTransparency = 0,
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		TextSize = 13,
+		TextXAlignment = "Left",
+		TextYAlignment = "Center",
+		Size = UDim2.new(1, -12, 0, 12),
+		TextWrapped = true,
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	NewNotification.ContentLabel = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		Text = Config.Content,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Size = UDim2.new(1, 0, 0, 14),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		TextWrapped = true,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	NewNotification.SubContentLabel = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		Text = Config.SubContent,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Size = UDim2.new(1, 0, 0, 14),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		TextWrapped = true,
+		ThemeTag = {
+			TextColor3 = "SubText",
+		},
+	})
+
+	NewNotification.LabelHolder = New("Frame", {
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		Position = UDim2.fromOffset(14, 40),
+		Size = UDim2.new(1, -28, 0, 0),
+	}, {
+		New("UIListLayout", {
+			SortOrder = Enum.SortOrder.LayoutOrder,
+			VerticalAlignment = Enum.VerticalAlignment.Center,
+			Padding = UDim.new(0, 3),
+		}),
+		NewNotification.ContentLabel,
+		NewNotification.SubContentLabel,
+	})
+
+	NewNotification.CloseButton = New("TextButton", {
+		Text = "",
+		Position = UDim2.new(1, -14, 0, 13),
+		Size = UDim2.fromOffset(20, 20),
+		AnchorPoint = Vector2.new(1, 0),
+		BackgroundTransparency = 1,
+	}, {
+		New("ImageLabel", {
+			Image = require(script.Parent.Assets).Close,
+			Size = UDim2.fromOffset(16, 16),
+			Position = UDim2.fromScale(0.5, 0.5),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			BackgroundTransparency = 1,
+			ThemeTag = {
+				ImageColor3 = "Text",
+			},
+		}),
+	})
+
+	NewNotification.Root = New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 1, 0),
+		Position = UDim2.fromScale(1, 0),
+	}, {
+		NewNotification.AcrylicPaint.Frame,
+		NewNotification.Title,
+		NewNotification.CloseButton,
+		NewNotification.LabelHolder,
+	})
+
+	if Config.Content == "" then
+		NewNotification.ContentLabel.Visible = false
+	end
+
+	if Config.SubContent == "" then
+		NewNotification.SubContentLabel.Visible = false
+	end
+
+	NewNotification.Holder = New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 200),
+		Parent = Notification.Holder,
+	}, {
+		NewNotification.Root,
+	})
+
+	local RootMotor = Flipper.GroupMotor.new({
+		Scale = 1,
+		Offset = 60,
+	})
+
+	RootMotor:onStep(function(Values)
+		NewNotification.Root.Position = UDim2.new(Values.Scale, Values.Offset, 0, 0)
+	end)
+
+	Creator.AddSignal(NewNotification.CloseButton.MouseButton1Click, function()
+		NewNotification:Close()
+	end)
+
+	function NewNotification:Open()
+		local ContentSize = NewNotification.LabelHolder.AbsoluteSize.Y
+		NewNotification.Holder.Size = UDim2.new(1, 0, 0, 58 + ContentSize)
+
+		RootMotor:setGoal({
+			Scale = Spring(0, { frequency = 5 }),
+			Offset = Spring(0, { frequency = 5 }),
+		})
+	end
+
+	function NewNotification:Close()
+		if not NewNotification.Closed then
+			NewNotification.Closed = true
+			task.spawn(function()
+				RootMotor:setGoal({
+					Scale = Spring(1, { frequency = 5 }),
+					Offset = Spring(60, { frequency = 5 }),
+				})
+				task.wait(0.4)
+				if require(Root).UseAcrylic then
+					NewNotification.AcrylicPaint.Model:Destroy()
+				end
+				NewNotification.Holder:Destroy()
+			end)
+		end
+	end
+
+	NewNotification:Open()
+	if Config.Duration then
+		task.delay(Config.Duration, function()
+			NewNotification:Close()
+		end)
+	end
+	return NewNotification
+end
+
+return Notification
+ end,
+    [13] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(13)local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+
+return function(Title, Parent)
+	local Section = {}
+
+	Section.Layout = New("UIListLayout", {
+		Padding = UDim.new(0, 5),
+	})
+
+	Section.Container = New("Frame", {
+		Size = UDim2.new(1, 0, 0, 26),
+		Position = UDim2.fromOffset(0, 24),
+		BackgroundTransparency = 1,
+	}, {
+		Section.Layout,
+	})
+
+	Section.Root = New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 0, 26),
+		LayoutOrder = 7,
+		Parent = Parent,
+	}, {
+		New("TextLabel", {
+			RichText = true,
+			Text = Title,
+			TextTransparency = 0,
+			FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+			TextSize = 18,
+			TextXAlignment = "Left",
+			TextYAlignment = "Center",
+			Size = UDim2.new(1, -16, 0, 18),
+			Position = UDim2.fromOffset(0, 2),
+			ThemeTag = {
+				TextColor3 = "Text",
+			},
+		}),
+		Section.Container,
+	})
+
+	Creator.AddSignal(Section.Layout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
+		Section.Container.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y)
+		Section.Root.Size = UDim2.new(1, 0, 0, Section.Layout.AbsoluteContentSize.Y + 25)
+	end)
+	return Section
+end
+ end,
+    [14] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(14)local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Spring = Flipper.Spring.new
+local Instant = Flipper.Instant.new
+local Components = Root.Components
+
+local TabModule = {
+	Window = nil,
+	Tabs = {},
+	Containers = {},
+	SelectedTab = 0,
+	TabCount = 0,
+}
+
+function TabModule:Init(Window)
+	TabModule.Window = Window
+	return TabModule
+end
+
+function TabModule:GetCurrentTabPos()
+	local TabHolderPos = TabModule.Window.TabHolder.AbsolutePosition.Y
+	local TabPos = TabModule.Tabs[TabModule.SelectedTab].Frame.AbsolutePosition.Y
+
+	return TabPos - TabHolderPos
+end
+
+function TabModule:New(Title, Icon, Parent)
+	local Library = require(Root)
+	local Window = TabModule.Window
+	local Elements = Library.Elements
+
+	TabModule.TabCount = TabModule.TabCount + 1
+	local TabIndex = TabModule.TabCount
+
+	local Tab = {
+		Selected = false,
+		Name = Title,
+		Type = "Tab",
+	}
+
+	if Library:GetIcon(Icon) then
+		Icon = Library:GetIcon(Icon)
+	end
+
+	if Icon == "" or nil then
+		Icon = nil
+	end
+
+	Tab.Frame = New("TextButton", {
+		Size = UDim2.new(1, 0, 0, 34),
+		BackgroundTransparency = 1,
+		Parent = Parent,
+		ThemeTag = {
+			BackgroundColor3 = "Tab",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 6),
+		}),
+		New("TextLabel", {
+			AnchorPoint = Vector2.new(0, 0.5),
+			Position = Icon and UDim2.new(0, 30, 0.5, 0) or UDim2.new(0, 12, 0.5, 0),
+			Text = Title,
+			RichText = true,
+			TextColor3 = Color3.fromRGB(255, 255, 255),
+			TextTransparency = 0,
+			FontFace = Font.new(
+				"rbxasset://fonts/families/GothamSSm.json",
+				Enum.FontWeight.Regular,
+				Enum.FontStyle.Normal
+			),
+			TextSize = 12,
+			TextXAlignment = "Left",
+			TextYAlignment = "Center",
+			Size = UDim2.new(1, -12, 1, 0),
+			BackgroundTransparency = 1,
+			ThemeTag = {
+				TextColor3 = "Text",
+			},
+		}),
+		New("ImageLabel", {
+			AnchorPoint = Vector2.new(0, 0.5),
+			Size = UDim2.fromOffset(16, 16),
+			Position = UDim2.new(0, 8, 0.5, 0),
+			BackgroundTransparency = 1,
+			Image = Icon and Icon or nil,
+			ThemeTag = {
+				ImageColor3 = "Text",
+			},
+		}),
+	})
+
+	local ContainerLayout = New("UIListLayout", {
+		Padding = UDim.new(0, 5),
+		SortOrder = Enum.SortOrder.LayoutOrder,
+	})
+
+	Tab.ContainerFrame = New("ScrollingFrame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 1,
+		Parent = Window.ContainerHolder,
+		Visible = false,
+		BottomImage = "rbxassetid://6889812791",
+		MidImage = "rbxassetid://6889812721",
+		TopImage = "rbxassetid://6276641225",
+		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+		ScrollBarImageTransparency = 0.95,
+		ScrollBarThickness = 3,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.fromScale(0, 0),
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+	}, {
+		ContainerLayout,
+		New("UIPadding", {
+			PaddingRight = UDim.new(0, 10),
+			PaddingLeft = UDim.new(0, 1),
+			PaddingTop = UDim.new(0, 1),
+			PaddingBottom = UDim.new(0, 1),
+		}),
+	})
+
+	Creator.AddSignal(ContainerLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
+		Tab.ContainerFrame.CanvasSize = UDim2.new(0, 0, 0, ContainerLayout.AbsoluteContentSize.Y + 2)
+	end)
+
+	Tab.Motor, Tab.SetTransparency = Creator.SpringMotor(1, Tab.Frame, "BackgroundTransparency")
+
+	Creator.AddSignal(Tab.Frame.MouseEnter, function()
+		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89)
+	end)
+	Creator.AddSignal(Tab.Frame.MouseLeave, function()
+		Tab.SetTransparency(Tab.Selected and 0.89 or 1)
+	end)
+	Creator.AddSignal(Tab.Frame.MouseButton1Down, function()
+		Tab.SetTransparency(0.92)
+	end)
+	Creator.AddSignal(Tab.Frame.MouseButton1Up, function()
+		Tab.SetTransparency(Tab.Selected and 0.85 or 0.89)
+	end)
+	Creator.AddSignal(Tab.Frame.MouseButton1Click, function()
+		TabModule:SelectTab(TabIndex)
+	end)
+
+	TabModule.Containers[TabIndex] = Tab.ContainerFrame
+	TabModule.Tabs[TabIndex] = Tab
+
+	Tab.Container = Tab.ContainerFrame
+	Tab.ScrollFrame = Tab.Container
+
+	function Tab:AddSection(SectionTitle)
+		local Section = { Type = "Section" }
+
+		local SectionFrame = require(Components.Section)(SectionTitle, Tab.Container)
+		Section.Container = SectionFrame.Container
+		Section.ScrollFrame = Tab.Container
+
+		setmetatable(Section, Elements)
+		return Section
+	end
+
+	setmetatable(Tab, Elements)
+	return Tab
+end
+
+function TabModule:SelectTab(Tab)
+	local Window = TabModule.Window
+
+	TabModule.SelectedTab = Tab
+
+	for _, TabObject in next, TabModule.Tabs do
+		TabObject.SetTransparency(1)
+		TabObject.Selected = false
+	end
+	TabModule.Tabs[Tab].SetTransparency(0.89)
+	TabModule.Tabs[Tab].Selected = true
+
+	Window.TabDisplay.Text = TabModule.Tabs[Tab].Name
+	Window.SelectorPosMotor:setGoal(Spring(TabModule:GetCurrentTabPos(), { frequency = 6 }))
+
+	task.spawn(function()
+		Window.ContainerPosMotor:setGoal(Spring(110, { frequency = 10 }))
+		Window.ContainerBackMotor:setGoal(Spring(1, { frequency = 10 }))
+		task.wait(0.15)
+		for _, Container in next, TabModule.Containers do
+			Container.Visible = false
+		end
+		TabModule.Containers[Tab].Visible = true
+		Window.ContainerPosMotor:setGoal(Spring(94, { frequency = 5 }))
+		Window.ContainerBackMotor:setGoal(Spring(0, { frequency = 8 }))
+	end)
+end
+
+return TabModule
+ end,
+    [15] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(15)local TextService = game:GetService("TextService")
+local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+local New = Creator.New
+
+return function(Parent, Acrylic)
+	Acrylic = Acrylic or false
+	local Textbox = {}
+
+	Textbox.Input = New("TextBox", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		TextColor3 = Color3.fromRGB(200, 200, 200),
+		TextSize = 14,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		TextYAlignment = Enum.TextYAlignment.Center,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		Position = UDim2.fromOffset(10, 0),
+		ThemeTag = {
+			TextColor3 = "Text",
+			PlaceholderColor3 = "SubText",
+		},
+	})
+
+	Textbox.Container = New("Frame", {
+		BackgroundTransparency = 1,
+		ClipsDescendants = true,
+		Position = UDim2.new(0, 6, 0, 0),
+		Size = UDim2.new(1, -12, 1, 0),
+	}, {
+		Textbox.Input,
+	})
+
+	Textbox.Indicator = New("Frame", {
+		Size = UDim2.new(1, -4, 0, 1),
+		Position = UDim2.new(0, 2, 1, 0),
+		AnchorPoint = Vector2.new(0, 1),
+		BackgroundTransparency = Acrylic and 0.5 or 0,
+		ThemeTag = {
+			BackgroundColor3 = Acrylic and "InputIndicator" or "DialogInputLine",
+		},
+	})
+
+	Textbox.Frame = New("Frame", {
+		Size = UDim2.new(0, 0, 0, 30),
+		BackgroundTransparency = Acrylic and 0.9 or 0,
+		Parent = Parent,
+		ThemeTag = {
+			BackgroundColor3 = Acrylic and "Input" or "DialogInput",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+		New("UIStroke", {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			Transparency = Acrylic and 0.5 or 0.65,
+			ThemeTag = {
+				Color = Acrylic and "InElementBorder" or "DialogButtonBorder",
+			},
+		}),
+		Textbox.Indicator,
+		Textbox.Container,
+	})
+
+	local function Update()
+		local PADDING = 2
+		local Reveal = Textbox.Container.AbsoluteSize.X
+
+		if not Textbox.Input:IsFocused() or Textbox.Input.TextBounds.X <= Reveal - 2 * PADDING then
+			Textbox.Input.Position = UDim2.new(0, PADDING, 0, 0)
+		else
+			local Cursor = Textbox.Input.CursorPosition
+			if Cursor ~= -1 then
+				local subtext = string.sub(Textbox.Input.Text, 1, Cursor - 1)
+				local width = TextService:GetTextSize(
+					subtext,
+					Textbox.Input.TextSize,
+					Textbox.Input.Font,
+					Vector2.new(math.huge, math.huge)
+				).X
+
+				local CurrentCursorPos = Textbox.Input.Position.X.Offset + width
+				if CurrentCursorPos < PADDING then
+					Textbox.Input.Position = UDim2.fromOffset(PADDING - width, 0)
+				elseif CurrentCursorPos > Reveal - PADDING - 1 then
+					Textbox.Input.Position = UDim2.fromOffset(Reveal - width - PADDING - 1, 0)
+				end
+			end
+		end
+	end
+
+	task.spawn(Update)
+
+	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("Text"), Update)
+	Creator.AddSignal(Textbox.Input:GetPropertyChangedSignal("CursorPosition"), Update)
+
+	Creator.AddSignal(Textbox.Input.Focused, function()
+		Update()
+		Textbox.Indicator.Size = UDim2.new(1, -2, 0, 2)
+		Textbox.Indicator.Position = UDim2.new(0, 1, 1, 0)
+		Textbox.Indicator.BackgroundTransparency = 0
+		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "InputFocused" or "DialogHolder" })
+		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = "Accent" })
+	end)
+
+	Creator.AddSignal(Textbox.Input.FocusLost, function()
+		Update()
+		Textbox.Indicator.Size = UDim2.new(1, -4, 0, 1)
+		Textbox.Indicator.Position = UDim2.new(0, 2, 1, 0)
+		Textbox.Indicator.BackgroundTransparency = 0.5
+		Creator.OverrideTag(Textbox.Frame, { BackgroundColor3 = Acrylic and "Input" or "DialogInput" })
+		Creator.OverrideTag(Textbox.Indicator, { BackgroundColor3 = Acrylic and "InputIndicator" or "DialogInputLine" })
+	end)
+
+	return Textbox
+end
+ end,
+    [16] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(16)local Root = script.Parent.Parent
+local Assets = require(script.Parent.Assets)
+local Creator = require(Root.Creator)
+local Flipper = require(Root.Packages.Flipper)
+
+local New = Creator.New
+local AddSignal = Creator.AddSignal
+
+return function(Config)
+	local TitleBar = {}
+
+	local Library = require(Root)
+
+	local function BarButton(Icon, Pos, Parent, Callback)
+		local Button = {
+			Callback = Callback or function() end,
+		}
+
+		Button.Frame = New("TextButton", {
+			Size = UDim2.new(0, 34, 1, -8),
+			AnchorPoint = Vector2.new(1, 0),
+			BackgroundTransparency = 1,
+			Parent = Parent,
+			Position = Pos,
+			Text = "",
+			ThemeTag = {
+				BackgroundColor3 = "Text",
+			},
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 7),
+			}),
+			New("ImageLabel", {
+				Image = Icon,
+				Size = UDim2.fromOffset(16, 16),
+				Position = UDim2.fromScale(0.5, 0.5),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+				Name = "Icon",
+				ThemeTag = {
+					ImageColor3 = "Text",
+				},
+			}),
+		})
+
+		local Motor, SetTransparency = Creator.SpringMotor(1, Button.Frame, "BackgroundTransparency")
+
+		AddSignal(Button.Frame.MouseEnter, function()
+			SetTransparency(0.94)
+		end)
+		AddSignal(Button.Frame.MouseLeave, function()
+			SetTransparency(1, true)
+		end)
+		AddSignal(Button.Frame.MouseButton1Down, function()
+			SetTransparency(0.96)
+		end)
+		AddSignal(Button.Frame.MouseButton1Up, function()
+			SetTransparency(0.94)
+		end)
+		AddSignal(Button.Frame.MouseButton1Click, Button.Callback)
+
+		Button.SetCallback = function(Func)
+			Button.Callback = Func
+		end
+
+		return Button
+	end
+
+	TitleBar.Frame = New("Frame", {
+		Size = UDim2.new(1, 0, 0, 42),
+		BackgroundTransparency = 1,
+		Parent = Config.Parent,
+	}, {
+		New("Frame", {
+			Size = UDim2.new(1, -16, 1, 0),
+			Position = UDim2.new(0, 16, 0, 0),
+			BackgroundTransparency = 1,
+		}, {
+			New("UIListLayout", {
+				Padding = UDim.new(0, 5),
+				FillDirection = Enum.FillDirection.Horizontal,
+				SortOrder = Enum.SortOrder.LayoutOrder,
+			}),
+			New("TextLabel", {
+				RichText = true,
+				Text = Config.Title,
+				FontFace = Font.new(
+					"rbxasset://fonts/families/GothamSSm.json",
+					Enum.FontWeight.Regular,
+					Enum.FontStyle.Normal
+				),
+				TextSize = 12,
+				TextXAlignment = "Left",
+				TextYAlignment = "Center",
+				Size = UDim2.fromScale(0, 1),
+				AutomaticSize = Enum.AutomaticSize.X,
+				BackgroundTransparency = 1,
+				ThemeTag = {
+					TextColor3 = "Text",
+				},
+			}),
+			New("TextLabel", {
+				RichText = true,
+				Text = Config.SubTitle,
+				TextTransparency = 0.4,
+				FontFace = Font.new(
+					"rbxasset://fonts/families/GothamSSm.json",
+					Enum.FontWeight.Regular,
+					Enum.FontStyle.Normal
+				),
+				TextSize = 12,
+				TextXAlignment = "Left",
+				TextYAlignment = "Center",
+				Size = UDim2.fromScale(0, 1),
+				AutomaticSize = Enum.AutomaticSize.X,
+				BackgroundTransparency = 1,
+				ThemeTag = {
+					TextColor3 = "Text",
+				},
+			}),
+		}),
+		New("Frame", {
+			BackgroundTransparency = 0.5,
+			Size = UDim2.new(1, 0, 0, 1),
+			Position = UDim2.new(0, 0, 1, 0),
+			ThemeTag = {
+				BackgroundColor3 = "TitleBarLine",
+			},
+		}),
+	})
+
+	TitleBar.CloseButton = BarButton(Assets.Close, UDim2.new(1, -4, 0, 4), TitleBar.Frame, function()
+		Library.Window:Dialog({
+			Title = "Close",
+			Content = "Are you sure you want to unload the interface?",
+			Buttons = {
+				{
+					Title = "Yes",
+					Callback = function()
+						Library:Destroy()
+					end,
+				},
+				{
+					Title = "No",
+				},
+			},
+		})
+	end)
+	TitleBar.MaxButton = BarButton(Assets.Max, UDim2.new(1, -40, 0, 4), TitleBar.Frame, function()
+		Config.Window.Maximize(not Config.Window.Maximized)
+	end)
+	TitleBar.MinButton = BarButton(Assets.Min, UDim2.new(1, -80, 0, 4), TitleBar.Frame, function()
+		Library.Window:Minimize()
+	end)
+
+	return TitleBar
+end
+ end,
+    [17] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(17)-- i will rewrite this someday
+local UserInputService = game:GetService("UserInputService")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local Camera = game:GetService("Workspace").CurrentCamera
+
+local Root = script.Parent.Parent
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+local Acrylic = require(Root.Acrylic)
+local Assets = require(script.Parent.Assets)
+local Components = script.Parent
+
+local Spring = Flipper.Spring.new
+local Instant = Flipper.Instant.new
+local New = Creator.New
+
+return function(Config)
+	local Library = require(Root)
+
+	local Window = {
+		Minimized = false,
+		Maximized = false,
+		Size = Config.Size,
+		CurrentPos = 0,
+		Position = UDim2.fromOffset(
+			Camera.ViewportSize.X / 2 - Config.Size.X.Offset / 2,
+			Camera.ViewportSize.Y / 2 - Config.Size.Y.Offset / 2
+		),
+	}
+
+	local Dragging, DragInput, MousePos, StartPos = false
+	local Resizing, ResizePos = false
+	local MinimizeNotif = false
+
+	Window.AcrylicPaint = Acrylic.AcrylicPaint()
+
+	local Selector = New("Frame", {
+		Size = UDim2.fromOffset(4, 0),
+		BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+		Position = UDim2.fromOffset(0, 17),
+		AnchorPoint = Vector2.new(0, 0.5),
+		ThemeTag = {
+			BackgroundColor3 = "Accent",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 2),
+		}),
+	})
+
+	local ResizeStartFrame = New("Frame", {
+		Size = UDim2.fromOffset(20, 20),
+		BackgroundTransparency = 1,
+		Position = UDim2.new(1, -20, 1, -20),
+	})
+
+	Window.TabHolder = New("ScrollingFrame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundTransparency = 1,
+		ScrollBarImageTransparency = 1,
+		ScrollBarThickness = 0,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.fromScale(0, 0),
+		ScrollingDirection = Enum.ScrollingDirection.Y,
+	}, {
+		New("UIListLayout", {
+			Padding = UDim.new(0, 4),
+		}),
+	})
+
+	local TabFrame = New("Frame", {
+		Size = UDim2.new(0, Config.TabWidth, 1, -66),
+		Position = UDim2.new(0, 12, 0, 54),
+		BackgroundTransparency = 1,
+		ClipsDescendants = true,
+	}, {
+		Window.TabHolder,
+		Selector,
+	})
+
+	Window.TabDisplay = New("TextLabel", {
+		RichText = true,
+		Text = "Tab",
+		TextTransparency = 0,
+		FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+		TextSize = 28,
+		TextXAlignment = "Left",
+		TextYAlignment = "Center",
+		Size = UDim2.new(1, -16, 0, 28),
+		Position = UDim2.fromOffset(Config.TabWidth + 26, 56),
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	Window.ContainerHolder = New("CanvasGroup", {
+		Size = UDim2.new(1, -Config.TabWidth - 32, 1, -102),
+		Position = UDim2.fromOffset(Config.TabWidth + 26, 90),
+		BackgroundTransparency = 1,
+	})
+
+	Window.Root = New("Frame", {
+		BackgroundTransparency = 1,
+		Size = Window.Size,
+		Position = Window.Position,
+		Parent = Config.Parent,
+		Active = true,
+	}, {
+		Window.AcrylicPaint.Frame,
+		Window.TabDisplay,
+		Window.ContainerHolder,
+		TabFrame,
+		ResizeStartFrame,
+	})
+
+	Window.TitleBar = require(script.Parent.TitleBar)({
+		Title = Config.Title,
+		SubTitle = Config.SubTitle,
+		Parent = Window.Root,
+		Window = Window,
+	})
+
+	if Library.UseAcrylic then
+		Window.AcrylicPaint.AddParent(Window.Root)
+	end
+
+	local SizeMotor = Flipper.GroupMotor.new({
+		X = Window.Size.X.Offset,
+		Y = Window.Size.Y.Offset,
+	})
+
+	local PosMotor = Flipper.GroupMotor.new({
+		X = Window.Position.X.Offset,
+		Y = Window.Position.Y.Offset,
+	})
+
+	Window.SelectorPosMotor = Flipper.SingleMotor.new(17)
+	Window.SelectorSizeMotor = Flipper.SingleMotor.new(0)
+	Window.ContainerBackMotor = Flipper.SingleMotor.new(0)
+	Window.ContainerPosMotor = Flipper.SingleMotor.new(94)
+
+	SizeMotor:onStep(function(values)
+		Window.Root.Size = UDim2.new(0, values.X, 0, values.Y)
+	end)
+
+	PosMotor:onStep(function(values)
+		Window.Root.Position = UDim2.new(0, values.X, 0, values.Y)
+	end)
+
+	local LastValue = 0
+	local LastTime = 0
+	Window.SelectorPosMotor:onStep(function(Value)
+		Selector.Position = UDim2.new(0, 0, 0, Value + 17)
+		local Now = tick()
+		local DeltaTime = Now - LastTime
+
+		if LastValue ~= nil then
+			Window.SelectorSizeMotor:setGoal(Spring((math.abs(Value - LastValue) / (DeltaTime * 60)) + 16))
+			LastValue = Value
+		end
+		LastTime = Now
+	end)
+
+	Window.SelectorSizeMotor:onStep(function(Value)
+		Selector.Size = UDim2.new(0, 4, 0, Value)
+	end)
+
+	Window.ContainerBackMotor:onStep(function(Value)
+		Window.ContainerHolder.GroupTransparency = Value
+	end)
+
+	Window.ContainerPosMotor:onStep(function(Value)
+		Window.ContainerHolder.Position = UDim2.fromOffset(Config.TabWidth + 26, Value)
+	end)
+
+	local OldSizeX
+	local OldSizeY
+	Window.Maximize = function(Value, NoPos, Instant)
+		Window.Maximized = Value
+		Window.TitleBar.MaxButton.Frame.Icon.Image = Value and Assets.Restore or Assets.Max
+
+		if Value then
+			OldSizeX = Window.Size.X.Offset
+			OldSizeY = Window.Size.Y.Offset
+		end
+		local SizeX = Value and Camera.ViewportSize.X or OldSizeX
+		local SizeY = Value and Camera.ViewportSize.Y or OldSizeY
+		SizeMotor:setGoal({
+			X = Flipper[Instant and "Instant" or "Spring"].new(SizeX, { frequency = 6 }),
+			Y = Flipper[Instant and "Instant" or "Spring"].new(SizeY, { frequency = 6 }),
+		})
+		Window.Size = UDim2.fromOffset(SizeX, SizeY)
+
+		if not NoPos then
+			PosMotor:setGoal({
+				X = Spring(Value and 0 or Window.Position.X.Offset, { frequency = 6 }),
+				Y = Spring(Value and 0 or Window.Position.Y.Offset, { frequency = 6 }),
+			})
+		end
+	end
+
+	Creator.AddSignal(Window.TitleBar.Frame.InputBegan, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			Dragging = true
+			MousePos = Input.Position
+			StartPos = Window.Root.Position
+
+			if Window.Maximized then
+				StartPos = UDim2.fromOffset(
+					Mouse.X - (Mouse.X * ((OldSizeX - 100) / Window.Root.AbsoluteSize.X)),
+					Mouse.Y - (Mouse.Y * (OldSizeY / Window.Root.AbsoluteSize.Y))
+				)
+			end
+
+			Input.Changed:Connect(function()
+				if Input.UserInputState == Enum.UserInputState.End then
+					Dragging = false
+				end
+			end)
+		end
+	end)
+
+	Creator.AddSignal(Window.TitleBar.Frame.InputChanged, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseMovement
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			DragInput = Input
+		end
+	end)
+
+	Creator.AddSignal(ResizeStartFrame.InputBegan, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			Resizing = true
+			ResizePos = Input.Position
+		end
+	end)
+
+	Creator.AddSignal(UserInputService.InputChanged, function(Input)
+		if Input == DragInput and Dragging then
+			local Delta = Input.Position - MousePos
+			Window.Position = UDim2.fromOffset(StartPos.X.Offset + Delta.X, StartPos.Y.Offset + Delta.Y)
+			PosMotor:setGoal({
+				X = Instant(Window.Position.X.Offset),
+				Y = Instant(Window.Position.Y.Offset),
+			})
+
+			if Window.Maximized then
+				Window.Maximize(false, true, true)
+			end
+		end
+
+		if
+			(Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch)
+			and Resizing
+		then
+			local Delta = Input.Position - ResizePos
+			local StartSize = Window.Size
+
+			local TargetSize = Vector3.new(StartSize.X.Offset, StartSize.Y.Offset, 0) + Vector3.new(1, 1, 0) * Delta
+			local TargetSizeClamped =
+				Vector2.new(math.clamp(TargetSize.X, 470, 2048), math.clamp(TargetSize.Y, 380, 2048))
+
+			SizeMotor:setGoal({
+				X = Flipper.Instant.new(TargetSizeClamped.X),
+				Y = Flipper.Instant.new(TargetSizeClamped.Y),
+			})
+		end
+	end)
+
+	Creator.AddSignal(UserInputService.InputEnded, function(Input)
+		if Resizing == true or Input.UserInputType == Enum.UserInputType.Touch then
+			Resizing = false
+			Window.Size = UDim2.fromOffset(SizeMotor:getValue().X, SizeMotor:getValue().Y)
+		end
+	end)
+
+	Creator.AddSignal(Window.TabHolder.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"), function()
+		Window.TabHolder.CanvasSize = UDim2.new(0, 0, 0, Window.TabHolder.UIListLayout.AbsoluteContentSize.Y)
+	end)
+
+	Creator.AddSignal(UserInputService.InputBegan, function(Input)
+		if
+			type(Library.MinimizeKeybind) == "table"
+			and Library.MinimizeKeybind.Type == "Keybind"
+			and not UserInputService:GetFocusedTextBox()
+		then
+			if Input.KeyCode.Name == Library.MinimizeKeybind.Value then
+				Window:Minimize()
+			end
+		elseif Input.KeyCode == Library.MinimizeKey and not UserInputService:GetFocusedTextBox() then
+			Window:Minimize()
+		end
+	end)
+
+	function Window:Minimize()
+		Window.Minimized = not Window.Minimized
+		Window.Root.Visible = not Window.Minimized
+		if not MinimizeNotif then
+			MinimizeNotif = true
+			local Key = Library.MinimizeKeybind and Library.MinimizeKeybind.Value or Library.MinimizeKey.Name
+			Library:Notify({
+				Title = "Interface",
+				Content = "Press " .. Key .. " to toggle the inteface.",
+				Duration = 6
+			})
+		end
+	end
+
+	function Window:Destroy()
+		if Library.UseAcrylic then
+			Window.AcrylicPaint.Model:Destroy()
+		end
+		Window.Root:Destroy()
+	end
+
+	local DialogModule = require(Components.Dialog):Init(Window)
+	function Window:Dialog(Config)
+		local Dialog = DialogModule:Create()
+		Dialog.Title.Text = Config.Title
+
+		local Content = New("TextLabel", {
+			FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+			Text = Config.Content,
+			TextColor3 = Color3.fromRGB(240, 240, 240),
+			TextSize = 14,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			TextYAlignment = Enum.TextYAlignment.Top,
+			Size = UDim2.new(1, -40, 1, 0),
+			Position = UDim2.fromOffset(20, 60),
+			BackgroundTransparency = 1,
+			Parent = Dialog.Root,
+			ClipsDescendants = false,
+			ThemeTag = {
+				TextColor3 = "Text",
+			},
+		})
+
+		New("UISizeConstraint", {
+			MinSize = Vector2.new(300, 165),
+			MaxSize = Vector2.new(620, math.huge),
+			Parent = Dialog.Root,
+		})
+
+		Dialog.Root.Size = UDim2.fromOffset(Content.TextBounds.X + 40, 165)
+		if Content.TextBounds.X + 40 > Window.Size.X.Offset - 120 then
+			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, 165)
+			Content.TextWrapped = true
+			Dialog.Root.Size = UDim2.fromOffset(Window.Size.X.Offset - 120, Content.TextBounds.Y + 150)
+		end
+
+		for _, Button in next, Config.Buttons do
+			Dialog:Button(Button.Title, Button.Callback)
+		end
+
+		Dialog:Open()
+	end
+
+	local TabModule = require(Components.Tab):Init(Window)
+	function Window:AddTab(TabConfig)
+		return TabModule:New(TabConfig.Title, TabConfig.Icon, Window.TabHolder)
+	end
+
+	function Window:SelectTab(Tab)
+		TabModule:SelectTab(1)
+	end
+
+	Creator.AddSignal(Window.TabHolder:GetPropertyChangedSignal("CanvasPosition"), function()
+		LastValue = TabModule:GetCurrentTabPos() + 16
+		LastTime = 0
+		Window.SelectorPosMotor:setGoal(Instant(TabModule:GetCurrentTabPos()))
+	end)
+
+	return Window
+end
+ end,
+    [18] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(18)local Root = script.Parent
+local Themes = require(Root.Themes)
+local Flipper = require(Root.Packages.Flipper)
+
+local Creator = {
+	Registry = {},
+	Signals = {},
+	TransparencyMotors = {},
+	DefaultProperties = {
+		ScreenGui = {
+			ResetOnSpawn = false,
+			ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+		},
+		Frame = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			BorderSizePixel = 0,
+		},
+		ScrollingFrame = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			ScrollBarImageColor3 = Color3.new(0, 0, 0),
+		},
+		TextLabel = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			Font = Enum.Font.SourceSans,
+			Text = "",
+			TextColor3 = Color3.new(0, 0, 0),
+			BackgroundTransparency = 1,
+			TextSize = 14,
+		},
+		TextButton = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			AutoButtonColor = false,
+			Font = Enum.Font.SourceSans,
+			Text = "",
+			TextColor3 = Color3.new(0, 0, 0),
+			TextSize = 14,
+		},
+		TextBox = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			ClearTextOnFocus = false,
+			Font = Enum.Font.SourceSans,
+			Text = "",
+			TextColor3 = Color3.new(0, 0, 0),
+			TextSize = 14,
+		},
+		ImageLabel = {
+			BackgroundTransparency = 1,
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			BorderSizePixel = 0,
+		},
+		ImageButton = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			AutoButtonColor = false,
+		},
+		CanvasGroup = {
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BorderColor3 = Color3.new(0, 0, 0),
+			BorderSizePixel = 0,
+		},
+	},
+}
+
+local function ApplyCustomProps(Object, Props)
+	if Props.ThemeTag then
+		Creator.AddThemeObject(Object, Props.ThemeTag)
+	end
+end
+
+function Creator.AddSignal(Signal, Function)
+	table.insert(Creator.Signals, Signal:Connect(Function))
+end
+
+function Creator.Disconnect()
+	for Idx = #Creator.Signals, 1, -1 do
+		local Connection = table.remove(Creator.Signals, Idx)
+		Connection:Disconnect()
+	end
+end
+
+function Creator.GetThemeProperty(Property)
+	if Themes[require(Root).Theme][Property] then
+		return Themes[require(Root).Theme][Property]
+	end
+	return Themes["Dark"][Property]
+end
+
+function Creator.UpdateTheme()
+	for Instance, Object in next, Creator.Registry do
+		for Property, ColorIdx in next, Object.Properties do
+			Instance[Property] = Creator.GetThemeProperty(ColorIdx)
+		end
+	end
+
+	for _, Motor in next, Creator.TransparencyMotors do
+		Motor:setGoal(Flipper.Instant.new(Creator.GetThemeProperty("ElementTransparency")))
+	end
+end
+
+function Creator.AddThemeObject(Object, Properties)
+	local Idx = #Creator.Registry + 1
+	local Data = {
+		Object = Object,
+		Properties = Properties,
+		Idx = Idx,
+	}
+
+	Creator.Registry[Object] = Data
+	Creator.UpdateTheme()
+	return Object
+end
+
+function Creator.OverrideTag(Object, Properties)
+	Creator.Registry[Object].Properties = Properties
+	Creator.UpdateTheme()
+end
+
+function Creator.New(Name, Properties, Children)
+	local Object = Instance.new(Name)
+
+	-- Default properties
+	for Name, Value in next, Creator.DefaultProperties[Name] or {} do
+		Object[Name] = Value
+	end
+
+	-- Properties
+	for Name, Value in next, Properties or {} do
+		if Name ~= "ThemeTag" then
+			Object[Name] = Value
+		end
+	end
+
+	-- Children
+	for _, Child in next, Children or {} do
+		Child.Parent = Object
+	end
+
+	ApplyCustomProps(Object, Properties)
+	return Object
+end
+
+function Creator.SpringMotor(Initial, Instance, Prop, IgnoreDialogCheck, ResetOnThemeChange)
+	IgnoreDialogCheck = IgnoreDialogCheck or false
+	ResetOnThemeChange = ResetOnThemeChange or false
+	local Motor = Flipper.SingleMotor.new(Initial)
+	Motor:onStep(function(value)
+		Instance[Prop] = value
+	end)
+
+	if ResetOnThemeChange then
+		table.insert(Creator.TransparencyMotors, Motor)
+	end
+
+	local function SetValue(Value, Ignore)
+		Ignore = Ignore or false
+		if not IgnoreDialogCheck then
+			if not Ignore then
+				if Prop == "BackgroundTransparency" and require(Root).DialogOpen then
+					return
+				end
+			end
+		end
+		Motor:setGoal(Flipper.Spring.new(Value, { frequency = 8 }))
+	end
+
+	return Motor, SetValue
+end
+
+return Creator
+ end,
+    [19] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(19)local Elements = {}
+
+for _, Theme in next, script:GetChildren() do
+	table.insert(Elements, require(Theme))
+end
+
+return Elements
+ end,
+    [20] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(20)local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Button"
+
+function Element:New(Config)
+	assert(Config.Title, "Button - Missing Title")
+	Config.Callback = Config.Callback or function() end
+
+	local ButtonFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+
+	local ButtonIco = New("ImageLabel", {
+		Image = "rbxassetid://10709791437",
+		Size = UDim2.fromOffset(16, 16),
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		BackgroundTransparency = 1,
+		Parent = ButtonFrame.Frame,
+		ThemeTag = {
+			ImageColor3 = "Text",
+		},
+	})
+
+	Creator.AddSignal(ButtonFrame.Frame.MouseButton1Click, function()
+		self.Library:SafeCallback(Config.Callback)
+	end)
+
+	return ButtonFrame
+end
+
+return Element
+ end,
+    [21] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(21)local UserInputService = game:GetService("UserInputService")
+local TouchInputService = game:GetService("TouchInputService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+local RenderStepped = RunService.RenderStepped
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Colorpicker"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+	assert(Config.Title, "Colorpicker - Missing Title")
+	assert(Config.Default, "AddColorPicker: Missing default value.")
+
+	local Colorpicker = {
+		Value = Config.Default,
+		Transparency = Config.Transparency or 0,
+		Type = "Colorpicker",
+		Title = type(Config.Title) == "string" and Config.Title or "Colorpicker",
+		Callback = Config.Callback or function(Color) end,
+	}
+
+	function Colorpicker:SetHSVFromRGB(Color)
+		local H, S, V = Color3.toHSV(Color)
+		Colorpicker.Hue = H
+		Colorpicker.Sat = S
+		Colorpicker.Vib = V
+	end
+
+	Colorpicker:SetHSVFromRGB(Colorpicker.Value)
+
+	local ColorpickerFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+
+	Colorpicker.SetTitle = ColorpickerFrame.SetTitle
+	Colorpicker.SetDesc = ColorpickerFrame.SetDesc
+
+	local DisplayFrameColor = New("Frame", {
+		Size = UDim2.fromScale(1, 1),
+		BackgroundColor3 = Colorpicker.Value,
+		Parent = ColorpickerFrame.Frame,
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+	})
+
+	local DisplayFrame = New("ImageLabel", {
+		Size = UDim2.fromOffset(26, 26),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		AnchorPoint = Vector2.new(1, 0.5),
+		Parent = ColorpickerFrame.Frame,
+		Image = "http://www.roblox.com/asset/?id=14204231522",
+		ImageTransparency = 0.45,
+		ScaleType = Enum.ScaleType.Tile,
+		TileSize = UDim2.fromOffset(40, 40),
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		}),
+		DisplayFrameColor,
+	})
+
+	local function CreateColorDialog()
+		local Dialog = require(Components.Dialog):Create()
+		Dialog.Title.Text = Colorpicker.Title
+		Dialog.Root.Size = UDim2.fromOffset(430, 330)
+
+		local Hue, Sat, Vib = Colorpicker.Hue, Colorpicker.Sat, Colorpicker.Vib
+		local Transparency = Colorpicker.Transparency
+
+		local function CreateInput()
+			local Box = require(Components.Textbox)()
+			Box.Frame.Parent = Dialog.Root
+			Box.Frame.Size = UDim2.new(0, 90, 0, 32)
+
+			return Box
+		end
+
+		local function CreateInputLabel(Text, Pos)
+			return New("TextLabel", {
+				FontFace = Font.new(
+					"rbxasset://fonts/families/GothamSSm.json",
+					Enum.FontWeight.Medium,
+					Enum.FontStyle.Normal
+				),
+				Text = Text,
+				TextColor3 = Color3.fromRGB(240, 240, 240),
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				Size = UDim2.new(1, 0, 0, 32),
+				Position = Pos,
+				BackgroundTransparency = 1,
+				Parent = Dialog.Root,
+				ThemeTag = {
+					TextColor3 = "Text",
+				},
+			})
+		end
+
+		local function GetRGB()
+			local Value = Color3.fromHSV(Hue, Sat, Vib)
+			return { R = math.floor(Value.r * 255), G = math.floor(Value.g * 255), B = math.floor(Value.b * 255) }
+		end
+
+		local SatCursor = New("ImageLabel", {
+			Size = UDim2.new(0, 18, 0, 18),
+			ScaleType = Enum.ScaleType.Fit,
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			BackgroundTransparency = 1,
+			Image = "http://www.roblox.com/asset/?id=4805639000",
+		})
+
+		local SatVibMap = New("ImageLabel", {
+			Size = UDim2.fromOffset(180, 160),
+			Position = UDim2.fromOffset(20, 55),
+			Image = "rbxassetid://4155801252",
+			BackgroundColor3 = Colorpicker.Value,
+			BackgroundTransparency = 0,
+			Parent = Dialog.Root,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 4),
+			}),
+			SatCursor,
+		})
+
+		local OldColorFrame = New("Frame", {
+			BackgroundColor3 = Colorpicker.Value,
+			Size = UDim2.fromScale(1, 1),
+			BackgroundTransparency = Colorpicker.Transparency,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 4),
+			}),
+		})
+
+		local OldColorFrameChecker = New("ImageLabel", {
+			Image = "http://www.roblox.com/asset/?id=14204231522",
+			ImageTransparency = 0.45,
+			ScaleType = Enum.ScaleType.Tile,
+			TileSize = UDim2.fromOffset(40, 40),
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(112, 220),
+			Size = UDim2.fromOffset(88, 24),
+			Parent = Dialog.Root,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 4),
+			}),
+			New("UIStroke", {
+				Thickness = 2,
+				Transparency = 0.75,
+			}),
+			OldColorFrame,
+		})
+
+		local DialogDisplayFrame = New("Frame", {
+			BackgroundColor3 = Colorpicker.Value,
+			Size = UDim2.fromScale(1, 1),
+			BackgroundTransparency = 0,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 4),
+			}),
+		})
+
+		local DialogDisplayFrameChecker = New("ImageLabel", {
+			Image = "http://www.roblox.com/asset/?id=14204231522",
+			ImageTransparency = 0.45,
+			ScaleType = Enum.ScaleType.Tile,
+			TileSize = UDim2.fromOffset(40, 40),
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(20, 220),
+			Size = UDim2.fromOffset(88, 24),
+			Parent = Dialog.Root,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(0, 4),
+			}),
+			New("UIStroke", {
+				Thickness = 2,
+				Transparency = 0.75,
+			}),
+			DialogDisplayFrame,
+		})
+
+		local SequenceTable = {}
+
+		for Color = 0, 1, 0.1 do
+			table.insert(SequenceTable, ColorSequenceKeypoint.new(Color, Color3.fromHSV(Color, 1, 1)))
+		end
+
+		local HueSliderGradient = New("UIGradient", {
+			Color = ColorSequence.new(SequenceTable),
+			Rotation = 90,
+		})
+
+		local HueDragHolder = New("Frame", {
+			Size = UDim2.new(1, 0, 1, -10),
+			Position = UDim2.fromOffset(0, 5),
+			BackgroundTransparency = 1,
+		})
+
+		local HueDrag = New("ImageLabel", {
+			Size = UDim2.fromOffset(14, 14),
+			Image = "http://www.roblox.com/asset/?id=12266946128",
+			Parent = HueDragHolder,
+			ThemeTag = {
+				ImageColor3 = "DialogInput",
+			},
+		})
+
+		local HueSlider = New("Frame", {
+			Size = UDim2.fromOffset(12, 190),
+			Position = UDim2.fromOffset(210, 55),
+			Parent = Dialog.Root,
+		}, {
+			New("UICorner", {
+				CornerRadius = UDim.new(1, 0),
+			}),
+			HueSliderGradient,
+			HueDragHolder,
+		})
+
+		local HexInput = CreateInput()
+		HexInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 55)
+		CreateInputLabel("Hex", UDim2.fromOffset(Config.Transparency and 360 or 340, 55))
+
+		local RedInput = CreateInput()
+		RedInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 95)
+		CreateInputLabel("Red", UDim2.fromOffset(Config.Transparency and 360 or 340, 95))
+
+		local GreenInput = CreateInput()
+		GreenInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 135)
+		CreateInputLabel("Green", UDim2.fromOffset(Config.Transparency and 360 or 340, 135))
+
+		local BlueInput = CreateInput()
+		BlueInput.Frame.Position = UDim2.fromOffset(Config.Transparency and 260 or 240, 175)
+		CreateInputLabel("Blue", UDim2.fromOffset(Config.Transparency and 360 or 340, 175))
+
+		local AlphaInput
+		if Config.Transparency then
+			AlphaInput = CreateInput()
+			AlphaInput.Frame.Position = UDim2.fromOffset(260, 215)
+			CreateInputLabel("Alpha", UDim2.fromOffset(360, 215))
+		end
+
+		local TransparencySlider, TransparencyDrag, TransparencyColor
+		if Config.Transparency then
+			local TransparencyDragHolder = New("Frame", {
+				Size = UDim2.new(1, 0, 1, -10),
+				Position = UDim2.fromOffset(0, 5),
+				BackgroundTransparency = 1,
+			})
+
+			TransparencyDrag = New("ImageLabel", {
+				Size = UDim2.fromOffset(14, 14),
+				Image = "http://www.roblox.com/asset/?id=12266946128",
+				Parent = TransparencyDragHolder,
+				ThemeTag = {
+					ImageColor3 = "DialogInput",
+				},
+			})
+
+			TransparencyColor = New("Frame", {
+				Size = UDim2.fromScale(1, 1),
+			}, {
+				New("UIGradient", {
+					Transparency = NumberSequence.new({
+						NumberSequenceKeypoint.new(0, 0),
+						NumberSequenceKeypoint.new(1, 1),
+					}),
+					Rotation = 270,
+				}),
+				New("UICorner", {
+					CornerRadius = UDim.new(1, 0),
+				}),
+			})
+
+			TransparencySlider = New("Frame", {
+				Size = UDim2.fromOffset(12, 190),
+				Position = UDim2.fromOffset(230, 55),
+				Parent = Dialog.Root,
+				BackgroundTransparency = 1,
+			}, {
+				New("UICorner", {
+					CornerRadius = UDim.new(1, 0),
+				}),
+				New("ImageLabel", {
+					Image = "http://www.roblox.com/asset/?id=14204231522",
+					ImageTransparency = 0.45,
+					ScaleType = Enum.ScaleType.Tile,
+					TileSize = UDim2.fromOffset(40, 40),
+					BackgroundTransparency = 1,
+					Size = UDim2.fromScale(1, 1),
+					Parent = Dialog.Root,
+				}, {
+					New("UICorner", {
+						CornerRadius = UDim.new(1, 0),
+					}),
+				}),
+				TransparencyColor,
+				TransparencyDragHolder,
+			})
+		end
+
+		local function Display()
+			SatVibMap.BackgroundColor3 = Color3.fromHSV(Hue, 1, 1)
+			HueDrag.Position = UDim2.new(0, -1, Hue, -6)
+			SatCursor.Position = UDim2.new(Sat, 0, 1 - Vib, 0)
+			DialogDisplayFrame.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib)
+
+			HexInput.Input.Text = "#" .. Color3.fromHSV(Hue, Sat, Vib):ToHex()
+			RedInput.Input.Text = GetRGB()["R"]
+			GreenInput.Input.Text = GetRGB()["G"]
+			BlueInput.Input.Text = GetRGB()["B"]
+
+			if Config.Transparency then
+				TransparencyColor.BackgroundColor3 = Color3.fromHSV(Hue, Sat, Vib)
+				DialogDisplayFrame.BackgroundTransparency = Transparency
+				TransparencyDrag.Position = UDim2.new(0, -1, 1 - Transparency, -6)
+				AlphaInput.Input.Text = require(Root):Round((1 - Transparency) * 100, 0) .. "%"
+			end
+		end
+
+		Creator.AddSignal(HexInput.Input.FocusLost, function(Enter)
+			if Enter then
+				local Success, Result = pcall(Color3.fromHex, HexInput.Input.Text)
+				if Success and typeof(Result) == "Color3" then
+					Hue, Sat, Vib = Color3.toHSV(Result)
+				end
+			end
+			Display()
+		end)
+
+		Creator.AddSignal(RedInput.Input.FocusLost, function(Enter)
+			if Enter then
+				local CurrentColor = GetRGB()
+				local Success, Result = pcall(Color3.fromRGB, RedInput.Input.Text, CurrentColor["G"], CurrentColor["B"])
+				if Success and typeof(Result) == "Color3" then
+					if tonumber(RedInput.Input.Text) <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result)
+					end
+				end
+			end
+			Display()
+		end)
+
+		Creator.AddSignal(GreenInput.Input.FocusLost, function(Enter)
+			if Enter then
+				local CurrentColor = GetRGB()
+				local Success, Result =
+					pcall(Color3.fromRGB, CurrentColor["R"], GreenInput.Input.Text, CurrentColor["B"])
+				if Success and typeof(Result) == "Color3" then
+					if tonumber(GreenInput.Input.Text) <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result)
+					end
+				end
+			end
+			Display()
+		end)
+
+		Creator.AddSignal(BlueInput.Input.FocusLost, function(Enter)
+			if Enter then
+				local CurrentColor = GetRGB()
+				local Success, Result =
+					pcall(Color3.fromRGB, CurrentColor["R"], CurrentColor["G"], BlueInput.Input.Text)
+				if Success and typeof(Result) == "Color3" then
+					if tonumber(BlueInput.Input.Text) <= 255 then
+						Hue, Sat, Vib = Color3.toHSV(Result)
+					end
+				end
+			end
+			Display()
+		end)
+
+		if Config.Transparency then
+			Creator.AddSignal(AlphaInput.Input.FocusLost, function(Enter)
+				if Enter then
+					pcall(function()
+						local Value = tonumber(AlphaInput.Input.Text)
+						if Value >= 0 and Value <= 100 then
+							Transparency = 1 - Value * 0.01
+						end
+					end)
+				end
+				Display()
+			end)
+		end
+
+		Creator.AddSignal(SatVibMap.InputBegan, function(Input)
+			if
+				Input.UserInputType == Enum.UserInputType.MouseButton1
+				or Input.UserInputType == Enum.UserInputType.Touch
+			then
+				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+					local MinX = SatVibMap.AbsolutePosition.X
+					local MaxX = MinX + SatVibMap.AbsoluteSize.X
+					local MouseX = math.clamp(Mouse.X, MinX, MaxX)
+
+					local MinY = SatVibMap.AbsolutePosition.Y
+					local MaxY = MinY + SatVibMap.AbsoluteSize.Y
+					local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+
+					Sat = (MouseX - MinX) / (MaxX - MinX)
+					Vib = 1 - ((MouseY - MinY) / (MaxY - MinY))
+					Display()
+
+					RenderStepped:Wait()
+				end
+			end
+		end)
+
+		Creator.AddSignal(HueSlider.InputBegan, function(Input)
+			if
+				Input.UserInputType == Enum.UserInputType.MouseButton1
+				or Input.UserInputType == Enum.UserInputType.Touch
+			then
+				while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+					local MinY = HueSlider.AbsolutePosition.Y
+					local MaxY = MinY + HueSlider.AbsoluteSize.Y
+					local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+
+					Hue = ((MouseY - MinY) / (MaxY - MinY))
+					Display()
+
+					RenderStepped:Wait()
+				end
+			end
+		end)
+
+		if Config.Transparency then
+			Creator.AddSignal(TransparencySlider.InputBegan, function(Input)
+				if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+					while UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) do
+						local MinY = TransparencySlider.AbsolutePosition.Y
+						local MaxY = MinY + TransparencySlider.AbsoluteSize.Y
+						local MouseY = math.clamp(Mouse.Y, MinY, MaxY)
+
+						Transparency = 1 - ((MouseY - MinY) / (MaxY - MinY))
+						Display()
+
+						RenderStepped:Wait()
+					end
+				end
+			end)
+		end
+
+		Display()
+
+		Dialog:Button("Done", function()
+			Colorpicker:SetValue({ Hue, Sat, Vib }, Transparency)
+		end)
+		Dialog:Button("Cancel")
+		Dialog:Open()
+	end
+
+	function Colorpicker:Display()
+		Colorpicker.Value = Color3.fromHSV(Colorpicker.Hue, Colorpicker.Sat, Colorpicker.Vib)
+
+		DisplayFrameColor.BackgroundColor3 = Colorpicker.Value
+		DisplayFrameColor.BackgroundTransparency = Colorpicker.Transparency
+
+		Element.Library:SafeCallback(Colorpicker.Callback, Colorpicker.Value)
+		Element.Library:SafeCallback(Colorpicker.Changed, Colorpicker.Value)
+	end
+
+	function Colorpicker:SetValue(HSV, Transparency)
+		local Color = Color3.fromHSV(HSV[1], HSV[2], HSV[3])
+
+		Colorpicker.Transparency = Transparency or 0
+		Colorpicker:SetHSVFromRGB(Color)
+		Colorpicker:Display()
+	end
+
+	function Colorpicker:SetValueRGB(Color, Transparency)
+		Colorpicker.Transparency = Transparency or 0
+		Colorpicker:SetHSVFromRGB(Color)
+		Colorpicker:Display()
+	end
+
+	function Colorpicker:OnChanged(Func)
+		Colorpicker.Changed = Func
+		Func(Colorpicker.Value)
+	end
+
+	function Colorpicker:Destroy()
+		ColorpickerFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Creator.AddSignal(ColorpickerFrame.Frame.MouseButton1Click, function()
+		CreateColorDialog()
+	end)
+
+	Colorpicker:Display()
+
+	Library.Options[Idx] = Colorpicker
+	return Colorpicker
+end
+
+return Element
+ end,
+    [22] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(22)local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local Camera = game:GetService("Workspace").CurrentCamera
+
+local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+local Flipper = require(Root.Packages.Flipper)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Dropdown"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+
+	local Dropdown = {
+		Values = Config.Values,
+		Value = Config.Default,
+		Multi = Config.Multi,
+		Buttons = {},
+		Opened = false,
+		Type = "Dropdown",
+		Callback = Config.Callback or function() end,
+	}
+
+	local DropdownFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
+	DropdownFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+
+	Dropdown.SetTitle = DropdownFrame.SetTitle
+	Dropdown.SetDesc = DropdownFrame.SetDesc
+
+	local DropdownDisplay = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+		Text = "Value",
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 13,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Size = UDim2.new(1, -30, 0, 14),
+		Position = UDim2.new(0, 8, 0.5, 0),
+		AnchorPoint = Vector2.new(0, 0.5),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		TextTruncate = Enum.TextTruncate.AtEnd,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	local DropdownIco = New("ImageLabel", {
+		Image = "rbxassetid://10709790948",
+		Size = UDim2.fromOffset(16, 16),
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -8, 0.5, 0),
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			ImageColor3 = "SubText",
+		},
+	})
+
+	local DropdownInner = New("TextButton", {
+		Size = UDim2.fromOffset(160, 30),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		AnchorPoint = Vector2.new(1, 0.5),
+		BackgroundTransparency = 0.9,
+		Parent = DropdownFrame.Frame,
+		ThemeTag = {
+			BackgroundColor3 = "DropdownFrame",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 5),
+		}),
+		New("UIStroke", {
+			Transparency = 0.5,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			ThemeTag = {
+				Color = "InElementBorder",
+			},
+		}),
+		DropdownIco,
+		DropdownDisplay,
+	})
+
+	local DropdownListLayout = New("UIListLayout", {
+		Padding = UDim.new(0, 3),
+	})
+
+	local DropdownScrollFrame = New("ScrollingFrame", {
+		Size = UDim2.new(1, -5, 1, -10),
+		Position = UDim2.fromOffset(5, 5),
+		BackgroundTransparency = 1,
+		BottomImage = "rbxassetid://6889812791",
+		MidImage = "rbxassetid://6889812721",
+		TopImage = "rbxassetid://6276641225",
+		ScrollBarImageColor3 = Color3.fromRGB(255, 255, 255),
+		ScrollBarImageTransparency = 0.95,
+		ScrollBarThickness = 4,
+		BorderSizePixel = 0,
+		CanvasSize = UDim2.fromScale(0, 0),
+	}, {
+		DropdownListLayout,
+	})
+
+	local DropdownHolderFrame = New("Frame", {
+		Size = UDim2.fromScale(1, 0.6),
+		ThemeTag = {
+			BackgroundColor3 = "DropdownHolder",
+		},
+	}, {
+		DropdownScrollFrame,
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 7),
+		}),
+		New("UIStroke", {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			ThemeTag = {
+				Color = "DropdownBorder",
+			},
+		}),
+		New("ImageLabel", {
+			BackgroundTransparency = 1,
+			Image = "http://www.roblox.com/asset/?id=5554236805",
+			ScaleType = Enum.ScaleType.Slice,
+			SliceCenter = Rect.new(23, 23, 277, 277),
+			Size = UDim2.fromScale(1, 1) + UDim2.fromOffset(30, 30),
+			Position = UDim2.fromOffset(-15, -15),
+			ImageColor3 = Color3.fromRGB(0, 0, 0),
+			ImageTransparency = 0.1,
+		}),
+	})
+
+	local DropdownHolderCanvas = New("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromOffset(170, 300),
+		Parent = self.Library.GUI,
+		Visible = false,
+	}, {
+		DropdownHolderFrame,
+		New("UISizeConstraint", {
+			MinSize = Vector2.new(170, 0),
+		}),
+	})
+	table.insert(Library.OpenFrames, DropdownHolderCanvas)
+
+	local function RecalculateListPosition()
+		local Add = 0
+		if Camera.ViewportSize.Y - DropdownInner.AbsolutePosition.Y < DropdownHolderCanvas.AbsoluteSize.Y - 5 then
+			Add = DropdownHolderCanvas.AbsoluteSize.Y
+				- 5
+				- (Camera.ViewportSize.Y - DropdownInner.AbsolutePosition.Y)
+				+ 40
+		end
+		DropdownHolderCanvas.Position =
+			UDim2.fromOffset(DropdownInner.AbsolutePosition.X - 1, DropdownInner.AbsolutePosition.Y - 5 - Add)
+	end
+
+	local ListSizeX = 0
+	local function RecalculateListSize()
+		if #Dropdown.Values > 10 then
+			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, 392)
+		else
+			DropdownHolderCanvas.Size = UDim2.fromOffset(ListSizeX, DropdownListLayout.AbsoluteContentSize.Y + 10)
+		end
+	end
+
+	local function RecalculateCanvasSize()
+		DropdownScrollFrame.CanvasSize = UDim2.fromOffset(0, DropdownListLayout.AbsoluteContentSize.Y)
+	end
+
+	RecalculateListPosition()
+	RecalculateListSize()
+
+	Creator.AddSignal(DropdownInner:GetPropertyChangedSignal("AbsolutePosition"), RecalculateListPosition)
+
+	Creator.AddSignal(DropdownInner.MouseButton1Click, function()
+		Dropdown:Open()
+	end)
+
+	Creator.AddSignal(UserInputService.InputBegan, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			local AbsPos, AbsSize = DropdownHolderFrame.AbsolutePosition, DropdownHolderFrame.AbsoluteSize
+			if
+				Mouse.X < AbsPos.X
+				or Mouse.X > AbsPos.X + AbsSize.X
+				or Mouse.Y < (AbsPos.Y - 20 - 1)
+				or Mouse.Y > AbsPos.Y + AbsSize.Y
+			then
+				Dropdown:Close()
+			end
+		end
+	end)
+
+	local ScrollFrame = self.ScrollFrame
+	function Dropdown:Open()
+		Dropdown.Opened = true
+		ScrollFrame.ScrollingEnabled = false
+		DropdownHolderCanvas.Visible = true
+		TweenService:Create(
+			DropdownHolderFrame,
+			TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+			{ Size = UDim2.fromScale(1, 1) }
+		):Play()
+	end
+
+	function Dropdown:Close()
+		Dropdown.Opened = false
+		ScrollFrame.ScrollingEnabled = true
+		DropdownHolderFrame.Size = UDim2.fromScale(1, 0.6)
+		DropdownHolderCanvas.Visible = false
+	end
+
+	function Dropdown:Display()
+		local Values = Dropdown.Values
+		local Str = ""
+
+		if Config.Multi then
+			for Idx, Value in next, Values do
+				if Dropdown.Value[Value] then
+					Str = Str .. Value .. ", "
+				end
+			end
+			Str = Str:sub(1, #Str - 2)
+		else
+			Str = Dropdown.Value or ""
+		end
+
+		DropdownDisplay.Text = (Str == "" and "--" or Str)
+	end
+
+	function Dropdown:GetActiveValues()
+		if Config.Multi then
+			local T = {}
+
+			for Value, Bool in next, Dropdown.Value do
+				table.insert(T, Value)
+			end
+
+			return T
+		else
+			return Dropdown.Value and 1 or 0
+		end
+	end
+
+	function Dropdown:BuildDropdownList()
+		local Values = Dropdown.Values
+		local Buttons = {}
+
+		for _, Element in next, DropdownScrollFrame:GetChildren() do
+			if not Element:IsA("UIListLayout") then
+				Element:Destroy()
+			end
+		end
+
+		local Count = 0
+
+		for Idx, Value in next, Values do
+			local Table = {}
+
+			Count = Count + 1
+
+			local ButtonSelector = New("Frame", {
+				Size = UDim2.fromOffset(4, 14),
+				BackgroundColor3 = Color3.fromRGB(76, 194, 255),
+				Position = UDim2.fromOffset(-1, 16),
+				AnchorPoint = Vector2.new(0, 0.5),
+				ThemeTag = {
+					BackgroundColor3 = "Accent",
+				},
+			}, {
+				New("UICorner", {
+					CornerRadius = UDim.new(0, 2),
+				}),
+			})
+
+			local ButtonLabel = New("TextLabel", {
+				FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+				Text = Value,
+				TextColor3 = Color3.fromRGB(200, 200, 200),
+				TextSize = 13,
+				TextXAlignment = Enum.TextXAlignment.Left,
+				BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+				AutomaticSize = Enum.AutomaticSize.Y,
+				BackgroundTransparency = 1,
+				Size = UDim2.fromScale(1, 1),
+				Position = UDim2.fromOffset(10, 0),
+				Name = "ButtonLabel",
+				ThemeTag = {
+					TextColor3 = "Text",
+				},
+			})
+
+			local Button = New("TextButton", {
+				Size = UDim2.new(1, -5, 0, 32),
+				BackgroundTransparency = 1,
+				ZIndex = 23,
+				Text = "",
+				Parent = DropdownScrollFrame,
+				ThemeTag = {
+					BackgroundColor3 = "DropdownOption",
+				},
+			}, {
+				ButtonSelector,
+				ButtonLabel,
+				New("UICorner", {
+					CornerRadius = UDim.new(0, 6),
+				}),
+			})
+
+			local Selected
+
+			if Config.Multi then
+				Selected = Dropdown.Value[Value]
+			else
+				Selected = Dropdown.Value == Value
+			end
+
+			local BackMotor, SetBackTransparency = Creator.SpringMotor(1, Button, "BackgroundTransparency")
+			local SelMotor, SetSelTransparency = Creator.SpringMotor(1, ButtonSelector, "BackgroundTransparency")
+			local SelectorSizeMotor = Flipper.SingleMotor.new(6)
+
+			SelectorSizeMotor:onStep(function(value)
+				ButtonSelector.Size = UDim2.new(0, 4, 0, value)
+			end)
+
+			Creator.AddSignal(Button.MouseEnter, function()
+				SetBackTransparency(Selected and 0.85 or 0.89)
+			end)
+			Creator.AddSignal(Button.MouseLeave, function()
+				SetBackTransparency(Selected and 0.89 or 1)
+			end)
+			Creator.AddSignal(Button.MouseButton1Down, function()
+				SetBackTransparency(0.92)
+			end)
+			Creator.AddSignal(Button.MouseButton1Up, function()
+				SetBackTransparency(Selected and 0.85 or 0.89)
+			end)
+
+			function Table:UpdateButton()
+				if Config.Multi then
+					Selected = Dropdown.Value[Value]
+					if Selected then
+						SetBackTransparency(0.89)
+					end
+				else
+					Selected = Dropdown.Value == Value
+					SetBackTransparency(Selected and 0.89 or 1)
+				end
+
+				SelectorSizeMotor:setGoal(Flipper.Spring.new(Selected and 14 or 6, { frequency = 6 }))
+				SetSelTransparency(Selected and 0 or 1)
+			end
+
+			ButtonLabel.InputBegan:Connect(function(Input)
+				if
+					Input.UserInputType == Enum.UserInputType.MouseButton1
+					or Input.UserInputType == Enum.UserInputType.Touch
+				then
+					local Try = not Selected
+
+					if Dropdown:GetActiveValues() == 1 and not Try and not Config.AllowNull then
+					else
+						if Config.Multi then
+							Selected = Try
+							Dropdown.Value[Value] = Selected and true or nil
+						else
+							Selected = Try
+							Dropdown.Value = Selected and Value or nil
+
+							for _, OtherButton in next, Buttons do
+								OtherButton:UpdateButton()
+							end
+						end
+
+						Table:UpdateButton()
+						Dropdown:Display()
+
+						Library:SafeCallback(Dropdown.Callback, Dropdown.Value)
+						Library:SafeCallback(Dropdown.Changed, Dropdown.Value)
+					end
+				end
+			end)
+
+			Table:UpdateButton()
+			Dropdown:Display()
+
+			Buttons[Button] = Table
+		end
+
+		ListSizeX = 0
+		for Button, Table in next, Buttons do
+			if Button.ButtonLabel then
+				if Button.ButtonLabel.TextBounds.X > ListSizeX then
+					ListSizeX = Button.ButtonLabel.TextBounds.X
+				end
+			end
+		end
+		ListSizeX = ListSizeX + 30
+
+		RecalculateCanvasSize()
+		RecalculateListSize()
+	end
+
+	function Dropdown:SetValues(NewValues)
+		if NewValues then
+			Dropdown.Values = NewValues
+		end
+
+		Dropdown:BuildDropdownList()
+	end
+
+	function Dropdown:OnChanged(Func)
+		Dropdown.Changed = Func
+		Func(Dropdown.Value)
+	end
+
+	function Dropdown:SetValue(Val)
+		if Dropdown.Multi then
+			local nTable = {}
+
+			for Value, Bool in next, Val do
+				if table.find(Dropdown.Values, Value) then
+					nTable[Value] = true
+				end
+			end
+
+			Dropdown.Value = nTable
+		else
+			if not Val then
+				Dropdown.Value = nil
+			elseif table.find(Dropdown.Values, Val) then
+				Dropdown.Value = Val
+			end
+		end
+
+		Dropdown:BuildDropdownList()
+
+		Library:SafeCallback(Dropdown.Callback, Dropdown.Value)
+		Library:SafeCallback(Dropdown.Changed, Dropdown.Value)
+	end
+
+	function Dropdown:Destroy()
+		DropdownFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Dropdown:BuildDropdownList()
+	Dropdown:Display()
+
+	local Defaults = {}
+
+	if type(Config.Default) == "string" then
+		local Idx = table.find(Dropdown.Values, Config.Default)
+		if Idx then
+			table.insert(Defaults, Idx)
+		end
+	elseif type(Config.Default) == "table" then
+		for _, Value in next, Config.Default do
+			local Idx = table.find(Dropdown.Values, Value)
+			if Idx then
+				table.insert(Defaults, Idx)
+			end
+		end
+	elseif type(Config.Default) == "number" and Dropdown.Values[Config.Default] ~= nil then
+		table.insert(Defaults, Config.Default)
+	end
+
+	if next(Defaults) then
+		for i = 1, #Defaults do
+			local Index = Defaults[i]
+			if Config.Multi then
+				Dropdown.Value[Dropdown.Values[Index]] = true
+			else
+				Dropdown.Value = Dropdown.Values[Index]
+			end
+
+			if not Config.Multi then
+				break
+			end
+		end
+
+		Dropdown:BuildDropdownList()
+		Dropdown:Display()
+	end
+
+	Library.Options[Idx] = Dropdown
+	return Dropdown
+end
+
+return Element
+ end,
+    [23] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(23)local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local AddSignal = Creator.AddSignal
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Input"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+	assert(Config.Title, "Input - Missing Title")
+	Config.Callback = Config.Callback or function() end
+
+	local Input = {
+		Value = Config.Default or "",
+		Numeric = Config.Numeric or false,
+		Finished = Config.Finished or false,
+		Callback = Config.Callback or function(Value) end,
+		Type = "Input",
+	}
+
+	local InputFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
+
+	Input.SetTitle = InputFrame.SetTitle
+	Input.SetDesc = InputFrame.SetDesc
+
+	local Textbox = require(Components.Textbox)(InputFrame.Frame, true)
+	Textbox.Frame.Position = UDim2.new(1, -10, 0.5, 0)
+	Textbox.Frame.AnchorPoint = Vector2.new(1, 0.5)
+	Textbox.Frame.Size = UDim2.fromOffset(160, 30)
+	Textbox.Input.Text = Config.Default or ""
+	Textbox.Input.PlaceholderText = Config.Placeholder or ""
+
+	local Box = Textbox.Input
+
+	function Input:SetValue(Text)
+		if Config.MaxLength and #Text > Config.MaxLength then
+			Text = Text:sub(1, Config.MaxLength)
+		end
+
+		if Input.Numeric then
+			if (not tonumber(Text)) and Text:len() > 0 then
+				Text = Input.Value
+			end
+		end
+
+		Input.Value = Text
+		Box.Text = Text
+
+		Library:SafeCallback(Input.Callback, Input.Value)
+		Library:SafeCallback(Input.Changed, Input.Value)
+	end
+
+	if Input.Finished then
+		AddSignal(Box.FocusLost, function(enter)
+			if not enter then
+				return
+			end
+			Input:SetValue(Box.Text)
+		end)
+	else
+		AddSignal(Box:GetPropertyChangedSignal("Text"), function()
+			Input:SetValue(Box.Text)
+		end)
+	end
+
+	function Input:OnChanged(Func)
+		Input.Changed = Func
+		Func(Input.Value)
+	end
+
+	function Input:Destroy()
+		InputFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Library.Options[Idx] = Input
+	return Input
+end
+
+return Element
+ end,
+    [24] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(24)local UserInputService = game:GetService("UserInputService")
+
+local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Keybind"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+	assert(Config.Title, "KeyBind - Missing Title")
+	assert(Config.Default, "KeyBind - Missing default value.")
+
+	local Keybind = {
+		Value = Config.Default,
+		Toggled = false,
+		Mode = Config.Mode or "Toggle",
+		Type = "Keybind",
+		Callback = Config.Callback or function(Value) end,
+		ChangedCallback = Config.ChangedCallback or function(New) end,
+	}
+
+	local Picking = false
+
+	local KeybindFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+
+	Keybind.SetTitle = KeybindFrame.SetTitle
+	Keybind.SetDesc = KeybindFrame.SetDesc
+
+	local KeybindDisplayLabel = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal),
+		Text = Config.Default,
+		TextColor3 = Color3.fromRGB(240, 240, 240),
+		TextSize = 13,
+		TextXAlignment = Enum.TextXAlignment.Center,
+		Size = UDim2.new(0, 0, 0, 14),
+		Position = UDim2.new(0, 0, 0.5, 0),
+		AnchorPoint = Vector2.new(0, 0.5),
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		AutomaticSize = Enum.AutomaticSize.X,
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			TextColor3 = "Text",
+		},
+	})
+
+	local KeybindDisplayFrame = New("TextButton", {
+		Size = UDim2.fromOffset(0, 30),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		AnchorPoint = Vector2.new(1, 0.5),
+		BackgroundTransparency = 0.9,
+		Parent = KeybindFrame.Frame,
+		AutomaticSize = Enum.AutomaticSize.X,
+		ThemeTag = {
+			BackgroundColor3 = "Keybind",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 5),
+		}),
+		New("UIPadding", {
+			PaddingLeft = UDim.new(0, 8),
+			PaddingRight = UDim.new(0, 8),
+		}),
+		New("UIStroke", {
+			Transparency = 0.5,
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			ThemeTag = {
+				Color = "InElementBorder",
+			},
+		}),
+		KeybindDisplayLabel,
+	})
+
+	function Keybind:GetState()
+		if UserInputService:GetFocusedTextBox() and Keybind.Mode ~= "Always" then
+			return false
+		end
+
+		if Keybind.Mode == "Always" then
+			return true
+		elseif Keybind.Mode == "Hold" then
+			if Keybind.Value == "None" then
+				return false
+			end
+
+			local Key = Keybind.Value
+
+			if Key == "MouseLeft" or Key == "MouseRight" then
+				return Key == "MouseLeft" and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+					or Key == "MouseRight"
+						and UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+			else
+				return UserInputService:IsKeyDown(Enum.KeyCode[Keybind.Value])
+			end
+		else
+			return Keybind.Toggled
+		end
+	end
+
+	function Keybind:SetValue(Key, Mode)
+		Key = Key or Keybind.Key
+		Mode = Mode or Keybind.Mode
+
+		KeybindDisplayLabel.Text = Key
+		Keybind.Value = Key
+		Keybind.Mode = Mode
+	end
+
+	function Keybind:OnClick(Callback)
+		Keybind.Clicked = Callback
+	end
+
+	function Keybind:OnChanged(Callback)
+		Keybind.Changed = Callback
+		Callback(Keybind.Value)
+	end
+
+	function Keybind:DoClick()
+		Library:SafeCallback(Keybind.Callback, Keybind.Toggled)
+		Library:SafeCallback(Keybind.Clicked, Keybind.Toggled)
+	end
+
+	function Keybind:Destroy()
+		KeybindFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Creator.AddSignal(KeybindDisplayFrame.InputBegan, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			Picking = true
+			KeybindDisplayLabel.Text = "..."
+
+			wait(0.2)
+
+			local Event
+			Event = UserInputService.InputBegan:Connect(function(Input)
+				local Key
+
+				if Input.UserInputType == Enum.UserInputType.Keyboard then
+					Key = Input.KeyCode.Name
+				elseif Input.UserInputType == Enum.UserInputType.MouseButton1 then
+					Key = "MouseLeft"
+				elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
+					Key = "MouseRight"
+				end
+
+				local EndedEvent
+				EndedEvent = UserInputService.InputEnded:Connect(function(Input)
+					if
+						Input.KeyCode.Name == Key
+						or Key == "MouseLeft" and Input.UserInputType == Enum.UserInputType.MouseButton1
+						or Key == "MouseRight" and Input.UserInputType == Enum.UserInputType.MouseButton2
+					then
+						Picking = false
+
+						KeybindDisplayLabel.Text = Key
+						Keybind.Value = Key
+
+						Library:SafeCallback(Keybind.ChangedCallback, Input.KeyCode or Input.UserInputType)
+						Library:SafeCallback(Keybind.Changed, Input.KeyCode or Input.UserInputType)
+
+						Event:Disconnect()
+						EndedEvent:Disconnect()
+					end
+				end)
+			end)
+		end
+	end)
+
+	Creator.AddSignal(UserInputService.InputBegan, function(Input)
+		if not Picking and not UserInputService:GetFocusedTextBox() then
+			if Keybind.Mode == "Toggle" then
+				local Key = Keybind.Value
+
+				if Key == "MouseLeft" or Key == "MouseRight" then
+					if
+						Key == "MouseLeft" and Input.UserInputType == Enum.UserInputType.MouseButton1
+						or Key == "MouseRight" and Input.UserInputType == Enum.UserInputType.MouseButton2
+					then
+						Keybind.Toggled = not Keybind.Toggled
+						Keybind:DoClick()
+					end
+				elseif Input.UserInputType == Enum.UserInputType.Keyboard then
+					if Input.KeyCode.Name == Key then
+						Keybind.Toggled = not Keybind.Toggled
+						Keybind:DoClick()
+					end
+				end
+			end
+		end
+	end)
+
+	Library.Options[Idx] = Keybind
+	return Keybind
+end
+
+return Element
+ end,
+    [25] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(25)local Root = script.Parent.Parent
+local Components = Root.Components
+local Flipper = require(Root.Packages.Flipper)
+local Creator = require(Root.Creator)
+
+local Paragraph = {}
+Paragraph.__index = Paragraph
+Paragraph.__type = "Paragraph"
+
+function Paragraph:New(Config)
+	assert(Config.Title, "Paragraph - Missing Title")
+	Config.Content = Config.Content or ""
+
+	local Paragraph = require(Components.Element)(Config.Title, Config.Content, Paragraph.Container, false)
+	Paragraph.Frame.BackgroundTransparency = 0.92
+	Paragraph.Border.Transparency = 0.6
+
+	return Paragraph
+end
+
+return Paragraph
+ end,
+    [26] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(26)local UserInputService = game:GetService("UserInputService")
+local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Slider"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+	assert(Config.Title, "Slider - Missing Title.")
+	assert(Config.Default, "Slider - Missing default value.")
+	assert(Config.Min, "Slider - Missing minimum value.")
+	assert(Config.Max, "Slider - Missing maximum value.")
+	assert(Config.Rounding, "Slider - Missing rounding value.")
+
+	local Slider = {
+		Value = nil,
+		Min = Config.Min,
+		Max = Config.Max,
+		Rounding = Config.Rounding,
+		Callback = Config.Callback or function(Value) end,
+		Type = "Slider",
+	}
+
+	local Dragging = false
+
+	local SliderFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, false)
+	SliderFrame.DescLabel.Size = UDim2.new(1, -170, 0, 14)
+
+	Slider.SetTitle = SliderFrame.SetTitle
+	Slider.SetDesc = SliderFrame.SetDesc
+
+	local SliderDot = New("ImageLabel", {
+		AnchorPoint = Vector2.new(0, 0.5),
+		Position = UDim2.new(0, -7, 0.5, 0),
+		Size = UDim2.fromOffset(14, 14),
+		Image = "http://www.roblox.com/asset/?id=12266946128",
+		ThemeTag = {
+			ImageColor3 = "Accent",
+		},
+	})
+
+	local SliderRail = New("Frame", {
+		BackgroundTransparency = 1,
+		Position = UDim2.fromOffset(7, 0),
+		Size = UDim2.new(1, -14, 1, 0),
+	}, {
+		SliderDot,
+	})
+
+	local SliderFill = New("Frame", {
+		Size = UDim2.new(0, 0, 1, 0),
+		ThemeTag = {
+			BackgroundColor3 = "Accent",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(1, 0),
+		}),
+	})
+
+	local SliderDisplay = New("TextLabel", {
+		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json"),
+		Text = "Value",
+		TextSize = 12,
+		TextWrapped = true,
+		TextXAlignment = Enum.TextXAlignment.Right,
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 100, 0, 14),
+		Position = UDim2.new(0, -4, 0.5, 0),
+		AnchorPoint = Vector2.new(1, 0.5),
+		ThemeTag = {
+			TextColor3 = "SubText",
+		},
+	})
+
+	local SliderInner = New("Frame", {
+		Size = UDim2.new(1, 0, 0, 4),
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		BackgroundTransparency = 0.4,
+		Parent = SliderFrame.Frame,
+		ThemeTag = {
+			BackgroundColor3 = "SliderRail",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(1, 0),
+		}),
+		New("UISizeConstraint", {
+			MaxSize = Vector2.new(150, math.huge),
+		}),
+		SliderDisplay,
+		SliderFill,
+		SliderRail,
+	})
+
+	Creator.AddSignal(SliderDot.InputBegan, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			Dragging = true
+		end
+	end)
+
+	Creator.AddSignal(SliderDot.InputEnded, function(Input)
+		if
+			Input.UserInputType == Enum.UserInputType.MouseButton1
+			or Input.UserInputType == Enum.UserInputType.Touch
+		then
+			Dragging = false
+		end
+	end)
+
+	Creator.AddSignal(UserInputService.InputChanged, function(Input)
+		if
+			Dragging
+			and (
+				Input.UserInputType == Enum.UserInputType.MouseMovement
+				or Input.UserInputType == Enum.UserInputType.Touch
+			)
+		then
+			local SizeScale =
+				math.clamp((Input.Position.X - SliderRail.AbsolutePosition.X) / SliderRail.AbsoluteSize.X, 0, 1)
+			Slider:SetValue(Slider.Min + ((Slider.Max - Slider.Min) * SizeScale))
+		end
+	end)
+
+	function Slider:OnChanged(Func)
+		Slider.Changed = Func
+		Func(Slider.Value)
+	end
+
+	function Slider:SetValue(Value)
+		self.Value = Library:Round(math.clamp(Value, Slider.Min, Slider.Max), Slider.Rounding)
+		SliderDot.Position = UDim2.new((self.Value - Slider.Min) / (Slider.Max - Slider.Min), -7, 0.5, 0)
+		SliderFill.Size = UDim2.fromScale((self.Value - Slider.Min) / (Slider.Max - Slider.Min), 1)
+		SliderDisplay.Text = tostring(self.Value)
+
+		Library:SafeCallback(Slider.Callback, self.Value)
+		Library:SafeCallback(Slider.Changed, self.Value)
+	end
+
+	function Slider:Destroy()
+		SliderFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Slider:SetValue(Config.Default)
+
+	Library.Options[Idx] = Slider
+	return Slider
+end
+
+return Element
+ end,
+    [27] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(27)local TweenService = game:GetService("TweenService")
+local Root = script.Parent.Parent
+local Creator = require(Root.Creator)
+
+local New = Creator.New
+local Components = Root.Components
+
+local Element = {}
+Element.__index = Element
+Element.__type = "Toggle"
+
+function Element:New(Idx, Config)
+	local Library = self.Library
+	assert(Config.Title, "Toggle - Missing Title")
+
+	local Toggle = {
+		Value = Config.Default or false,
+		Callback = Config.Callback or function(Value) end,
+		Type = "Toggle",
+	}
+
+	local ToggleFrame = require(Components.Element)(Config.Title, Config.Description, self.Container, true)
+	ToggleFrame.DescLabel.Size = UDim2.new(1, -54, 0, 14)
+
+	Toggle.SetTitle = ToggleFrame.SetTitle
+	Toggle.SetDesc = ToggleFrame.SetDesc
+
+	local ToggleCircle = New("ImageLabel", {
+		AnchorPoint = Vector2.new(0, 0.5),
+		Size = UDim2.fromOffset(14, 14),
+		Position = UDim2.new(0, 2, 0.5, 0),
+		Image = "http://www.roblox.com/asset/?id=12266946128",
+		ImageTransparency = 0.5,
+		ThemeTag = {
+			ImageColor3 = "ToggleSlider",
+		},
+	})
+
+	local ToggleBorder = New("UIStroke", {
+		Transparency = 0.5,
+		ThemeTag = {
+			Color = "ToggleSlider",
+		},
+	})
+
+	local ToggleSlider = New("Frame", {
+		Size = UDim2.fromOffset(36, 18),
+		AnchorPoint = Vector2.new(1, 0.5),
+		Position = UDim2.new(1, -10, 0.5, 0),
+		Parent = ToggleFrame.Frame,
+		BackgroundTransparency = 1,
+		ThemeTag = {
+			BackgroundColor3 = "Accent",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 9),
+		}),
+		ToggleBorder,
+		ToggleCircle,
+	})
+
+	function Toggle:OnChanged(Func)
+		Toggle.Changed = Func
+		Func(Toggle.Value)
+	end
+
+	function Toggle:SetValue(Value)
+		Value = not not Value
+		Toggle.Value = Value
+
+		Creator.OverrideTag(ToggleBorder, { Color = Toggle.Value and "Accent" or "ToggleSlider" })
+		Creator.OverrideTag(ToggleCircle, { ImageColor3 = Toggle.Value and "ToggleToggled" or "ToggleSlider" })
+		TweenService:Create(
+			ToggleCircle,
+			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+			{ Position = UDim2.new(0, Toggle.Value and 19 or 2, 0.5, 0) }
+		):Play()
+		TweenService:Create(
+			ToggleSlider,
+			TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
+			{ BackgroundTransparency = Toggle.Value and 0 or 1 }
+		):Play()
+		ToggleCircle.ImageTransparency = Toggle.Value and 0 or 0.5
+
+		Library:SafeCallback(Toggle.Callback, Toggle.Value)
+		Library:SafeCallback(Toggle.Changed, Toggle.Value)
+	end
+
+	function Toggle:Destroy()
+		ToggleFrame:Destroy()
+		Library.Options[Idx] = nil
+	end
+
+	Creator.AddSignal(ToggleFrame.Frame.MouseButton1Click, function()
+		Toggle:SetValue(not Toggle.Value)
+	end)
+
+	Toggle:SetValue(Toggle.Value)
+
+	Library.Options[Idx] = Toggle
+	return Toggle
+end
+
+return Element
+ end,
+    [28] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(28)-- This file was @generated by Tarmac. It is not intended for manual editing.
+return {
+	assets = {
+		["lucide-accessibility"] = "rbxassetid://10709751939",
+		["lucide-activity"] = "rbxassetid://10709752035",
+		["lucide-air-vent"] = "rbxassetid://10709752131",
+		["lucide-airplay"] = "rbxassetid://10709752254",
+		["lucide-alarm-check"] = "rbxassetid://10709752405",
+		["lucide-alarm-clock"] = "rbxassetid://10709752630",
+		["lucide-alarm-clock-off"] = "rbxassetid://10709752508",
+		["lucide-alarm-minus"] = "rbxassetid://10709752732",
+		["lucide-alarm-plus"] = "rbxassetid://10709752825",
+		["lucide-album"] = "rbxassetid://10709752906",
+		["lucide-alert-circle"] = "rbxassetid://10709752996",
+		["lucide-alert-octagon"] = "rbxassetid://10709753064",
+		["lucide-alert-triangle"] = "rbxassetid://10709753149",
+		["lucide-align-center"] = "rbxassetid://10709753570",
+		["lucide-align-center-horizontal"] = "rbxassetid://10709753272",
+		["lucide-align-center-vertical"] = "rbxassetid://10709753421",
+		["lucide-align-end-horizontal"] = "rbxassetid://10709753692",
+		["lucide-align-end-vertical"] = "rbxassetid://10709753808",
+		["lucide-align-horizontal-distribute-center"] = "rbxassetid://10747779791",
+		["lucide-align-horizontal-distribute-end"] = "rbxassetid://10747784534",
+		["lucide-align-horizontal-distribute-start"] = "rbxassetid://10709754118",
+		["lucide-align-horizontal-justify-center"] = "rbxassetid://10709754204",
+		["lucide-align-horizontal-justify-end"] = "rbxassetid://10709754317",
+		["lucide-align-horizontal-justify-start"] = "rbxassetid://10709754436",
+		["lucide-align-horizontal-space-around"] = "rbxassetid://10709754590",
+		["lucide-align-horizontal-space-between"] = "rbxassetid://10709754749",
+		["lucide-align-justify"] = "rbxassetid://10709759610",
+		["lucide-align-left"] = "rbxassetid://10709759764",
+		["lucide-align-right"] = "rbxassetid://10709759895",
+		["lucide-align-start-horizontal"] = "rbxassetid://10709760051",
+		["lucide-align-start-vertical"] = "rbxassetid://10709760244",
+		["lucide-align-vertical-distribute-center"] = "rbxassetid://10709760351",
+		["lucide-align-vertical-distribute-end"] = "rbxassetid://10709760434",
+		["lucide-align-vertical-distribute-start"] = "rbxassetid://10709760612",
+		["lucide-align-vertical-justify-center"] = "rbxassetid://10709760814",
+		["lucide-align-vertical-justify-end"] = "rbxassetid://10709761003",
+		["lucide-align-vertical-justify-start"] = "rbxassetid://10709761176",
+		["lucide-align-vertical-space-around"] = "rbxassetid://10709761324",
+		["lucide-align-vertical-space-between"] = "rbxassetid://10709761434",
+		["lucide-anchor"] = "rbxassetid://10709761530",
+		["lucide-angry"] = "rbxassetid://10709761629",
+		["lucide-annoyed"] = "rbxassetid://10709761722",
+		["lucide-aperture"] = "rbxassetid://10709761813",
+		["lucide-apple"] = "rbxassetid://10709761889",
+		["lucide-archive"] = "rbxassetid://10709762233",
+		["lucide-archive-restore"] = "rbxassetid://10709762058",
+		["lucide-armchair"] = "rbxassetid://10709762327",
+		["lucide-arrow-big-down"] = "rbxassetid://10747796644",
+		["lucide-arrow-big-left"] = "rbxassetid://10709762574",
+		["lucide-arrow-big-right"] = "rbxassetid://10709762727",
+		["lucide-arrow-big-up"] = "rbxassetid://10709762879",
+		["lucide-arrow-down"] = "rbxassetid://10709767827",
+		["lucide-arrow-down-circle"] = "rbxassetid://10709763034",
+		["lucide-arrow-down-left"] = "rbxassetid://10709767656",
+		["lucide-arrow-down-right"] = "rbxassetid://10709767750",
+		["lucide-arrow-left"] = "rbxassetid://10709768114",
+		["lucide-arrow-left-circle"] = "rbxassetid://10709767936",
+		["lucide-arrow-left-right"] = "rbxassetid://10709768019",
+		["lucide-arrow-right"] = "rbxassetid://10709768347",
+		["lucide-arrow-right-circle"] = "rbxassetid://10709768226",
+		["lucide-arrow-up"] = "rbxassetid://10709768939",
+		["lucide-arrow-up-circle"] = "rbxassetid://10709768432",
+		["lucide-arrow-up-down"] = "rbxassetid://10709768538",
+		["lucide-arrow-up-left"] = "rbxassetid://10709768661",
+		["lucide-arrow-up-right"] = "rbxassetid://10709768787",
+		["lucide-asterisk"] = "rbxassetid://10709769095",
+		["lucide-at-sign"] = "rbxassetid://10709769286",
+		["lucide-award"] = "rbxassetid://10709769406",
+		["lucide-axe"] = "rbxassetid://10709769508",
+		["lucide-axis-3d"] = "rbxassetid://10709769598",
+		["lucide-baby"] = "rbxassetid://10709769732",
+		["lucide-backpack"] = "rbxassetid://10709769841",
+		["lucide-baggage-claim"] = "rbxassetid://10709769935",
+		["lucide-banana"] = "rbxassetid://10709770005",
+		["lucide-banknote"] = "rbxassetid://10709770178",
+		["lucide-bar-chart"] = "rbxassetid://10709773755",
+		["lucide-bar-chart-2"] = "rbxassetid://10709770317",
+		["lucide-bar-chart-3"] = "rbxassetid://10709770431",
+		["lucide-bar-chart-4"] = "rbxassetid://10709770560",
+		["lucide-bar-chart-horizontal"] = "rbxassetid://10709773669",
+		["lucide-barcode"] = "rbxassetid://10747360675",
+		["lucide-baseline"] = "rbxassetid://10709773863",
+		["lucide-bath"] = "rbxassetid://10709773963",
+		["lucide-battery"] = "rbxassetid://10709774640",
+		["lucide-battery-charging"] = "rbxassetid://10709774068",
+		["lucide-battery-full"] = "rbxassetid://10709774206",
+		["lucide-battery-low"] = "rbxassetid://10709774370",
+		["lucide-battery-medium"] = "rbxassetid://10709774513",
+		["lucide-beaker"] = "rbxassetid://10709774756",
+		["lucide-bed"] = "rbxassetid://10709775036",
+		["lucide-bed-double"] = "rbxassetid://10709774864",
+		["lucide-bed-single"] = "rbxassetid://10709774968",
+		["lucide-beer"] = "rbxassetid://10709775167",
+		["lucide-bell"] = "rbxassetid://10709775704",
+		["lucide-bell-minus"] = "rbxassetid://10709775241",
+		["lucide-bell-off"] = "rbxassetid://10709775320",
+		["lucide-bell-plus"] = "rbxassetid://10709775448",
+		["lucide-bell-ring"] = "rbxassetid://10709775560",
+		["lucide-bike"] = "rbxassetid://10709775894",
+		["lucide-binary"] = "rbxassetid://10709776050",
+		["lucide-bitcoin"] = "rbxassetid://10709776126",
+		["lucide-bluetooth"] = "rbxassetid://10709776655",
+		["lucide-bluetooth-connected"] = "rbxassetid://10709776240",
+		["lucide-bluetooth-off"] = "rbxassetid://10709776344",
+		["lucide-bluetooth-searching"] = "rbxassetid://10709776501",
+		["lucide-bold"] = "rbxassetid://10747813908",
+		["lucide-bomb"] = "rbxassetid://10709781460",
+		["lucide-bone"] = "rbxassetid://10709781605",
+		["lucide-book"] = "rbxassetid://10709781824",
+		["lucide-book-open"] = "rbxassetid://10709781717",
+		["lucide-bookmark"] = "rbxassetid://10709782154",
+		["lucide-bookmark-minus"] = "rbxassetid://10709781919",
+		["lucide-bookmark-plus"] = "rbxassetid://10709782044",
+		["lucide-bot"] = "rbxassetid://10709782230",
+		["lucide-box"] = "rbxassetid://10709782497",
+		["lucide-box-select"] = "rbxassetid://10709782342",
+		["lucide-boxes"] = "rbxassetid://10709782582",
+		["lucide-briefcase"] = "rbxassetid://10709782662",
+		["lucide-brush"] = "rbxassetid://10709782758",
+		["lucide-bug"] = "rbxassetid://10709782845",
+		["lucide-building"] = "rbxassetid://10709783051",
+		["lucide-building-2"] = "rbxassetid://10709782939",
+		["lucide-bus"] = "rbxassetid://10709783137",
+		["lucide-cake"] = "rbxassetid://10709783217",
+		["lucide-calculator"] = "rbxassetid://10709783311",
+		["lucide-calendar"] = "rbxassetid://10709789505",
+		["lucide-calendar-check"] = "rbxassetid://10709783474",
+		["lucide-calendar-check-2"] = "rbxassetid://10709783392",
+		["lucide-calendar-clock"] = "rbxassetid://10709783577",
+		["lucide-calendar-days"] = "rbxassetid://10709783673",
+		["lucide-calendar-heart"] = "rbxassetid://10709783835",
+		["lucide-calendar-minus"] = "rbxassetid://10709783959",
+		["lucide-calendar-off"] = "rbxassetid://10709788784",
+		["lucide-calendar-plus"] = "rbxassetid://10709788937",
+		["lucide-calendar-range"] = "rbxassetid://10709789053",
+		["lucide-calendar-search"] = "rbxassetid://10709789200",
+		["lucide-calendar-x"] = "rbxassetid://10709789407",
+		["lucide-calendar-x-2"] = "rbxassetid://10709789329",
+		["lucide-camera"] = "rbxassetid://10709789686",
+		["lucide-camera-off"] = "rbxassetid://10747822677",
+		["lucide-car"] = "rbxassetid://10709789810",
+		["lucide-carrot"] = "rbxassetid://10709789960",
+		["lucide-cast"] = "rbxassetid://10709790097",
+		["lucide-charge"] = "rbxassetid://10709790202",
+		["lucide-check"] = "rbxassetid://10709790644",
+		["lucide-check-circle"] = "rbxassetid://10709790387",
+		["lucide-check-circle-2"] = "rbxassetid://10709790298",
+		["lucide-check-square"] = "rbxassetid://10709790537",
+		["lucide-chef-hat"] = "rbxassetid://10709790757",
+		["lucide-cherry"] = "rbxassetid://10709790875",
+		["lucide-chevron-down"] = "rbxassetid://10709790948",
+		["lucide-chevron-first"] = "rbxassetid://10709791015",
+		["lucide-chevron-last"] = "rbxassetid://10709791130",
+		["lucide-chevron-left"] = "rbxassetid://10709791281",
+		["lucide-chevron-right"] = "rbxassetid://10709791437",
+		["lucide-chevron-up"] = "rbxassetid://10709791523",
+		["lucide-chevrons-down"] = "rbxassetid://10709796864",
+		["lucide-chevrons-down-up"] = "rbxassetid://10709791632",
+		["lucide-chevrons-left"] = "rbxassetid://10709797151",
+		["lucide-chevrons-left-right"] = "rbxassetid://10709797006",
+		["lucide-chevrons-right"] = "rbxassetid://10709797382",
+		["lucide-chevrons-right-left"] = "rbxassetid://10709797274",
+		["lucide-chevrons-up"] = "rbxassetid://10709797622",
+		["lucide-chevrons-up-down"] = "rbxassetid://10709797508",
+		["lucide-chrome"] = "rbxassetid://10709797725",
+		["lucide-circle"] = "rbxassetid://10709798174",
+		["lucide-circle-dot"] = "rbxassetid://10709797837",
+		["lucide-circle-ellipsis"] = "rbxassetid://10709797985",
+		["lucide-circle-slashed"] = "rbxassetid://10709798100",
+		["lucide-citrus"] = "rbxassetid://10709798276",
+		["lucide-clapperboard"] = "rbxassetid://10709798350",
+		["lucide-clipboard"] = "rbxassetid://10709799288",
+		["lucide-clipboard-check"] = "rbxassetid://10709798443",
+		["lucide-clipboard-copy"] = "rbxassetid://10709798574",
+		["lucide-clipboard-edit"] = "rbxassetid://10709798682",
+		["lucide-clipboard-list"] = "rbxassetid://10709798792",
+		["lucide-clipboard-signature"] = "rbxassetid://10709798890",
+		["lucide-clipboard-type"] = "rbxassetid://10709798999",
+		["lucide-clipboard-x"] = "rbxassetid://10709799124",
+		["lucide-clock"] = "rbxassetid://10709805144",
+		["lucide-clock-1"] = "rbxassetid://10709799535",
+		["lucide-clock-10"] = "rbxassetid://10709799718",
+		["lucide-clock-11"] = "rbxassetid://10709799818",
+		["lucide-clock-12"] = "rbxassetid://10709799962",
+		["lucide-clock-2"] = "rbxassetid://10709803876",
+		["lucide-clock-3"] = "rbxassetid://10709803989",
+		["lucide-clock-4"] = "rbxassetid://10709804164",
+		["lucide-clock-5"] = "rbxassetid://10709804291",
+		["lucide-clock-6"] = "rbxassetid://10709804435",
+		["lucide-clock-7"] = "rbxassetid://10709804599",
+		["lucide-clock-8"] = "rbxassetid://10709804784",
+		["lucide-clock-9"] = "rbxassetid://10709804996",
+		["lucide-cloud"] = "rbxassetid://10709806740",
+		["lucide-cloud-cog"] = "rbxassetid://10709805262",
+		["lucide-cloud-drizzle"] = "rbxassetid://10709805371",
+		["lucide-cloud-fog"] = "rbxassetid://10709805477",
+		["lucide-cloud-hail"] = "rbxassetid://10709805596",
+		["lucide-cloud-lightning"] = "rbxassetid://10709805727",
+		["lucide-cloud-moon"] = "rbxassetid://10709805942",
+		["lucide-cloud-moon-rain"] = "rbxassetid://10709805838",
+		["lucide-cloud-off"] = "rbxassetid://10709806060",
+		["lucide-cloud-rain"] = "rbxassetid://10709806277",
+		["lucide-cloud-rain-wind"] = "rbxassetid://10709806166",
+		["lucide-cloud-snow"] = "rbxassetid://10709806374",
+		["lucide-cloud-sun"] = "rbxassetid://10709806631",
+		["lucide-cloud-sun-rain"] = "rbxassetid://10709806475",
+		["lucide-cloudy"] = "rbxassetid://10709806859",
+		["lucide-clover"] = "rbxassetid://10709806995",
+		["lucide-code"] = "rbxassetid://10709810463",
+		["lucide-code-2"] = "rbxassetid://10709807111",
+		["lucide-codepen"] = "rbxassetid://10709810534",
+		["lucide-codesandbox"] = "rbxassetid://10709810676",
+		["lucide-coffee"] = "rbxassetid://10709810814",
+		["lucide-cog"] = "rbxassetid://10709810948",
+		["lucide-coins"] = "rbxassetid://10709811110",
+		["lucide-columns"] = "rbxassetid://10709811261",
+		["lucide-command"] = "rbxassetid://10709811365",
+		["lucide-compass"] = "rbxassetid://10709811445",
+		["lucide-component"] = "rbxassetid://10709811595",
+		["lucide-concierge-bell"] = "rbxassetid://10709811706",
+		["lucide-connection"] = "rbxassetid://10747361219",
+		["lucide-contact"] = "rbxassetid://10709811834",
+		["lucide-contrast"] = "rbxassetid://10709811939",
+		["lucide-cookie"] = "rbxassetid://10709812067",
+		["lucide-copy"] = "rbxassetid://10709812159",
+		["lucide-copyleft"] = "rbxassetid://10709812251",
+		["lucide-copyright"] = "rbxassetid://10709812311",
+		["lucide-corner-down-left"] = "rbxassetid://10709812396",
+		["lucide-corner-down-right"] = "rbxassetid://10709812485",
+		["lucide-corner-left-down"] = "rbxassetid://10709812632",
+		["lucide-corner-left-up"] = "rbxassetid://10709812784",
+		["lucide-corner-right-down"] = "rbxassetid://10709812939",
+		["lucide-corner-right-up"] = "rbxassetid://10709813094",
+		["lucide-corner-up-left"] = "rbxassetid://10709813185",
+		["lucide-corner-up-right"] = "rbxassetid://10709813281",
+		["lucide-cpu"] = "rbxassetid://10709813383",
+		["lucide-croissant"] = "rbxassetid://10709818125",
+		["lucide-crop"] = "rbxassetid://10709818245",
+		["lucide-cross"] = "rbxassetid://10709818399",
+		["lucide-crosshair"] = "rbxassetid://10709818534",
+		["lucide-crown"] = "rbxassetid://10709818626",
+		["lucide-cup-soda"] = "rbxassetid://10709818763",
+		["lucide-curly-braces"] = "rbxassetid://10709818847",
+		["lucide-currency"] = "rbxassetid://10709818931",
+		["lucide-database"] = "rbxassetid://10709818996",
+		["lucide-delete"] = "rbxassetid://10709819059",
+		["lucide-diamond"] = "rbxassetid://10709819149",
+		["lucide-dice-1"] = "rbxassetid://10709819266",
+		["lucide-dice-2"] = "rbxassetid://10709819361",
+		["lucide-dice-3"] = "rbxassetid://10709819508",
+		["lucide-dice-4"] = "rbxassetid://10709819670",
+		["lucide-dice-5"] = "rbxassetid://10709819801",
+		["lucide-dice-6"] = "rbxassetid://10709819896",
+		["lucide-dices"] = "rbxassetid://10723343321",
+		["lucide-diff"] = "rbxassetid://10723343416",
+		["lucide-disc"] = "rbxassetid://10723343537",
+		["lucide-divide"] = "rbxassetid://10723343805",
+		["lucide-divide-circle"] = "rbxassetid://10723343636",
+		["lucide-divide-square"] = "rbxassetid://10723343737",
+		["lucide-dollar-sign"] = "rbxassetid://10723343958",
+		["lucide-download"] = "rbxassetid://10723344270",
+		["lucide-download-cloud"] = "rbxassetid://10723344088",
+		["lucide-droplet"] = "rbxassetid://10723344432",
+		["lucide-droplets"] = "rbxassetid://10734883356",
+		["lucide-drumstick"] = "rbxassetid://10723344737",
+		["lucide-edit"] = "rbxassetid://10734883598",
+		["lucide-edit-2"] = "rbxassetid://10723344885",
+		["lucide-edit-3"] = "rbxassetid://10723345088",
+		["lucide-egg"] = "rbxassetid://10723345518",
+		["lucide-egg-fried"] = "rbxassetid://10723345347",
+		["lucide-electricity"] = "rbxassetid://10723345749",
+		["lucide-electricity-off"] = "rbxassetid://10723345643",
+		["lucide-equal"] = "rbxassetid://10723345990",
+		["lucide-equal-not"] = "rbxassetid://10723345866",
+		["lucide-eraser"] = "rbxassetid://10723346158",
+		["lucide-euro"] = "rbxassetid://10723346372",
+		["lucide-expand"] = "rbxassetid://10723346553",
+		["lucide-external-link"] = "rbxassetid://10723346684",
+		["lucide-eye"] = "rbxassetid://10723346959",
+		["lucide-eye-off"] = "rbxassetid://10723346871",
+		["lucide-factory"] = "rbxassetid://10723347051",
+		["lucide-fan"] = "rbxassetid://10723354359",
+		["lucide-fast-forward"] = "rbxassetid://10723354521",
+		["lucide-feather"] = "rbxassetid://10723354671",
+		["lucide-figma"] = "rbxassetid://10723354801",
+		["lucide-file"] = "rbxassetid://10723374641",
+		["lucide-file-archive"] = "rbxassetid://10723354921",
+		["lucide-file-audio"] = "rbxassetid://10723355148",
+		["lucide-file-audio-2"] = "rbxassetid://10723355026",
+		["lucide-file-axis-3d"] = "rbxassetid://10723355272",
+		["lucide-file-badge"] = "rbxassetid://10723355622",
+		["lucide-file-badge-2"] = "rbxassetid://10723355451",
+		["lucide-file-bar-chart"] = "rbxassetid://10723355887",
+		["lucide-file-bar-chart-2"] = "rbxassetid://10723355746",
+		["lucide-file-box"] = "rbxassetid://10723355989",
+		["lucide-file-check"] = "rbxassetid://10723356210",
+		["lucide-file-check-2"] = "rbxassetid://10723356100",
+		["lucide-file-clock"] = "rbxassetid://10723356329",
+		["lucide-file-code"] = "rbxassetid://10723356507",
+		["lucide-file-cog"] = "rbxassetid://10723356830",
+		["lucide-file-cog-2"] = "rbxassetid://10723356676",
+		["lucide-file-diff"] = "rbxassetid://10723357039",
+		["lucide-file-digit"] = "rbxassetid://10723357151",
+		["lucide-file-down"] = "rbxassetid://10723357322",
+		["lucide-file-edit"] = "rbxassetid://10723357495",
+		["lucide-file-heart"] = "rbxassetid://10723357637",
+		["lucide-file-image"] = "rbxassetid://10723357790",
+		["lucide-file-input"] = "rbxassetid://10723357933",
+		["lucide-file-json"] = "rbxassetid://10723364435",
+		["lucide-file-json-2"] = "rbxassetid://10723364361",
+		["lucide-file-key"] = "rbxassetid://10723364605",
+		["lucide-file-key-2"] = "rbxassetid://10723364515",
+		["lucide-file-line-chart"] = "rbxassetid://10723364725",
+		["lucide-file-lock"] = "rbxassetid://10723364957",
+		["lucide-file-lock-2"] = "rbxassetid://10723364861",
+		["lucide-file-minus"] = "rbxassetid://10723365254",
+		["lucide-file-minus-2"] = "rbxassetid://10723365086",
+		["lucide-file-output"] = "rbxassetid://10723365457",
+		["lucide-file-pie-chart"] = "rbxassetid://10723365598",
+		["lucide-file-plus"] = "rbxassetid://10723365877",
+		["lucide-file-plus-2"] = "rbxassetid://10723365766",
+		["lucide-file-question"] = "rbxassetid://10723365987",
+		["lucide-file-scan"] = "rbxassetid://10723366167",
+		["lucide-file-search"] = "rbxassetid://10723366550",
+		["lucide-file-search-2"] = "rbxassetid://10723366340",
+		["lucide-file-signature"] = "rbxassetid://10723366741",
+		["lucide-file-spreadsheet"] = "rbxassetid://10723366962",
+		["lucide-file-symlink"] = "rbxassetid://10723367098",
+		["lucide-file-terminal"] = "rbxassetid://10723367244",
+		["lucide-file-text"] = "rbxassetid://10723367380",
+		["lucide-file-type"] = "rbxassetid://10723367606",
+		["lucide-file-type-2"] = "rbxassetid://10723367509",
+		["lucide-file-up"] = "rbxassetid://10723367734",
+		["lucide-file-video"] = "rbxassetid://10723373884",
+		["lucide-file-video-2"] = "rbxassetid://10723367834",
+		["lucide-file-volume"] = "rbxassetid://10723374172",
+		["lucide-file-volume-2"] = "rbxassetid://10723374030",
+		["lucide-file-warning"] = "rbxassetid://10723374276",
+		["lucide-file-x"] = "rbxassetid://10723374544",
+		["lucide-file-x-2"] = "rbxassetid://10723374378",
+		["lucide-files"] = "rbxassetid://10723374759",
+		["lucide-film"] = "rbxassetid://10723374981",
+		["lucide-filter"] = "rbxassetid://10723375128",
+		["lucide-fingerprint"] = "rbxassetid://10723375250",
+		["lucide-flag"] = "rbxassetid://10723375890",
+		["lucide-flag-off"] = "rbxassetid://10723375443",
+		["lucide-flag-triangle-left"] = "rbxassetid://10723375608",
+		["lucide-flag-triangle-right"] = "rbxassetid://10723375727",
+		["lucide-flame"] = "rbxassetid://10723376114",
+		["lucide-flashlight"] = "rbxassetid://10723376471",
+		["lucide-flashlight-off"] = "rbxassetid://10723376365",
+		["lucide-flask-conical"] = "rbxassetid://10734883986",
+		["lucide-flask-round"] = "rbxassetid://10723376614",
+		["lucide-flip-horizontal"] = "rbxassetid://10723376884",
+		["lucide-flip-horizontal-2"] = "rbxassetid://10723376745",
+		["lucide-flip-vertical"] = "rbxassetid://10723377138",
+		["lucide-flip-vertical-2"] = "rbxassetid://10723377026",
+		["lucide-flower"] = "rbxassetid://10747830374",
+		["lucide-flower-2"] = "rbxassetid://10723377305",
+		["lucide-focus"] = "rbxassetid://10723377537",
+		["lucide-folder"] = "rbxassetid://10723387563",
+		["lucide-folder-archive"] = "rbxassetid://10723384478",
+		["lucide-folder-check"] = "rbxassetid://10723384605",
+		["lucide-folder-clock"] = "rbxassetid://10723384731",
+		["lucide-folder-closed"] = "rbxassetid://10723384893",
+		["lucide-folder-cog"] = "rbxassetid://10723385213",
+		["lucide-folder-cog-2"] = "rbxassetid://10723385036",
+		["lucide-folder-down"] = "rbxassetid://10723385338",
+		["lucide-folder-edit"] = "rbxassetid://10723385445",
+		["lucide-folder-heart"] = "rbxassetid://10723385545",
+		["lucide-folder-input"] = "rbxassetid://10723385721",
+		["lucide-folder-key"] = "rbxassetid://10723385848",
+		["lucide-folder-lock"] = "rbxassetid://10723386005",
+		["lucide-folder-minus"] = "rbxassetid://10723386127",
+		["lucide-folder-open"] = "rbxassetid://10723386277",
+		["lucide-folder-output"] = "rbxassetid://10723386386",
+		["lucide-folder-plus"] = "rbxassetid://10723386531",
+		["lucide-folder-search"] = "rbxassetid://10723386787",
+		["lucide-folder-search-2"] = "rbxassetid://10723386674",
+		["lucide-folder-symlink"] = "rbxassetid://10723386930",
+		["lucide-folder-tree"] = "rbxassetid://10723387085",
+		["lucide-folder-up"] = "rbxassetid://10723387265",
+		["lucide-folder-x"] = "rbxassetid://10723387448",
+		["lucide-folders"] = "rbxassetid://10723387721",
+		["lucide-form-input"] = "rbxassetid://10723387841",
+		["lucide-forward"] = "rbxassetid://10723388016",
+		["lucide-frame"] = "rbxassetid://10723394389",
+		["lucide-framer"] = "rbxassetid://10723394565",
+		["lucide-frown"] = "rbxassetid://10723394681",
+		["lucide-fuel"] = "rbxassetid://10723394846",
+		["lucide-function-square"] = "rbxassetid://10723395041",
+		["lucide-gamepad"] = "rbxassetid://10723395457",
+		["lucide-gamepad-2"] = "rbxassetid://10723395215",
+		["lucide-gauge"] = "rbxassetid://10723395708",
+		["lucide-gavel"] = "rbxassetid://10723395896",
+		["lucide-gem"] = "rbxassetid://10723396000",
+		["lucide-ghost"] = "rbxassetid://10723396107",
+		["lucide-gift"] = "rbxassetid://10723396402",
+		["lucide-gift-card"] = "rbxassetid://10723396225",
+		["lucide-git-branch"] = "rbxassetid://10723396676",
+		["lucide-git-branch-plus"] = "rbxassetid://10723396542",
+		["lucide-git-commit"] = "rbxassetid://10723396812",
+		["lucide-git-compare"] = "rbxassetid://10723396954",
+		["lucide-git-fork"] = "rbxassetid://10723397049",
+		["lucide-git-merge"] = "rbxassetid://10723397165",
+		["lucide-git-pull-request"] = "rbxassetid://10723397431",
+		["lucide-git-pull-request-closed"] = "rbxassetid://10723397268",
+		["lucide-git-pull-request-draft"] = "rbxassetid://10734884302",
+		["lucide-glass"] = "rbxassetid://10723397788",
+		["lucide-glass-2"] = "rbxassetid://10723397529",
+		["lucide-glass-water"] = "rbxassetid://10723397678",
+		["lucide-glasses"] = "rbxassetid://10723397895",
+		["lucide-globe"] = "rbxassetid://10723404337",
+		["lucide-globe-2"] = "rbxassetid://10723398002",
+		["lucide-grab"] = "rbxassetid://10723404472",
+		["lucide-graduation-cap"] = "rbxassetid://10723404691",
+		["lucide-grape"] = "rbxassetid://10723404822",
+		["lucide-grid"] = "rbxassetid://10723404936",
+		["lucide-grip-horizontal"] = "rbxassetid://10723405089",
+		["lucide-grip-vertical"] = "rbxassetid://10723405236",
+		["lucide-hammer"] = "rbxassetid://10723405360",
+		["lucide-hand"] = "rbxassetid://10723405649",
+		["lucide-hand-metal"] = "rbxassetid://10723405508",
+		["lucide-hard-drive"] = "rbxassetid://10723405749",
+		["lucide-hard-hat"] = "rbxassetid://10723405859",
+		["lucide-hash"] = "rbxassetid://10723405975",
+		["lucide-haze"] = "rbxassetid://10723406078",
+		["lucide-headphones"] = "rbxassetid://10723406165",
+		["lucide-heart"] = "rbxassetid://10723406885",
+		["lucide-heart-crack"] = "rbxassetid://10723406299",
+		["lucide-heart-handshake"] = "rbxassetid://10723406480",
+		["lucide-heart-off"] = "rbxassetid://10723406662",
+		["lucide-heart-pulse"] = "rbxassetid://10723406795",
+		["lucide-help-circle"] = "rbxassetid://10723406988",
+		["lucide-hexagon"] = "rbxassetid://10723407092",
+		["lucide-highlighter"] = "rbxassetid://10723407192",
+		["lucide-history"] = "rbxassetid://10723407335",
+		["lucide-home"] = "rbxassetid://10723407389",
+		["lucide-hourglass"] = "rbxassetid://10723407498",
+		["lucide-ice-cream"] = "rbxassetid://10723414308",
+		["lucide-image"] = "rbxassetid://10723415040",
+		["lucide-image-minus"] = "rbxassetid://10723414487",
+		["lucide-image-off"] = "rbxassetid://10723414677",
+		["lucide-image-plus"] = "rbxassetid://10723414827",
+		["lucide-import"] = "rbxassetid://10723415205",
+		["lucide-inbox"] = "rbxassetid://10723415335",
+		["lucide-indent"] = "rbxassetid://10723415494",
+		["lucide-indian-rupee"] = "rbxassetid://10723415642",
+		["lucide-infinity"] = "rbxassetid://10723415766",
+		["lucide-info"] = "rbxassetid://10723415903",
+		["lucide-inspect"] = "rbxassetid://10723416057",
+		["lucide-italic"] = "rbxassetid://10723416195",
+		["lucide-japanese-yen"] = "rbxassetid://10723416363",
+		["lucide-joystick"] = "rbxassetid://10723416527",
+		["lucide-key"] = "rbxassetid://10723416652",
+		["lucide-keyboard"] = "rbxassetid://10723416765",
+		["lucide-lamp"] = "rbxassetid://10723417513",
+		["lucide-lamp-ceiling"] = "rbxassetid://10723416922",
+		["lucide-lamp-desk"] = "rbxassetid://10723417016",
+		["lucide-lamp-floor"] = "rbxassetid://10723417131",
+		["lucide-lamp-wall-down"] = "rbxassetid://10723417240",
+		["lucide-lamp-wall-up"] = "rbxassetid://10723417356",
+		["lucide-landmark"] = "rbxassetid://10723417608",
+		["lucide-languages"] = "rbxassetid://10723417703",
+		["lucide-laptop"] = "rbxassetid://10723423881",
+		["lucide-laptop-2"] = "rbxassetid://10723417797",
+		["lucide-lasso"] = "rbxassetid://10723424235",
+		["lucide-lasso-select"] = "rbxassetid://10723424058",
+		["lucide-laugh"] = "rbxassetid://10723424372",
+		["lucide-layers"] = "rbxassetid://10723424505",
+		["lucide-layout"] = "rbxassetid://10723425376",
+		["lucide-layout-dashboard"] = "rbxassetid://10723424646",
+		["lucide-layout-grid"] = "rbxassetid://10723424838",
+		["lucide-layout-list"] = "rbxassetid://10723424963",
+		["lucide-layout-template"] = "rbxassetid://10723425187",
+		["lucide-leaf"] = "rbxassetid://10723425539",
+		["lucide-library"] = "rbxassetid://10723425615",
+		["lucide-life-buoy"] = "rbxassetid://10723425685",
+		["lucide-lightbulb"] = "rbxassetid://10723425852",
+		["lucide-lightbulb-off"] = "rbxassetid://10723425762",
+		["lucide-line-chart"] = "rbxassetid://10723426393",
+		["lucide-link"] = "rbxassetid://10723426722",
+		["lucide-link-2"] = "rbxassetid://10723426595",
+		["lucide-link-2-off"] = "rbxassetid://10723426513",
+		["lucide-list"] = "rbxassetid://10723433811",
+		["lucide-list-checks"] = "rbxassetid://10734884548",
+		["lucide-list-end"] = "rbxassetid://10723426886",
+		["lucide-list-minus"] = "rbxassetid://10723426986",
+		["lucide-list-music"] = "rbxassetid://10723427081",
+		["lucide-list-ordered"] = "rbxassetid://10723427199",
+		["lucide-list-plus"] = "rbxassetid://10723427334",
+		["lucide-list-start"] = "rbxassetid://10723427494",
+		["lucide-list-video"] = "rbxassetid://10723427619",
+		["lucide-list-x"] = "rbxassetid://10723433655",
+		["lucide-loader"] = "rbxassetid://10723434070",
+		["lucide-loader-2"] = "rbxassetid://10723433935",
+		["lucide-locate"] = "rbxassetid://10723434557",
+		["lucide-locate-fixed"] = "rbxassetid://10723434236",
+		["lucide-locate-off"] = "rbxassetid://10723434379",
+		["lucide-lock"] = "rbxassetid://10723434711",
+		["lucide-log-in"] = "rbxassetid://10723434830",
+		["lucide-log-out"] = "rbxassetid://10723434906",
+		["lucide-luggage"] = "rbxassetid://10723434993",
+		["lucide-magnet"] = "rbxassetid://10723435069",
+		["lucide-mail"] = "rbxassetid://10734885430",
+		["lucide-mail-check"] = "rbxassetid://10723435182",
+		["lucide-mail-minus"] = "rbxassetid://10723435261",
+		["lucide-mail-open"] = "rbxassetid://10723435342",
+		["lucide-mail-plus"] = "rbxassetid://10723435443",
+		["lucide-mail-question"] = "rbxassetid://10723435515",
+		["lucide-mail-search"] = "rbxassetid://10734884739",
+		["lucide-mail-warning"] = "rbxassetid://10734885015",
+		["lucide-mail-x"] = "rbxassetid://10734885247",
+		["lucide-mails"] = "rbxassetid://10734885614",
+		["lucide-map"] = "rbxassetid://10734886202",
+		["lucide-map-pin"] = "rbxassetid://10734886004",
+		["lucide-map-pin-off"] = "rbxassetid://10734885803",
+		["lucide-maximize"] = "rbxassetid://10734886735",
+		["lucide-maximize-2"] = "rbxassetid://10734886496",
+		["lucide-medal"] = "rbxassetid://10734887072",
+		["lucide-megaphone"] = "rbxassetid://10734887454",
+		["lucide-megaphone-off"] = "rbxassetid://10734887311",
+		["lucide-meh"] = "rbxassetid://10734887603",
+		["lucide-menu"] = "rbxassetid://10734887784",
+		["lucide-message-circle"] = "rbxassetid://10734888000",
+		["lucide-message-square"] = "rbxassetid://10734888228",
+		["lucide-mic"] = "rbxassetid://10734888864",
+		["lucide-mic-2"] = "rbxassetid://10734888430",
+		["lucide-mic-off"] = "rbxassetid://10734888646",
+		["lucide-microscope"] = "rbxassetid://10734889106",
+		["lucide-microwave"] = "rbxassetid://10734895076",
+		["lucide-milestone"] = "rbxassetid://10734895310",
+		["lucide-minimize"] = "rbxassetid://10734895698",
+		["lucide-minimize-2"] = "rbxassetid://10734895530",
+		["lucide-minus"] = "rbxassetid://10734896206",
+		["lucide-minus-circle"] = "rbxassetid://10734895856",
+		["lucide-minus-square"] = "rbxassetid://10734896029",
+		["lucide-monitor"] = "rbxassetid://10734896881",
+		["lucide-monitor-off"] = "rbxassetid://10734896360",
+		["lucide-monitor-speaker"] = "rbxassetid://10734896512",
+		["lucide-moon"] = "rbxassetid://10734897102",
+		["lucide-more-horizontal"] = "rbxassetid://10734897250",
+		["lucide-more-vertical"] = "rbxassetid://10734897387",
+		["lucide-mountain"] = "rbxassetid://10734897956",
+		["lucide-mountain-snow"] = "rbxassetid://10734897665",
+		["lucide-mouse"] = "rbxassetid://10734898592",
+		["lucide-mouse-pointer"] = "rbxassetid://10734898476",
+		["lucide-mouse-pointer-2"] = "rbxassetid://10734898194",
+		["lucide-mouse-pointer-click"] = "rbxassetid://10734898355",
+		["lucide-move"] = "rbxassetid://10734900011",
+		["lucide-move-3d"] = "rbxassetid://10734898756",
+		["lucide-move-diagonal"] = "rbxassetid://10734899164",
+		["lucide-move-diagonal-2"] = "rbxassetid://10734898934",
+		["lucide-move-horizontal"] = "rbxassetid://10734899414",
+		["lucide-move-vertical"] = "rbxassetid://10734899821",
+		["lucide-music"] = "rbxassetid://10734905958",
+		["lucide-music-2"] = "rbxassetid://10734900215",
+		["lucide-music-3"] = "rbxassetid://10734905665",
+		["lucide-music-4"] = "rbxassetid://10734905823",
+		["lucide-navigation"] = "rbxassetid://10734906744",
+		["lucide-navigation-2"] = "rbxassetid://10734906332",
+		["lucide-navigation-2-off"] = "rbxassetid://10734906144",
+		["lucide-navigation-off"] = "rbxassetid://10734906580",
+		["lucide-network"] = "rbxassetid://10734906975",
+		["lucide-newspaper"] = "rbxassetid://10734907168",
+		["lucide-octagon"] = "rbxassetid://10734907361",
+		["lucide-option"] = "rbxassetid://10734907649",
+		["lucide-outdent"] = "rbxassetid://10734907933",
+		["lucide-package"] = "rbxassetid://10734909540",
+		["lucide-package-2"] = "rbxassetid://10734908151",
+		["lucide-package-check"] = "rbxassetid://10734908384",
+		["lucide-package-minus"] = "rbxassetid://10734908626",
+		["lucide-package-open"] = "rbxassetid://10734908793",
+		["lucide-package-plus"] = "rbxassetid://10734909016",
+		["lucide-package-search"] = "rbxassetid://10734909196",
+		["lucide-package-x"] = "rbxassetid://10734909375",
+		["lucide-paint-bucket"] = "rbxassetid://10734909847",
+		["lucide-paintbrush"] = "rbxassetid://10734910187",
+		["lucide-paintbrush-2"] = "rbxassetid://10734910030",
+		["lucide-palette"] = "rbxassetid://10734910430",
+		["lucide-palmtree"] = "rbxassetid://10734910680",
+		["lucide-paperclip"] = "rbxassetid://10734910927",
+		["lucide-party-popper"] = "rbxassetid://10734918735",
+		["lucide-pause"] = "rbxassetid://10734919336",
+		["lucide-pause-circle"] = "rbxassetid://10735024209",
+		["lucide-pause-octagon"] = "rbxassetid://10734919143",
+		["lucide-pen-tool"] = "rbxassetid://10734919503",
+		["lucide-pencil"] = "rbxassetid://10734919691",
+		["lucide-percent"] = "rbxassetid://10734919919",
+		["lucide-person-standing"] = "rbxassetid://10734920149",
+		["lucide-phone"] = "rbxassetid://10734921524",
+		["lucide-phone-call"] = "rbxassetid://10734920305",
+		["lucide-phone-forwarded"] = "rbxassetid://10734920508",
+		["lucide-phone-incoming"] = "rbxassetid://10734920694",
+		["lucide-phone-missed"] = "rbxassetid://10734920845",
+		["lucide-phone-off"] = "rbxassetid://10734921077",
+		["lucide-phone-outgoing"] = "rbxassetid://10734921288",
+		["lucide-pie-chart"] = "rbxassetid://10734921727",
+		["lucide-piggy-bank"] = "rbxassetid://10734921935",
+		["lucide-pin"] = "rbxassetid://10734922324",
+		["lucide-pin-off"] = "rbxassetid://10734922180",
+		["lucide-pipette"] = "rbxassetid://10734922497",
+		["lucide-pizza"] = "rbxassetid://10734922774",
+		["lucide-plane"] = "rbxassetid://10734922971",
+		["lucide-play"] = "rbxassetid://10734923549",
+		["lucide-play-circle"] = "rbxassetid://10734923214",
+		["lucide-plus"] = "rbxassetid://10734924532",
+		["lucide-plus-circle"] = "rbxassetid://10734923868",
+		["lucide-plus-square"] = "rbxassetid://10734924219",
+		["lucide-podcast"] = "rbxassetid://10734929553",
+		["lucide-pointer"] = "rbxassetid://10734929723",
+		["lucide-pound-sterling"] = "rbxassetid://10734929981",
+		["lucide-power"] = "rbxassetid://10734930466",
+		["lucide-power-off"] = "rbxassetid://10734930257",
+		["lucide-printer"] = "rbxassetid://10734930632",
+		["lucide-puzzle"] = "rbxassetid://10734930886",
+		["lucide-quote"] = "rbxassetid://10734931234",
+		["lucide-radio"] = "rbxassetid://10734931596",
+		["lucide-radio-receiver"] = "rbxassetid://10734931402",
+		["lucide-rectangle-horizontal"] = "rbxassetid://10734931777",
+		["lucide-rectangle-vertical"] = "rbxassetid://10734932081",
+		["lucide-recycle"] = "rbxassetid://10734932295",
+		["lucide-redo"] = "rbxassetid://10734932822",
+		["lucide-redo-2"] = "rbxassetid://10734932586",
+		["lucide-refresh-ccw"] = "rbxassetid://10734933056",
+		["lucide-refresh-cw"] = "rbxassetid://10734933222",
+		["lucide-refrigerator"] = "rbxassetid://10734933465",
+		["lucide-regex"] = "rbxassetid://10734933655",
+		["lucide-repeat"] = "rbxassetid://10734933966",
+		["lucide-repeat-1"] = "rbxassetid://10734933826",
+		["lucide-reply"] = "rbxassetid://10734934252",
+		["lucide-reply-all"] = "rbxassetid://10734934132",
+		["lucide-rewind"] = "rbxassetid://10734934347",
+		["lucide-rocket"] = "rbxassetid://10734934585",
+		["lucide-rocking-chair"] = "rbxassetid://10734939942",
+		["lucide-rotate-3d"] = "rbxassetid://10734940107",
+		["lucide-rotate-ccw"] = "rbxassetid://10734940376",
+		["lucide-rotate-cw"] = "rbxassetid://10734940654",
+		["lucide-rss"] = "rbxassetid://10734940825",
+		["lucide-ruler"] = "rbxassetid://10734941018",
+		["lucide-russian-ruble"] = "rbxassetid://10734941199",
+		["lucide-sailboat"] = "rbxassetid://10734941354",
+		["lucide-save"] = "rbxassetid://10734941499",
+		["lucide-scale"] = "rbxassetid://10734941912",
+		["lucide-scale-3d"] = "rbxassetid://10734941739",
+		["lucide-scaling"] = "rbxassetid://10734942072",
+		["lucide-scan"] = "rbxassetid://10734942565",
+		["lucide-scan-face"] = "rbxassetid://10734942198",
+		["lucide-scan-line"] = "rbxassetid://10734942351",
+		["lucide-scissors"] = "rbxassetid://10734942778",
+		["lucide-screen-share"] = "rbxassetid://10734943193",
+		["lucide-screen-share-off"] = "rbxassetid://10734942967",
+		["lucide-scroll"] = "rbxassetid://10734943448",
+		["lucide-search"] = "rbxassetid://10734943674",
+		["lucide-send"] = "rbxassetid://10734943902",
+		["lucide-separator-horizontal"] = "rbxassetid://10734944115",
+		["lucide-separator-vertical"] = "rbxassetid://10734944326",
+		["lucide-server"] = "rbxassetid://10734949856",
+		["lucide-server-cog"] = "rbxassetid://10734944444",
+		["lucide-server-crash"] = "rbxassetid://10734944554",
+		["lucide-server-off"] = "rbxassetid://10734944668",
+		["lucide-settings"] = "rbxassetid://10734950309",
+		["lucide-settings-2"] = "rbxassetid://10734950020",
+		["lucide-share"] = "rbxassetid://10734950813",
+		["lucide-share-2"] = "rbxassetid://10734950553",
+		["lucide-sheet"] = "rbxassetid://10734951038",
+		["lucide-shield"] = "rbxassetid://10734951847",
+		["lucide-shield-alert"] = "rbxassetid://10734951173",
+		["lucide-shield-check"] = "rbxassetid://10734951367",
+		["lucide-shield-close"] = "rbxassetid://10734951535",
+		["lucide-shield-off"] = "rbxassetid://10734951684",
+		["lucide-shirt"] = "rbxassetid://10734952036",
+		["lucide-shopping-bag"] = "rbxassetid://10734952273",
+		["lucide-shopping-cart"] = "rbxassetid://10734952479",
+		["lucide-shovel"] = "rbxassetid://10734952773",
+		["lucide-shower-head"] = "rbxassetid://10734952942",
+		["lucide-shrink"] = "rbxassetid://10734953073",
+		["lucide-shrub"] = "rbxassetid://10734953241",
+		["lucide-shuffle"] = "rbxassetid://10734953451",
+		["lucide-sidebar"] = "rbxassetid://10734954301",
+		["lucide-sidebar-close"] = "rbxassetid://10734953715",
+		["lucide-sidebar-open"] = "rbxassetid://10734954000",
+		["lucide-sigma"] = "rbxassetid://10734954538",
+		["lucide-signal"] = "rbxassetid://10734961133",
+		["lucide-signal-high"] = "rbxassetid://10734954807",
+		["lucide-signal-low"] = "rbxassetid://10734955080",
+		["lucide-signal-medium"] = "rbxassetid://10734955336",
+		["lucide-signal-zero"] = "rbxassetid://10734960878",
+		["lucide-siren"] = "rbxassetid://10734961284",
+		["lucide-skip-back"] = "rbxassetid://10734961526",
+		["lucide-skip-forward"] = "rbxassetid://10734961809",
+		["lucide-skull"] = "rbxassetid://10734962068",
+		["lucide-slack"] = "rbxassetid://10734962339",
+		["lucide-slash"] = "rbxassetid://10734962600",
+		["lucide-slice"] = "rbxassetid://10734963024",
+		["lucide-sliders"] = "rbxassetid://10734963400",
+		["lucide-sliders-horizontal"] = "rbxassetid://10734963191",
+		["lucide-smartphone"] = "rbxassetid://10734963940",
+		["lucide-smartphone-charging"] = "rbxassetid://10734963671",
+		["lucide-smile"] = "rbxassetid://10734964441",
+		["lucide-smile-plus"] = "rbxassetid://10734964188",
+		["lucide-snowflake"] = "rbxassetid://10734964600",
+		["lucide-sofa"] = "rbxassetid://10734964852",
+		["lucide-sort-asc"] = "rbxassetid://10734965115",
+		["lucide-sort-desc"] = "rbxassetid://10734965287",
+		["lucide-speaker"] = "rbxassetid://10734965419",
+		["lucide-sprout"] = "rbxassetid://10734965572",
+		["lucide-square"] = "rbxassetid://10734965702",
+		["lucide-star"] = "rbxassetid://10734966248",
+		["lucide-star-half"] = "rbxassetid://10734965897",
+		["lucide-star-off"] = "rbxassetid://10734966097",
+		["lucide-stethoscope"] = "rbxassetid://10734966384",
+		["lucide-sticker"] = "rbxassetid://10734972234",
+		["lucide-sticky-note"] = "rbxassetid://10734972463",
+		["lucide-stop-circle"] = "rbxassetid://10734972621",
+		["lucide-stretch-horizontal"] = "rbxassetid://10734972862",
+		["lucide-stretch-vertical"] = "rbxassetid://10734973130",
+		["lucide-strikethrough"] = "rbxassetid://10734973290",
+		["lucide-subscript"] = "rbxassetid://10734973457",
+		["lucide-sun"] = "rbxassetid://10734974297",
+		["lucide-sun-dim"] = "rbxassetid://10734973645",
+		["lucide-sun-medium"] = "rbxassetid://10734973778",
+		["lucide-sun-moon"] = "rbxassetid://10734973999",
+		["lucide-sun-snow"] = "rbxassetid://10734974130",
+		["lucide-sunrise"] = "rbxassetid://10734974522",
+		["lucide-sunset"] = "rbxassetid://10734974689",
+		["lucide-superscript"] = "rbxassetid://10734974850",
+		["lucide-swiss-franc"] = "rbxassetid://10734975024",
+		["lucide-switch-camera"] = "rbxassetid://10734975214",
+		["lucide-sword"] = "rbxassetid://10734975486",
+		["lucide-swords"] = "rbxassetid://10734975692",
+		["lucide-syringe"] = "rbxassetid://10734975932",
+		["lucide-table"] = "rbxassetid://10734976230",
+		["lucide-table-2"] = "rbxassetid://10734976097",
+		["lucide-tablet"] = "rbxassetid://10734976394",
+		["lucide-tag"] = "rbxassetid://10734976528",
+		["lucide-tags"] = "rbxassetid://10734976739",
+		["lucide-target"] = "rbxassetid://10734977012",
+		["lucide-tent"] = "rbxassetid://10734981750",
+		["lucide-terminal"] = "rbxassetid://10734982144",
+		["lucide-terminal-square"] = "rbxassetid://10734981995",
+		["lucide-text-cursor"] = "rbxassetid://10734982395",
+		["lucide-text-cursor-input"] = "rbxassetid://10734982297",
+		["lucide-thermometer"] = "rbxassetid://10734983134",
+		["lucide-thermometer-snowflake"] = "rbxassetid://10734982571",
+		["lucide-thermometer-sun"] = "rbxassetid://10734982771",
+		["lucide-thumbs-down"] = "rbxassetid://10734983359",
+		["lucide-thumbs-up"] = "rbxassetid://10734983629",
+		["lucide-ticket"] = "rbxassetid://10734983868",
+		["lucide-timer"] = "rbxassetid://10734984606",
+		["lucide-timer-off"] = "rbxassetid://10734984138",
+		["lucide-timer-reset"] = "rbxassetid://10734984355",
+		["lucide-toggle-left"] = "rbxassetid://10734984834",
+		["lucide-toggle-right"] = "rbxassetid://10734985040",
+		["lucide-tornado"] = "rbxassetid://10734985247",
+		["lucide-toy-brick"] = "rbxassetid://10747361919",
+		["lucide-train"] = "rbxassetid://10747362105",
+		["lucide-trash"] = "rbxassetid://10747362393",
+		["lucide-trash-2"] = "rbxassetid://10747362241",
+		["lucide-tree-deciduous"] = "rbxassetid://10747362534",
+		["lucide-tree-pine"] = "rbxassetid://10747362748",
+		["lucide-trees"] = "rbxassetid://10747363016",
+		["lucide-trending-down"] = "rbxassetid://10747363205",
+		["lucide-trending-up"] = "rbxassetid://10747363465",
+		["lucide-triangle"] = "rbxassetid://10747363621",
+		["lucide-trophy"] = "rbxassetid://10747363809",
+		["lucide-truck"] = "rbxassetid://10747364031",
+		["lucide-tv"] = "rbxassetid://10747364593",
+		["lucide-tv-2"] = "rbxassetid://10747364302",
+		["lucide-type"] = "rbxassetid://10747364761",
+		["lucide-umbrella"] = "rbxassetid://10747364971",
+		["lucide-underline"] = "rbxassetid://10747365191",
+		["lucide-undo"] = "rbxassetid://10747365484",
+		["lucide-undo-2"] = "rbxassetid://10747365359",
+		["lucide-unlink"] = "rbxassetid://10747365771",
+		["lucide-unlink-2"] = "rbxassetid://10747397871",
+		["lucide-unlock"] = "rbxassetid://10747366027",
+		["lucide-upload"] = "rbxassetid://10747366434",
+		["lucide-upload-cloud"] = "rbxassetid://10747366266",
+		["lucide-usb"] = "rbxassetid://10747366606",
+		["lucide-user"] = "rbxassetid://10747373176",
+		["lucide-user-check"] = "rbxassetid://10747371901",
+		["lucide-user-cog"] = "rbxassetid://10747372167",
+		["lucide-user-minus"] = "rbxassetid://10747372346",
+		["lucide-user-plus"] = "rbxassetid://10747372702",
+		["lucide-user-x"] = "rbxassetid://10747372992",
+		["lucide-users"] = "rbxassetid://10747373426",
+		["lucide-utensils"] = "rbxassetid://10747373821",
+		["lucide-utensils-crossed"] = "rbxassetid://10747373629",
+		["lucide-venetian-mask"] = "rbxassetid://10747374003",
+		["lucide-verified"] = "rbxassetid://10747374131",
+		["lucide-vibrate"] = "rbxassetid://10747374489",
+		["lucide-vibrate-off"] = "rbxassetid://10747374269",
+		["lucide-video"] = "rbxassetid://10747374938",
+		["lucide-video-off"] = "rbxassetid://10747374721",
+		["lucide-view"] = "rbxassetid://10747375132",
+		["lucide-voicemail"] = "rbxassetid://10747375281",
+		["lucide-volume"] = "rbxassetid://10747376008",
+		["lucide-volume-1"] = "rbxassetid://10747375450",
+		["lucide-volume-2"] = "rbxassetid://10747375679",
+		["lucide-volume-x"] = "rbxassetid://10747375880",
+		["lucide-wallet"] = "rbxassetid://10747376205",
+		["lucide-wand"] = "rbxassetid://10747376565",
+		["lucide-wand-2"] = "rbxassetid://10747376349",
+		["lucide-watch"] = "rbxassetid://10747376722",
+		["lucide-waves"] = "rbxassetid://10747376931",
+		["lucide-webcam"] = "rbxassetid://10747381992",
+		["lucide-wifi"] = "rbxassetid://10747382504",
+		["lucide-wifi-off"] = "rbxassetid://10747382268",
+		["lucide-wind"] = "rbxassetid://10747382750",
+		["lucide-wrap-text"] = "rbxassetid://10747383065",
+		["lucide-wrench"] = "rbxassetid://10747383470",
+		["lucide-x"] = "rbxassetid://10747384394",
+		["lucide-x-circle"] = "rbxassetid://10747383819",
+		["lucide-x-octagon"] = "rbxassetid://10747384037",
+		["lucide-x-square"] = "rbxassetid://10747384217",
+		["lucide-zoom-in"] = "rbxassetid://10747384552",
+		["lucide-zoom-out"] = "rbxassetid://10747384679",
+	},
+}
+ end,
+    [30] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(30)local Flipper = {
+	SingleMotor = require(script.SingleMotor),
+	GroupMotor = require(script.GroupMotor),
+
+	Instant = require(script.Instant),
+	Linear = require(script.Linear),
+	Spring = require(script.Spring),
+
+	isMotor = require(script.isMotor),
+}
+
+return Flipper
+ end,
+    [31] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(31)local RunService = game:GetService("RunService")
+
+local Signal = require(script.Parent.Signal)
+
+local noop = function() end
+
+local BaseMotor = {}
+BaseMotor.__index = BaseMotor
+
+function BaseMotor.new()
+	return setmetatable({
+		_onStep = Signal.new(),
+		_onStart = Signal.new(),
+		_onComplete = Signal.new(),
+	}, BaseMotor)
+end
+
+function BaseMotor:onStep(handler)
+	return self._onStep:connect(handler)
+end
+
+function BaseMotor:onStart(handler)
+	return self._onStart:connect(handler)
+end
+
+function BaseMotor:onComplete(handler)
+	return self._onComplete:connect(handler)
+end
+
+function BaseMotor:start()
+	if not self._connection then
+		self._connection = RunService.RenderStepped:Connect(function(deltaTime)
+			self:step(deltaTime)
+		end)
+	end
+end
+
+function BaseMotor:stop()
+	if self._connection then
+		self._connection:Disconnect()
+		self._connection = nil
+	end
+end
+
+BaseMotor.destroy = BaseMotor.stop
+
+BaseMotor.step = noop
+BaseMotor.getValue = noop
+BaseMotor.setGoal = noop
+
+function BaseMotor:__tostring()
+	return "Motor"
+end
+
+return BaseMotor
+ end,
+    [32] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(32)return function()
+	local RunService = game:GetService("RunService")
+
+	local BaseMotor = require(script.Parent.BaseMotor)
+
+	describe("connection management", function()
+		local motor = BaseMotor.new()
+
+		it("should hook up connections on :start()", function()
+			motor:start()
+			expect(typeof(motor._connection)).to.equal("RBXScriptConnection")
+		end)
+
+		it("should remove connections on :stop() or :destroy()", function()
+			motor:stop()
+			expect(motor._connection).to.equal(nil)
+		end)
+	end)
+
+	it("should call :step() with deltaTime", function()
+		local motor = BaseMotor.new()
+
+		local argumentsProvided
+		function motor:step(...)
+			argumentsProvided = { ... }
+			motor:stop()
+		end
+
+		motor:start()
+
+		local expectedDeltaTime = RunService.RenderStepped:Wait()
+
+		-- Give it another frame, because connections tend to be invoked later than :Wait() calls
+		RunService.RenderStepped:Wait()
+
+		expect(argumentsProvided).to.be.ok()
+		expect(argumentsProvided[1]).to.equal(expectedDeltaTime)
+	end)
+end
+ end,
+    [33] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(33)local BaseMotor = require(script.Parent.BaseMotor)
+local SingleMotor = require(script.Parent.SingleMotor)
+
+local isMotor = require(script.Parent.isMotor)
+
+local GroupMotor = setmetatable({}, BaseMotor)
+GroupMotor.__index = GroupMotor
+
+local function toMotor(value)
+	if isMotor(value) then
+		return value
+	end
+
+	local valueType = typeof(value)
+
+	if valueType == "number" then
+		return SingleMotor.new(value, false)
+	elseif valueType == "table" then
+		return GroupMotor.new(value, false)
+	end
+
+	error(("Unable to convert %q to motor; type %s is unsupported"):format(value, valueType), 2)
+end
+
+function GroupMotor.new(initialValues, useImplicitConnections)
+	assert(initialValues, "Missing argument #1: initialValues")
+	assert(typeof(initialValues) == "table", "initialValues must be a table!")
+	assert(
+		not initialValues.step,
+		'initialValues contains disallowed property "step". Did you mean to put a table of values here?'
+	)
+
+	local self = setmetatable(BaseMotor.new(), GroupMotor)
+
+	if useImplicitConnections ~= nil then
+		self._useImplicitConnections = useImplicitConnections
+	else
+		self._useImplicitConnections = true
+	end
+
+	self._complete = true
+	self._motors = {}
+
+	for key, value in pairs(initialValues) do
+		self._motors[key] = toMotor(value)
+	end
+
+	return self
+end
+
+function GroupMotor:step(deltaTime)
+	if self._complete then
+		return true
+	end
+
+	local allMotorsComplete = true
+
+	for _, motor in pairs(self._motors) do
+		local complete = motor:step(deltaTime)
+		if not complete then
+			-- If any of the sub-motors are incomplete, the group motor will not be complete either
+			allMotorsComplete = false
+		end
+	end
+
+	self._onStep:fire(self:getValue())
+
+	if allMotorsComplete then
+		if self._useImplicitConnections then
+			self:stop()
+		end
+
+		self._complete = true
+		self._onComplete:fire()
+	end
+
+	return allMotorsComplete
+end
+
+function GroupMotor:setGoal(goals)
+	assert(not goals.step, 'goals contains disallowed property "step". Did you mean to put a table of goals here?')
+
+	self._complete = false
+	self._onStart:fire()
+
+	for key, goal in pairs(goals) do
+		local motor = assert(self._motors[key], ("Unknown motor for key %s"):format(key))
+		motor:setGoal(goal)
+	end
+
+	if self._useImplicitConnections then
+		self:start()
+	end
+end
+
+function GroupMotor:getValue()
+	local values = {}
+
+	for key, motor in pairs(self._motors) do
+		values[key] = motor:getValue()
+	end
+
+	return values
+end
+
+function GroupMotor:__tostring()
+	return "Motor(Group)"
+end
+
+return GroupMotor
+ end,
+    [34] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(34)return function()
+	local GroupMotor = require(script.Parent.GroupMotor)
+
+	local Instant = require(script.Parent.Instant)
+	local Spring = require(script.Parent.Spring)
+
+	it("should complete when all child motors are complete", function()
+		local motor = GroupMotor.new({
+			A = 1,
+			B = 2,
+		}, false)
+
+		expect(motor._complete).to.equal(true)
+
+		motor:setGoal({
+			A = Instant.new(3),
+			B = Spring.new(4, { frequency = 7.5, dampingRatio = 1 }),
+		})
+
+		expect(motor._complete).to.equal(false)
+
+		motor:step(1 / 60)
+
+		expect(motor._complete).to.equal(false)
+
+		for _ = 1, 0.5 * 60 do
+			motor:step(1 / 60)
+		end
+
+		expect(motor._complete).to.equal(true)
+	end)
+
+	it("should start when the goal is set", function()
+		local motor = GroupMotor.new({
+			A = 0,
+		}, false)
+
+		local bool = false
+		motor:onStart(function()
+			bool = not bool
+		end)
+
+		motor:setGoal({
+			A = Instant.new(1),
+		})
+
+		expect(bool).to.equal(true)
+
+		motor:setGoal({
+			A = Instant.new(1),
+		})
+
+		expect(bool).to.equal(false)
+	end)
+
+	it("should properly return all values", function()
+		local motor = GroupMotor.new({
+			A = 1,
+			B = 2,
+		}, false)
+
+		local value = motor:getValue()
+
+		expect(value.A).to.equal(1)
+		expect(value.B).to.equal(2)
+	end)
+
+	it("should error when a goal is given to GroupMotor.new", function()
+		local success = pcall(function()
+			GroupMotor.new(Instant.new(0))
+		end)
+
+		expect(success).to.equal(false)
+	end)
+
+	it("should error when a single goal is provided to GroupMotor:step", function()
+		local success = pcall(function()
+			GroupMotor.new({ a = 1 }):setGoal(Instant.new(0))
+		end)
+
+		expect(success).to.equal(false)
+	end)
+end
+ end,
+    [35] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(35)local Instant = {}
+Instant.__index = Instant
+
+function Instant.new(targetValue)
+	return setmetatable({
+		_targetValue = targetValue,
+	}, Instant)
+end
+
+function Instant:step()
+	return {
+		complete = true,
+		value = self._targetValue,
+	}
+end
+
+return Instant
+ end,
+    [36] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(36)return function()
+	local Instant = require(script.Parent.Instant)
+
+	it("should return a completed state with the provided value", function()
+		local goal = Instant.new(1.23)
+		local state = goal:step(0.1, { value = 0, complete = false })
+		expect(state.complete).to.equal(true)
+		expect(state.value).to.equal(1.23)
+	end)
+end
+ end,
+    [37] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(37)local Linear = {}
+Linear.__index = Linear
+
+function Linear.new(targetValue, options)
+	assert(targetValue, "Missing argument #1: targetValue")
+
+	options = options or {}
+
+	return setmetatable({
+		_targetValue = targetValue,
+		_velocity = options.velocity or 1,
+	}, Linear)
+end
+
+function Linear:step(state, dt)
+	local position = state.value
+	local velocity = self._velocity -- Linear motion ignores the state's velocity
+	local goal = self._targetValue
+
+	local dPos = dt * velocity
+
+	local complete = dPos >= math.abs(goal - position)
+	position = position + dPos * (goal > position and 1 or -1)
+	if complete then
+		position = self._targetValue
+		velocity = 0
+	end
+
+	return {
+		complete = complete,
+		value = position,
+		velocity = velocity,
+	}
+end
+
+return Linear
+ end,
+    [38] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(38)return function()
+	local SingleMotor = require(script.Parent.SingleMotor)
+	local Linear = require(script.Parent.Linear)
+
+	describe("completed state", function()
+		local motor = SingleMotor.new(0, false)
+
+		local goal = Linear.new(1, { velocity = 1 })
+		motor:setGoal(goal)
+
+		for _ = 1, 60 do
+			motor:step(1 / 60)
+		end
+
+		it("should complete", function()
+			expect(motor._state.complete).to.equal(true)
+		end)
+
+		it("should be exactly the goal value when completed", function()
+			expect(motor._state.value).to.equal(1)
+		end)
+	end)
+
+	describe("uncompleted state", function()
+		local motor = SingleMotor.new(0, false)
+
+		local goal = Linear.new(1, { velocity = 1 })
+		motor:setGoal(goal)
+
+		for _ = 1, 59 do
+			motor:step(1 / 60)
+		end
+
+		it("should be uncomplete", function()
+			expect(motor._state.complete).to.equal(false)
+		end)
+	end)
+
+	describe("negative velocity", function()
+		local motor = SingleMotor.new(1, false)
+
+		local goal = Linear.new(0, { velocity = 1 })
+		motor:setGoal(goal)
+
+		for _ = 1, 60 do
+			motor:step(1 / 60)
+		end
+
+		it("should complete", function()
+			expect(motor._state.complete).to.equal(true)
+		end)
+
+		it("should be exactly the goal value when completed", function()
+			expect(motor._state.value).to.equal(0)
+		end)
+	end)
+end
+ end,
+    [39] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(39)local Connection = {}
+Connection.__index = Connection
+
+function Connection.new(signal, handler)
+	return setmetatable({
+		signal = signal,
+		connected = true,
+		_handler = handler,
+	}, Connection)
+end
+
+function Connection:disconnect()
+	if self.connected then
+		self.connected = false
+
+		for index, connection in pairs(self.signal._connections) do
+			if connection == self then
+				table.remove(self.signal._connections, index)
+				return
+			end
+		end
+	end
+end
+
+local Signal = {}
+Signal.__index = Signal
+
+function Signal.new()
+	return setmetatable({
+		_connections = {},
+		_threads = {},
+	}, Signal)
+end
+
+function Signal:fire(...)
+	for _, connection in pairs(self._connections) do
+		connection._handler(...)
+	end
+
+	for _, thread in pairs(self._threads) do
+		coroutine.resume(thread, ...)
+	end
+
+	self._threads = {}
+end
+
+function Signal:connect(handler)
+	local connection = Connection.new(self, handler)
+	table.insert(self._connections, connection)
+	return connection
+end
+
+function Signal:wait()
+	table.insert(self._threads, coroutine.running())
+	return coroutine.yield()
+end
+
+return Signal
+ end,
+    [40] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(40)return function()
+	local Signal = require(script.Parent.Signal)
+
+	it("should invoke all connections, instantly", function()
+		local signal = Signal.new()
+
+		local a, b
+
+		signal:connect(function(value)
+			a = value
+		end)
+
+		signal:connect(function(value)
+			b = value
+		end)
+
+		signal:fire("hello")
+
+		expect(a).to.equal("hello")
+		expect(b).to.equal("hello")
+	end)
+
+	it("should return values when :wait() is called", function()
+		local signal = Signal.new()
+
+		spawn(function()
+			signal:fire(123, "hello")
+		end)
+
+		local a, b = signal:wait()
+
+		expect(a).to.equal(123)
+		expect(b).to.equal("hello")
+	end)
+
+	it("should properly handle disconnections", function()
+		local signal = Signal.new()
+
+		local didRun = false
+
+		local connection = signal:connect(function()
+			didRun = true
+		end)
+		connection:disconnect()
+
+		signal:fire()
+		expect(didRun).to.equal(false)
+	end)
+end
+ end,
+    [41] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(41)local BaseMotor = require(script.Parent.BaseMotor)
+
+local SingleMotor = setmetatable({}, BaseMotor)
+SingleMotor.__index = SingleMotor
+
+function SingleMotor.new(initialValue, useImplicitConnections)
+	assert(initialValue, "Missing argument #1: initialValue")
+	assert(typeof(initialValue) == "number", "initialValue must be a number!")
+
+	local self = setmetatable(BaseMotor.new(), SingleMotor)
+
+	if useImplicitConnections ~= nil then
+		self._useImplicitConnections = useImplicitConnections
+	else
+		self._useImplicitConnections = true
+	end
+
+	self._goal = nil
+	self._state = {
+		complete = true,
+		value = initialValue,
+	}
+
+	return self
+end
+
+function SingleMotor:step(deltaTime)
+	if self._state.complete then
+		return true
+	end
+
+	local newState = self._goal:step(self._state, deltaTime)
+
+	self._state = newState
+	self._onStep:fire(newState.value)
+
+	if newState.complete then
+		if self._useImplicitConnections then
+			self:stop()
+		end
+
+		self._onComplete:fire()
+	end
+
+	return newState.complete
+end
+
+function SingleMotor:getValue()
+	return self._state.value
+end
+
+function SingleMotor:setGoal(goal)
+	self._state.complete = false
+	self._goal = goal
+
+	self._onStart:fire()
+
+	if self._useImplicitConnections then
+		self:start()
+	end
+end
+
+function SingleMotor:__tostring()
+	return "Motor(Single)"
+end
+
+return SingleMotor
+ end,
+    [42] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(42)return function()
+	local SingleMotor = require(script.Parent.SingleMotor)
+	local Instant = require(script.Parent.Instant)
+
+	it("should assign new state on step", function()
+		local motor = SingleMotor.new(0, false)
+
+		motor:setGoal(Instant.new(5))
+		motor:step(1 / 60)
+
+		expect(motor._state.complete).to.equal(true)
+		expect(motor._state.value).to.equal(5)
+	end)
+
+	it("should invoke onComplete listeners when the goal is completed", function()
+		local motor = SingleMotor.new(0, false)
+
+		local didComplete = false
+		motor:onComplete(function()
+			didComplete = true
+		end)
+
+		motor:setGoal(Instant.new(5))
+		motor:step(1 / 60)
+
+		expect(didComplete).to.equal(true)
+	end)
+
+	it("should start when the goal is set", function()
+		local motor = SingleMotor.new(0, false)
+
+		local bool = false
+		motor:onStart(function()
+			bool = not bool
+		end)
+
+		motor:setGoal(Instant.new(5))
+
+		expect(bool).to.equal(true)
+
+		motor:setGoal(Instant.new(5))
+
+		expect(bool).to.equal(false)
+	end)
+end
+ end,
+    [43] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(43)local VELOCITY_THRESHOLD = 0.001
+local POSITION_THRESHOLD = 0.001
+
+local EPS = 0.0001
+
+local Spring = {}
+Spring.__index = Spring
+
+function Spring.new(targetValue, options)
+	assert(targetValue, "Missing argument #1: targetValue")
+	options = options or {}
+
+	return setmetatable({
+		_targetValue = targetValue,
+		_frequency = options.frequency or 4,
+		_dampingRatio = options.dampingRatio or 1,
+	}, Spring)
+end
+
+function Spring:step(state, dt)
+	-- Copyright 2018 Parker Stebbins (parker@fractality.io)
+	-- github.com/Fraktality/Spring
+	-- Distributed under the MIT license
+
+	local d = self._dampingRatio
+	local f = self._frequency * 2 * math.pi
+	local g = self._targetValue
+	local p0 = state.value
+	local v0 = state.velocity or 0
+
+	local offset = p0 - g
+	local decay = math.exp(-d * f * dt)
+
+	local p1, v1
+
+	if d == 1 then -- Critically damped
+		p1 = (offset * (1 + f * dt) + v0 * dt) * decay + g
+		v1 = (v0 * (1 - f * dt) - offset * (f * f * dt)) * decay
+	elseif d < 1 then -- Underdamped
+		local c = math.sqrt(1 - d * d)
+
+		local i = math.cos(f * c * dt)
+		local j = math.sin(f * c * dt)
+
+		-- Damping ratios approaching 1 can cause division by small numbers.
+		-- To fix that, group terms around z=j/c and find an approximation for z.
+		-- Start with the definition of z:
+		--    z = sin(dt*f*c)/c
+		-- Substitute a=dt*f:
+		--    z = sin(a*c)/c
+		-- Take the Maclaurin expansion of z with respect to c:
+		--    z = a - (a^3*c^2)/6 + (a^5*c^4)/120 + O(c^6)
+		--    z ≈ a - (a^3*c^2)/6 + (a^5*c^4)/120
+		-- Rewrite in Horner form:
+		--    z ≈ a + ((a*a)*(c*c)*(c*c)/20 - c*c)*(a*a*a)/6
+
+		local z
+		if c > EPS then
+			z = j / c
+		else
+			local a = dt * f
+			z = a + ((a * a) * (c * c) * (c * c) / 20 - c * c) * (a * a * a) / 6
+		end
+
+		-- Frequencies approaching 0 present a similar problem.
+		-- We want an approximation for y as f approaches 0, where:
+		--    y = sin(dt*f*c)/(f*c)
+		-- Substitute b=dt*c:
+		--    y = sin(b*c)/b
+		-- Now reapply the process from z.
+
+		local y
+		if f * c > EPS then
+			y = j / (f * c)
+		else
+			local b = f * c
+			y = dt + ((dt * dt) * (b * b) * (b * b) / 20 - b * b) * (dt * dt * dt) / 6
+		end
+
+		p1 = (offset * (i + d * z) + v0 * y) * decay + g
+		v1 = (v0 * (i - z * d) - offset * (z * f)) * decay
+	else -- Overdamped
+		local c = math.sqrt(d * d - 1)
+
+		local r1 = -f * (d - c)
+		local r2 = -f * (d + c)
+
+		local co2 = (v0 - offset * r1) / (2 * f * c)
+		local co1 = offset - co2
+
+		local e1 = co1 * math.exp(r1 * dt)
+		local e2 = co2 * math.exp(r2 * dt)
+
+		p1 = e1 + e2 + g
+		v1 = e1 * r1 + e2 * r2
+	end
+
+	local complete = math.abs(v1) < VELOCITY_THRESHOLD and math.abs(p1 - g) < POSITION_THRESHOLD
+
+	return {
+		complete = complete,
+		value = complete and g or p1,
+		velocity = v1,
+	}
+end
+
+return Spring
+ end,
+    [44] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(44)return function()
+	local SingleMotor = require(script.Parent.SingleMotor)
+	local Spring = require(script.Parent.Spring)
+
+	describe("completed state", function()
+		local motor = SingleMotor.new(0, false)
+
+		local goal = Spring.new(1, { frequency = 2, dampingRatio = 0.75 })
+		motor:setGoal(goal)
+
+		for _ = 1, 100 do
+			motor:step(1 / 60)
+		end
+
+		it("should complete", function()
+			expect(motor._state.complete).to.equal(true)
+		end)
+
+		it("should be exactly the goal value when completed", function()
+			expect(motor._state.value).to.equal(1)
+		end)
+	end)
+
+	it("should inherit velocity", function()
+		local motor = SingleMotor.new(0, false)
+		motor._state = { complete = false, value = 0, velocity = -5 }
+
+		local goal = Spring.new(1, { frequency = 2, dampingRatio = 1 })
+
+		motor:setGoal(goal)
+		motor:step(1 / 60)
+
+		expect(motor._state.velocity < 0).to.equal(true)
+	end)
+end
+ end,
+    [45] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(45)local function isMotor(value)
+	local motorType = tostring(value):match("^Motor%((.+)%)$")
+
+	if motorType then
+		return true, motorType
+	else
+		return false
+	end
+end
+
+return isMotor
+ end,
+    [46] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(46)return function()
+	local isMotor = require(script.Parent.isMotor)
+
+	local SingleMotor = require(script.Parent.SingleMotor)
+	local GroupMotor = require(script.Parent.GroupMotor)
+
+	local singleMotor = SingleMotor.new(0)
+	local groupMotor = GroupMotor.new({})
+
+	it("should properly detect motors", function()
+		expect(isMotor(singleMotor)).to.equal(true)
+		expect(isMotor(groupMotor)).to.equal(true)
+	end)
+
+	it("shouldn't detect things that aren't motors", function()
+		expect(isMotor({})).to.equal(false)
+	end)
+
+	it("should return the proper motor type", function()
+		local _, singleMotorType = isMotor(singleMotor)
+		local _, groupMotorType = isMotor(groupMotor)
+
+		expect(singleMotorType).to.equal("Single")
+		expect(groupMotorType).to.equal("Group")
+	end)
+end
+ end,
+    [47] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(47)local Themes = {
+	Names = {
+		"Dark",
+		"Darker",
+		"Light",
+		"Aqua",
+		"Amethyst",
+		"Rose",
+	},
+}
+
+for _, Theme in next, script:GetChildren() do
+	local Required = require(Theme)
+	Themes[Required.Name] = Required
+end
+
+return Themes
+ end,
+    [48] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(48)return {
+	Name = "Amethyst",
+	Accent = Color3.fromRGB(97, 62, 167),
+
+	AcrylicMain = Color3.fromRGB(20, 20, 20),
+	AcrylicBorder = Color3.fromRGB(110, 90, 130),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(85, 57, 139), Color3.fromRGB(40, 25, 65)),
+	AcrylicNoise = 0.92,
+
+	TitleBarLine = Color3.fromRGB(95, 75, 110),
+	Tab = Color3.fromRGB(160, 140, 180),
+
+	Element = Color3.fromRGB(140, 120, 160),
+	ElementBorder = Color3.fromRGB(60, 50, 70),
+	InElementBorder = Color3.fromRGB(100, 90, 110),
+	ElementTransparency = 0.87,
+
+	ToggleSlider = Color3.fromRGB(140, 120, 160),
+	ToggleToggled = Color3.fromRGB(0, 0, 0),
+
+	SliderRail = Color3.fromRGB(140, 120, 160),
+
+	DropdownFrame = Color3.fromRGB(170, 160, 200),
+	DropdownHolder = Color3.fromRGB(60, 45, 80),
+	DropdownBorder = Color3.fromRGB(50, 40, 65),
+	DropdownOption = Color3.fromRGB(140, 120, 160),
+
+	Keybind = Color3.fromRGB(140, 120, 160),
+
+	Input = Color3.fromRGB(140, 120, 160),
+	InputFocused = Color3.fromRGB(20, 10, 30),
+	InputIndicator = Color3.fromRGB(170, 150, 190),
+
+	Dialog = Color3.fromRGB(60, 45, 80),
+	DialogHolder = Color3.fromRGB(45, 30, 65),
+	DialogHolderLine = Color3.fromRGB(40, 25, 60),
+	DialogButton = Color3.fromRGB(60, 45, 80),
+	DialogButtonBorder = Color3.fromRGB(95, 80, 110),
+	DialogBorder = Color3.fromRGB(85, 70, 100),
+	DialogInput = Color3.fromRGB(70, 55, 85),
+	DialogInputLine = Color3.fromRGB(175, 160, 190),
+
+	Text = Color3.fromRGB(240, 240, 240),
+	SubText = Color3.fromRGB(170, 170, 170),
+	Hover = Color3.fromRGB(140, 120, 160),
+	HoverChange = 0.04,
+}
+ end,
+    [49] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(49)return {
+	Name = "Aqua",
+	Accent = Color3.fromRGB(60, 165, 165),
+
+	AcrylicMain = Color3.fromRGB(20, 20, 20),
+	AcrylicBorder = Color3.fromRGB(50, 100, 100),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(60, 140, 140), Color3.fromRGB(40, 80, 80)),
+	AcrylicNoise = 0.92,
+
+	TitleBarLine = Color3.fromRGB(60, 120, 120),
+	Tab = Color3.fromRGB(140, 180, 180),
+
+	Element = Color3.fromRGB(110, 160, 160),
+	ElementBorder = Color3.fromRGB(40, 70, 70),
+	InElementBorder = Color3.fromRGB(80, 110, 110),
+	ElementTransparency = 0.84,
+
+	ToggleSlider = Color3.fromRGB(110, 160, 160),
+	ToggleToggled = Color3.fromRGB(0, 0, 0),
+
+	SliderRail = Color3.fromRGB(110, 160, 160),
+
+	DropdownFrame = Color3.fromRGB(160, 200, 200),
+	DropdownHolder = Color3.fromRGB(40, 80, 80),
+	DropdownBorder = Color3.fromRGB(40, 65, 65),
+	DropdownOption = Color3.fromRGB(110, 160, 160),
+
+	Keybind = Color3.fromRGB(110, 160, 160),
+
+	Input = Color3.fromRGB(110, 160, 160),
+	InputFocused = Color3.fromRGB(20, 10, 30),
+	InputIndicator = Color3.fromRGB(130, 170, 170),
+
+	Dialog = Color3.fromRGB(40, 80, 80),
+	DialogHolder = Color3.fromRGB(30, 60, 60),
+	DialogHolderLine = Color3.fromRGB(25, 50, 50),
+	DialogButton = Color3.fromRGB(40, 80, 80),
+	DialogButtonBorder = Color3.fromRGB(80, 110, 110),
+	DialogBorder = Color3.fromRGB(50, 100, 100),
+	DialogInput = Color3.fromRGB(45, 90, 90),
+	DialogInputLine = Color3.fromRGB(130, 170, 170),
+
+	Text = Color3.fromRGB(240, 240, 240),
+	SubText = Color3.fromRGB(170, 170, 170),
+	Hover = Color3.fromRGB(110, 160, 160),
+	HoverChange = 0.04,
+}
+ end,
+    [50] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(50)return {
+	Name = "Dark",
+	Accent = Color3.fromRGB(96, 205, 255),
+
+	AcrylicMain = Color3.fromRGB(60, 60, 60),
+	AcrylicBorder = Color3.fromRGB(90, 90, 90),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(40, 40, 40), Color3.fromRGB(40, 40, 40)),
+	AcrylicNoise = 0.9,
+
+	TitleBarLine = Color3.fromRGB(75, 75, 75),
+	Tab = Color3.fromRGB(120, 120, 120),
+
+	Element = Color3.fromRGB(120, 120, 120),
+	ElementBorder = Color3.fromRGB(35, 35, 35),
+	InElementBorder = Color3.fromRGB(90, 90, 90),
+	ElementTransparency = 0.87,
+
+	ToggleSlider = Color3.fromRGB(120, 120, 120),
+	ToggleToggled = Color3.fromRGB(0, 0, 0),
+
+	SliderRail = Color3.fromRGB(120, 120, 120),
+
+	DropdownFrame = Color3.fromRGB(160, 160, 160),
+	DropdownHolder = Color3.fromRGB(45, 45, 45),
+	DropdownBorder = Color3.fromRGB(35, 35, 35),
+	DropdownOption = Color3.fromRGB(120, 120, 120),
+
+	Keybind = Color3.fromRGB(120, 120, 120),
+
+	Input = Color3.fromRGB(160, 160, 160),
+	InputFocused = Color3.fromRGB(10, 10, 10),
+	InputIndicator = Color3.fromRGB(150, 150, 150),
+
+	Dialog = Color3.fromRGB(45, 45, 45),
+	DialogHolder = Color3.fromRGB(35, 35, 35),
+	DialogHolderLine = Color3.fromRGB(30, 30, 30),
+	DialogButton = Color3.fromRGB(45, 45, 45),
+	DialogButtonBorder = Color3.fromRGB(80, 80, 80),
+	DialogBorder = Color3.fromRGB(70, 70, 70),
+	DialogInput = Color3.fromRGB(55, 55, 55),
+	DialogInputLine = Color3.fromRGB(160, 160, 160),
+
+	Text = Color3.fromRGB(240, 240, 240),
+	SubText = Color3.fromRGB(170, 170, 170),
+	Hover = Color3.fromRGB(120, 120, 120),
+	HoverChange = 0.07,
+}
+ end,
+    [51] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(51)return {
+	Name = "Darker",
+	Accent = Color3.fromRGB(72, 138, 182),
+
+	AcrylicMain = Color3.fromRGB(30, 30, 30),
+	AcrylicBorder = Color3.fromRGB(60, 60, 60),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(25, 25, 25), Color3.fromRGB(15, 15, 15)),
+	AcrylicNoise = 0.94,
+
+	TitleBarLine = Color3.fromRGB(65, 65, 65),
+	Tab = Color3.fromRGB(100, 100, 100),
+
+	Element = Color3.fromRGB(70, 70, 70),
+	ElementBorder = Color3.fromRGB(25, 25, 25),
+	InElementBorder = Color3.fromRGB(55, 55, 55),
+	ElementTransparency = 0.82,
+
+	DropdownFrame = Color3.fromRGB(120, 120, 120),
+	DropdownHolder = Color3.fromRGB(35, 35, 35),
+	DropdownBorder = Color3.fromRGB(25, 25, 25),
+
+	Dialog = Color3.fromRGB(35, 35, 35),
+	DialogHolder = Color3.fromRGB(25, 25, 25),
+	DialogHolderLine = Color3.fromRGB(20, 20, 20),
+	DialogButton = Color3.fromRGB(35, 35, 35),
+	DialogButtonBorder = Color3.fromRGB(55, 55, 55),
+	DialogBorder = Color3.fromRGB(50, 50, 50),
+	DialogInput = Color3.fromRGB(45, 45, 45),
+	DialogInputLine = Color3.fromRGB(120, 120, 120),
+}
+ end,
+    [52] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(52)return {
+	Name = "Light",
+	Accent = Color3.fromRGB(0, 103, 192),
+
+	AcrylicMain = Color3.fromRGB(200, 200, 200),
+	AcrylicBorder = Color3.fromRGB(120, 120, 120),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 255, 255)),
+	AcrylicNoise = 0.96,
+
+	TitleBarLine = Color3.fromRGB(160, 160, 160),
+	Tab = Color3.fromRGB(90, 90, 90),
+
+	Element = Color3.fromRGB(255, 255, 255),
+	ElementBorder = Color3.fromRGB(180, 180, 180),
+	InElementBorder = Color3.fromRGB(150, 150, 150),
+	ElementTransparency = 0.65,
+
+	ToggleSlider = Color3.fromRGB(40, 40, 40),
+	ToggleToggled = Color3.fromRGB(255, 255, 255),
+
+	SliderRail = Color3.fromRGB(40, 40, 40),
+
+	DropdownFrame = Color3.fromRGB(200, 200, 200),
+	DropdownHolder = Color3.fromRGB(240, 240, 240),
+	DropdownBorder = Color3.fromRGB(200, 200, 200),
+	DropdownOption = Color3.fromRGB(150, 150, 150),
+
+	Keybind = Color3.fromRGB(120, 120, 120),
+
+	Input = Color3.fromRGB(200, 200, 200),
+	InputFocused = Color3.fromRGB(100, 100, 100),
+	InputIndicator = Color3.fromRGB(80, 80, 80),
+
+	Dialog = Color3.fromRGB(255, 255, 255),
+	DialogHolder = Color3.fromRGB(240, 240, 240),
+	DialogHolderLine = Color3.fromRGB(228, 228, 228),
+	DialogButton = Color3.fromRGB(255, 255, 255),
+	DialogButtonBorder = Color3.fromRGB(190, 190, 190),
+	DialogBorder = Color3.fromRGB(140, 140, 140),
+	DialogInput = Color3.fromRGB(250, 250, 250),
+	DialogInputLine = Color3.fromRGB(160, 160, 160),
+
+	Text = Color3.fromRGB(0, 0, 0),
+	SubText = Color3.fromRGB(40, 40, 40),
+	Hover = Color3.fromRGB(50, 50, 50),
+	HoverChange = 0.16,
+}
+ end,
+    [53] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(53)return {
+	Name = "Rose",
+	Accent = Color3.fromRGB(180, 55, 90),
+
+	AcrylicMain = Color3.fromRGB(40, 40, 40),
+	AcrylicBorder = Color3.fromRGB(130, 90, 110),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(190, 60, 135), Color3.fromRGB(165, 50, 70)),
+	AcrylicNoise = 0.92,
+
+	TitleBarLine = Color3.fromRGB(140, 85, 105),
+	Tab = Color3.fromRGB(180, 140, 160),
+
+	Element = Color3.fromRGB(200, 120, 170),
+	ElementBorder = Color3.fromRGB(110, 70, 85),
+	InElementBorder = Color3.fromRGB(120, 90, 90),
+	ElementTransparency = 0.86,
+
+	ToggleSlider = Color3.fromRGB(200, 120, 170),
+	ToggleToggled = Color3.fromRGB(0, 0, 0),
+
+	SliderRail = Color3.fromRGB(200, 120, 170),
+
+	DropdownFrame = Color3.fromRGB(200, 160, 180),
+	DropdownHolder = Color3.fromRGB(120, 50, 75),
+	DropdownBorder = Color3.fromRGB(90, 40, 55),
+	DropdownOption = Color3.fromRGB(200, 120, 170),
+
+	Keybind = Color3.fromRGB(200, 120, 170),
+
+	Input = Color3.fromRGB(200, 120, 170),
+	InputFocused = Color3.fromRGB(20, 10, 30),
+	InputIndicator = Color3.fromRGB(170, 150, 190),
+
+	Dialog = Color3.fromRGB(120, 50, 75),
+	DialogHolder = Color3.fromRGB(95, 40, 60),
+	DialogHolderLine = Color3.fromRGB(90, 35, 55),
+	DialogButton = Color3.fromRGB(120, 50, 75),
+	DialogButtonBorder = Color3.fromRGB(155, 90, 115),
+	DialogBorder = Color3.fromRGB(100, 70, 90),
+	DialogInput = Color3.fromRGB(135, 55, 80),
+	DialogInputLine = Color3.fromRGB(190, 160, 180),
+
+	Text = Color3.fromRGB(240, 240, 240),
+	SubText = Color3.fromRGB(170, 170, 170),
+	Hover = Color3.fromRGB(200, 120, 170),
+	HoverChange = 0.04,
+}
+ end,
+    [54] = function()local maui,script,require,getfenv,setfenv=ImportGlobals(54)return {
+	Name = "Ayaya",
+	Accent = Color3.fromRGB(88, 64, 48),
+
+	AcrylicMain = Color3.fromRGB(102, 81, 66),
+	AcrylicBorder = Color3.fromRGB(90, 70, 55),
+	AcrylicGradient = ColorSequence.new(Color3.fromRGB(130, 100, 85), Color3.fromRGB(95, 75, 60)),
+	AcrylicNoise = 0.92,
+
+	TitleBarLine = Color3.fromRGB(100, 80, 65),
+	Tab = Color3.fromRGB(75, 58, 50),
+
+	Element = Color3.fromRGB(140, 110, 90),
+	ElementBorder = Color3.fromRGB(110, 85, 70),
+	InElementBorder = Color3.fromRGB(120, 100, 85),
+	ElementTransparency = 0.86,
+
+	ToggleSlider = Color3.fromRGB(140, 110, 90),
+	ToggleToggled = Color3.fromRGB(60, 40, 30),
+
+	SliderRail = Color3.fromRGB(140, 110, 90),
+
+	DropdownFrame = Color3.fromRGB(160, 130, 110),
+	DropdownHolder = Color3.fromRGB(110, 80, 65),
+	DropdownBorder = Color3.fromRGB(90, 70, 55),
+	DropdownOption = Color3.fromRGB(140, 110, 90),
+
+	Keybind = Color3.fromRGB(140, 110, 90),
+
+	Input = Color3.fromRGB(140, 110, 90),
+	InputFocused = Color3.fromRGB(70, 50, 40),
+	InputIndicator = Color3.fromRGB(160, 130, 120),
+
+	Dialog = Color3.fromRGB(110, 80, 65),
+	DialogHolder = Color3.fromRGB(95, 70, 55),
+	DialogHolderLine = Color3.fromRGB(90, 65, 50),
+	DialogButton = Color3.fromRGB(110, 80, 65),
+	DialogButtonBorder = Color3.fromRGB(140, 110, 90),
+	DialogBorder = Color3.fromRGB(120, 100, 85),
+	DialogInput = Color3.fromRGB(130, 100, 80),
+	DialogInputLine = Color3.fromRGB(170, 140, 120),
+
+	Text = Color3.fromRGB(240, 230, 220),
+	SubText = Color3.fromRGB(180, 170, 160),
+	Hover = Color3.fromRGB(140, 110, 90),
+	HoverChange = 0.04,
+} end
+} -- [RefId] = Closure
+
+-- Set up from data
+do
+    -- Localizing certain libraries and built-ins for runtime efficiency
+    local task, setmetatable, error, newproxy, getmetatable, next, table, unpack, coroutine, script, type, require, pcall, getfenv, setfenv, rawget= task, setmetatable, error, newproxy, getmetatable, next, table, unpack, coroutine, script, type, require, pcall, getfenv, setfenv, rawget
+
+    local table_insert = table.insert
+    local table_remove = table.remove
+
+    -- lol
+    local table_freeze = table.freeze or function(t) return t end
+
+    -- If we're not running on Roblox or Lune runtime, we won't have a task library
+    local Defer = task and task.defer or function(f, ...)
+        local Thread = coroutine.create(f)
+        coroutine.resume(Thread, ...)
+        return Thread
+    end
+
+    -- `maui.Version` compat
+    local Version = "0.0.0-venv"
+
+    local RefBindings = {} -- [RefId] = RealObject
+
+    local ScriptClosures = {}
+    local StoredModuleValues = {}
+    local ScriptsToRun = {}
+
+    -- maui.Shared
+    local SharedEnvironment = {}
+
+    -- We're creating 'fake' instance refs soley for traversal of the DOM for require() compatibility
+    -- It's meant to be as lazy as possible lol
+    local RefChildren = {} -- [Ref] = {ChildrenRef, ...}
+
+    -- Implemented instance methods
+    local InstanceMethods = {
+        GetChildren = function(self)
+            local Children = RefChildren[self]
+            local ReturnArray = {}
+    
+            for Child in next, Children do
+                table_insert(ReturnArray, Child)
+            end
+    
+            return ReturnArray
+        end,
+
+        -- Not implementing `recursive` arg, as it isn't needed for us here
+        FindFirstChild = function(self, name)
+            if not name then
+                error("Argument 1 missing or nil", 2)
+            end
+
+            for Child in next, RefChildren[self] do
+                if Child.Name == name then
+                    return Child
+                end
+            end
+
+            return
+        end,
+
+        GetFullName = function(self)
+            local Path = self.Name
+            local ObjectPointer = self.Parent
+
+            while ObjectPointer do
+                Path = ObjectPointer.Name .. "." .. Path
+
+                -- Move up the DOM (parent will be nil at the end, and this while loop will stop)
+                ObjectPointer = ObjectPointer.Parent
+            end
+
+            return "VirtualEnv." .. Path
+        end,
+    }
+
+    -- "Proxies" to instance methods, with err checks etc
+    local InstanceMethodProxies = {}
+    for MethodName, Method in next, InstanceMethods do
+        InstanceMethodProxies[MethodName] = function(self, ...)
+            if not RefChildren[self] then
+                error("Expected ':' not '.' calling member function " .. MethodName, 1)
+            end
+
+            return Method(self, ...)
+        end
+    end
+
+    local function CreateRef(className, name, parent)
+        -- `name` and `parent` can also be set later by the init script if they're absent
+
+        -- Extras
+        local StringValue_Value
+
+        -- Will be set to RefChildren later aswell
+        local Children = setmetatable({}, {__mode = "k"})
+
+        -- Err funcs
+        local function InvalidMember(member)
+            error(member .. " is not a valid (virtual) member of " .. className .. " \"" .. name .. "\"", 1)
+        end
+
+        local function ReadOnlyProperty(property)
+            error("Unable to assign (virtual) property " .. property .. ". Property is read only", 1)
+        end
+
+        local Ref = newproxy(true)
+        local RefMetatable = getmetatable(Ref)
+
+        RefMetatable.__index = function(_, index)
+            if index == "ClassName" then -- First check "properties"
+                return className
+            elseif index == "Name" then
+                return name
+            elseif index == "Parent" then
+                return parent
+            elseif className == "StringValue" and index == "Value" then
+                -- Supporting StringValue.Value for Rojo .txt file conv
+                return StringValue_Value
+            else -- Lastly, check "methods"
+                local InstanceMethod = InstanceMethodProxies[index]
+
+                if InstanceMethod then
+                    return InstanceMethod
+                end
+            end
+
+            -- Next we'll look thru child refs
+            for Child in next, Children do
+                if Child.Name == index then
+                    return Child
+                end
+            end
+
+            -- At this point, no member was found; this is the same err format as Roblox
+            InvalidMember(index)
+        end
+
+        RefMetatable.__newindex = function(_, index, value)
+            -- __newindex is only for props fyi
+            if index == "ClassName" then
+                ReadOnlyProperty(index)
+            elseif index == "Name" then
+                name = value
+            elseif index == "Parent" then
+                -- We'll just ignore the process if it's trying to set itself
+                if value == Ref then
+                    return
+                end
+
+                if parent ~= nil then
+                    -- Remove this ref from the CURRENT parent
+                    RefChildren[parent][Ref] = nil
+                end
+
+                parent = value
+
+                if value ~= nil then
+                    -- And NOW we're setting the new parent
+                    RefChildren[value][Ref] = true
+                end
+            elseif className == "StringValue" and index == "Value" then
+                -- Supporting StringValue.Value for Rojo .txt file conv
+                StringValue_Value = value
+            else
+                -- Same err as __index when no member is found
+                InvalidMember(index)
+            end
+        end
+
+        RefMetatable.__tostring = function()
+            return name
+        end
+
+        RefChildren[Ref] = Children
+
+        if parent ~= nil then
+            RefChildren[parent][Ref] = true
+        end
+
+        return Ref
+    end
+
+    -- Create real ref DOM from object tree
+    local function CreateRefFromObject(object, parent)
+        local RefId = object[1]
+        local ClassName = object[2]
+        local Properties = object[3]
+        local Children = object[4] -- Optional
+
+        local Name = table_remove(Properties, 1)
+
+        local Ref = CreateRef(ClassName, Name, parent) -- 3rd arg may be nil if this is from root
+        RefBindings[RefId] = Ref
+
+        if Properties then
+            for PropertyName, PropertyValue in next, Properties do
+                Ref[PropertyName] = PropertyValue
+            end
+        end
+
+        if Children then
+            for _, ChildObject in next, Children do
+                CreateRefFromObject(ChildObject, Ref)
+            end
+        end
+
+        return Ref
+    end
+
+    local RealObjectRoot = {}
+    for _, Object in next, ObjectTree do
+        table_insert(RealObjectRoot, CreateRefFromObject(Object))
+    end
+
+    -- Now we'll set script closure refs and check if they should be ran as a BaseScript
+    for RefId, Closure in next, ClosureBindings do
+        local Ref = RefBindings[RefId]
+
+        ScriptClosures[Ref] = Closure
+
+        local ClassName = Ref.ClassName
+        if ClassName == "LocalScript" or ClassName == "Script" then
+            table_insert(ScriptsToRun, Ref)
+        end
+    end
+
+    local function LoadScript(scriptRef)
+        local ScriptClassName = scriptRef.ClassName
+
+        -- First we'll check for a cached module value (packed into a tbl)
+        local StoredModuleValue = StoredModuleValues[scriptRef]
+        if StoredModuleValue and ScriptClassName == "ModuleScript" then
+            return unpack(StoredModuleValue)
+        end
+
+        local Closure = ScriptClosures[scriptRef]
+        if not Closure then
+            return
+        end
+
+        -- If it's a BaseScript, we'll just run it directly!
+        if ScriptClassName == "LocalScript" or ScriptClassName == "Script" then
+            Closure()
+            return
+        else
+            local ClosureReturn = {Closure()}
+            StoredModuleValues[scriptRef] = ClosureReturn
+            return unpack(ClosureReturn)
+        end
+    end
+
+    -- We'll assign the actual func from the top of this output for flattening user globals at runtime
+    -- Returns (in a tuple order): maui, script, require, getfenv, setfenv
+    function ImportGlobals(refId)
+        local ScriptRef = RefBindings[refId]
+
+        local Closure = ScriptClosures[ScriptRef]
+        if not Closure then
+            return
+        end
+
+        -- This will be set right after the other global funcs, it's for handling proper behavior when
+        -- getfenv/setfenv is called and safeenv needs to be disabled
+        local EnvHasBeenSet = false
+        local RealEnv
+        local VirtualEnv
+        local SetEnv
+
+        local Global_maui = table_freeze({
+            Version = Version,
+            Script = script, -- The actual script object for the script this is running on, not a fake ref
+            Shared = SharedEnvironment,
+
+            -- For compatibility purposes..
+            GetScript = function()
+                return script
+            end,
+            GetShared = function()
+                return SharedEnvironment
+            end,
+        })
+
+        local Global_script = ScriptRef
+
+        local function Global_require(module, ...)
+            if RefChildren[module] and module.ClassName == "ModuleScript" and ScriptClosures[module] then
+                return LoadScript(module)
+            end
+
+            return require(module, ...)
+        end
+
+        -- Calling these flattened getfenv/setfenv functions will disable safeenv for the WHOLE SCRIPT
+        local function Global_getfenv(stackLevel, ...)
+            -- Now we have to set the env for the other variables used here to be valid
+            if not EnvHasBeenSet then
+                SetEnv()
+            end
+
+            if type(stackLevel) == "number" and stackLevel >= 0 then
+                if stackLevel == 0 then
+                    return VirtualEnv
+                else
+                    -- Offset by 1 for the actual env
+                    stackLevel = stackLevel + 1
+
+                    local GetOk, FunctionEnv = pcall(getfenv, stackLevel)
+                    if GetOk and FunctionEnv == RealEnv then
+                        return VirtualEnv
+                    end
+                end
+            end
+
+            return getfenv(stackLevel, ...)
+        end
+
+        local function Global_setfenv(stackLevel, newEnv, ...)
+            if not EnvHasBeenSet then
+                SetEnv()
+            end
+
+            if type(stackLevel) == "number" and stackLevel >= 0 then
+                if stackLevel == 0 then
+                    return setfenv(VirtualEnv, newEnv)
+                else
+                    stackLevel = stackLevel + 1
+
+                    local GetOk, FunctionEnv = pcall(getfenv, stackLevel)
+                    if GetOk and FunctionEnv == RealEnv then
+                        return setfenv(VirtualEnv, newEnv)
+                    end
+                end
+            end
+
+            return setfenv(stackLevel, newEnv, ...)
+        end
+
+        -- From earlier, will ONLY be set if needed
+        function SetEnv()
+            RealEnv = getfenv(0)
+
+            local GlobalEnvOverride = {
+                ["maui"] = Global_maui,
+                ["script"] = Global_script,
+                ["require"] = Global_require,
+                ["getfenv"] = Global_getfenv,
+                ["setfenv"] = Global_setfenv,
+            }
+
+            VirtualEnv = setmetatable({}, {
+                __index = function(_, index)
+                    local IndexInVirtualEnv = rawget(VirtualEnv, index)
+                    if IndexInVirtualEnv ~= nil then
+                        return IndexInVirtualEnv
+                    end
+
+                    local IndexInGlobalEnvOverride = GlobalEnvOverride[index]
+                    if IndexInGlobalEnvOverride ~= nil then
+                        return IndexInGlobalEnvOverride
+                    end
+
+                    return RealEnv[index]
+                end
+            })
+
+            setfenv(Closure, VirtualEnv)
+            EnvHasBeenSet = true
+        end
+
+        -- Now, return flattened globals ready for direct runtime exec
+        return Global_maui, Global_script, Global_require, Global_getfenv, Global_setfenv
+    end
+
+    for _, ScriptRef in next, ScriptsToRun do
+        Defer(LoadScript, ScriptRef)
+    end
+
+    -- If there's a "MainModule" top-level modulescript, we'll return it from the output's closure directly
+    do
+        local MainModule
+        for _, Ref in next, RealObjectRoot do
+            if Ref.ClassName == "ModuleScript" and Ref.Name == "MainModule" then
+                MainModule = Ref
+                break
+            end
+        end
+
+        if MainModule then
+            return LoadScript(MainModule)
+        end
+    end
+
+    -- If any scripts are currently running now from task scheduler, the scope won't close until all running threads are closed
+    -- (thanks for coming to my ted talk)
+	
+end
+
