@@ -607,9 +607,9 @@ function Acrylic.init()
 
 	function Acrylic.Enable()
 		for _, effect in pairs(depthOfFieldDefaults) do
-			effect.Enabled = false
+			effect.Enabled = effect.enabled
 		end
-		baseEffect.Parent = game:GetService("Lighting")
+		baseEffect.Parent = nil
 	end
 
 	function Acrylic.Disable()
